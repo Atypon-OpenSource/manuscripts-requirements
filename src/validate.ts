@@ -70,8 +70,8 @@ export type RequirementsValidator = (
 export const createRequirementsValidator = (
   modelMap: Map<string, Model>,
   analyzers: {
-    countWords: (text: string) => number
-    countCharacters: (text: string) => number
+    countWords: (text: string) => Promise<number>
+    countCharacters: (text: string) => Promise<number>
   }
 ): RequirementsValidator => async (node, model, statistics) => {
   const output: RequirementsAlerts = {}
