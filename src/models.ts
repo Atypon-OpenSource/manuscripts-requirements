@@ -13,6 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './statistics'
-export * from './validate'
-export * from './manuscript-validator'
+import { Model } from '@manuscripts/manuscripts-json-schema'
+
+export const buildModelMap = <T extends Model>(models: T[]) => {
+  const modelMap = new Map<string, T>()
+
+  for (const model of models) {
+    modelMap.set(model._id, model)
+  }
+
+  return modelMap
+}

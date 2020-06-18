@@ -15,12 +15,11 @@
  */
 
 import {
-  Decoder,
   isSectionNode,
   ManuscriptNode,
   SectionNode,
 } from '@manuscripts/manuscript-transform'
-import { ManuscriptTemplate, Model } from '@manuscripts/manuscripts-json-schema'
+import { ManuscriptTemplate } from '@manuscripts/manuscripts-json-schema'
 
 import {
   buildManuscriptCountRequirements,
@@ -30,8 +29,14 @@ import {
   buildTemplateRequirements,
   buildTemplateRequirementsMap,
   CountRequirement,
+  CountRequirements,
+  CountValidationResult,
+  CountValidationType,
+  RequiredSections,
+  RequiredSectionValidationResult,
+  SectionCountRequirements,
+  TemplateRequirements,
   ValidationResult,
-  ValidationType,
 } from './requirements'
 import { buildText, countCharacters, countWords } from './statistics'
 import { templatesMap } from './templates'
@@ -57,35 +62,32 @@ interface Counts {
   characters: number
 }
 
-export const validateManuscript = async (
-  modelMap: Map<string, Model>,
-  manuscriptID: string,
+const buildRequirementsForTemplate = (
   templateID: string
-) => {
-  const decoder = new Decoder(modelMap)
-  const article = decoder.createArticleNode(manuscriptID)
-
+): TemplateRequirements => {
   const template = templatesMap.get(templateID) as ManuscriptTemplate
   const requirementIDs = buildTemplateRequirementIDs(template)
   const requirementsMap = buildTemplateRequirementsMap(requirementIDs)
-  const requirements = buildTemplateRequirements(requirementsMap)
-  const requiredSections = buildRequiredSections(requirements)
-  const manuscriptCountRequirements = buildManuscriptCountRequirements(
-    requirements
-  )
-  const sectionCountRequirements = buildSectionCountRequirements(requirements)
 
-  const sectionsWithCategory = new Map<
-    string,
-    Array<{ node: SectionNode; counts: Counts }>
-  >()
+  return buildTemplateRequirements(requirementsMap)
+}
+
+type SectionsWithCategory = Map<
+  string,
+  Array<{ node: SectionNode; counts: Counts }>
+>
+
+const buildSectionsWithCategory = async (
+  article: ManuscriptNode
+): Promise<SectionsWithCategory> => {
+  const output: SectionsWithCategory = new Map()
 
   for (const node of iterateChildren(article)) {
     if (isSectionNode(node)) {
       const { category } = node.attrs
 
       if (category) {
-        const sections = sectionsWithCategory.get(category) || []
+        const sections = output.get(category) || []
 
         const text = buildText(node)
 
@@ -96,41 +98,52 @@ export const validateManuscript = async (
 
         sections.push({ node, counts })
 
-        sectionsWithCategory.set(category, sections)
+        output.set(category, sections)
       }
     }
   }
 
-  const results: ValidationResult[] = []
+  return output
+}
 
+// TODO: check that sections are in the right order?
+async function* validateRequiredSections(
+  requiredSections: RequiredSections,
+  sectionCategories: Set<string>
+): AsyncGenerator<RequiredSectionValidationResult> {
   for (const requiredSection of requiredSections) {
     const { category, severity } = requiredSection
 
-    results.push({
+    yield {
       type: 'required-section',
-      passed: sectionsWithCategory.has(category),
+      passed: sectionCategories.has(category),
       severity,
       data: { category },
-    })
-  }
-
-  const validateCount = (
-    type: ValidationType,
-    count: number,
-    requirement?: CountRequirement
-  ) => {
-    if (requirement) {
-      const value = requirement.count
-
-      results.push({
-        type,
-        passed: count <= value,
-        severity: requirement.severity,
-        data: { count },
-      })
     }
   }
+}
 
+const validateCount = (
+  type: CountValidationType,
+  count: number,
+  requirement?: CountRequirement
+): CountValidationResult | undefined => {
+  if (requirement) {
+    const value = requirement.count
+
+    return {
+      type,
+      passed: count <= value,
+      severity: requirement.severity,
+      data: { count, value },
+    }
+  }
+}
+
+async function* validateManuscriptCounts(
+  article: ManuscriptNode,
+  manuscriptCountRequirements: CountRequirements
+): AsyncGenerator<CountValidationResult | undefined> {
   const manuscriptText = buildText(article)
 
   const manuscriptCounts: Counts = {
@@ -138,19 +151,19 @@ export const validateManuscript = async (
     words: await countWords(manuscriptText),
   }
 
-  validateCount(
+  yield validateCount(
     'manuscript-maximum-characters',
     manuscriptCounts.characters,
     manuscriptCountRequirements.characters.max
   )
 
-  validateCount(
+  yield validateCount(
     'manuscript-minimum-characters',
     manuscriptCounts.characters,
     manuscriptCountRequirements.characters.min
   )
 
-  validateCount(
+  yield validateCount(
     'manuscript-maximum-words',
     manuscriptCounts.words,
     manuscriptCountRequirements.words.max
@@ -161,7 +174,12 @@ export const validateManuscript = async (
     manuscriptCounts.words,
     manuscriptCountRequirements.words.min
   )
+}
 
+async function* validateSectionCounts(
+  sectionsWithCategory: SectionsWithCategory,
+  sectionCountRequirements: SectionCountRequirements
+) {
   for (const [category, requirements] of Object.entries(
     sectionCountRequirements
   )) {
@@ -169,31 +187,74 @@ export const validateManuscript = async (
 
     if (records) {
       for (const item of records) {
-        validateCount(
+        yield validateCount(
           'section-maximum-characters',
           item.counts.characters,
           requirements.characters.max
         )
 
-        validateCount(
+        yield validateCount(
           'section-minimum-characters',
           item.counts.characters,
           requirements.characters.min
         )
 
-        validateCount(
+        yield validateCount(
           'section-maximum-words',
           item.counts.words,
           requirements.words.max
         )
 
-        validateCount(
+        yield validateCount(
           'section-minimum-words',
           item.counts.words,
           requirements.words.min
         )
       }
     }
+  }
+}
+
+export const validateManuscript = async (
+  article: ManuscriptNode,
+  templateID: string
+) => {
+  const results: ValidationResult[] = []
+
+  const requirements = buildRequirementsForTemplate(templateID)
+  const sectionsWithCategory = await buildSectionsWithCategory(article)
+
+  // validate required sections
+  const requiredSections = buildRequiredSections(requirements)
+  const sectionCategories = new Set(sectionsWithCategory.keys())
+
+  for await (const result of validateRequiredSections(
+    requiredSections,
+    sectionCategories
+  )) {
+    results.push(result)
+  }
+
+  // validate manuscript counts
+  const manuscriptCountRequirements = buildManuscriptCountRequirements(
+    requirements
+  )
+
+  for await (const result of validateManuscriptCounts(
+    article,
+    manuscriptCountRequirements
+  )) {
+    result && results.push(result)
+  }
+
+  // validate section counts
+  const sectionCountRequirements = buildSectionCountRequirements(requirements)
+
+  for await (const result of validateSectionCounts(
+    sectionsWithCategory,
+    sectionCountRequirements
+  )) {
+    result && results.push(result)
   }
 
   return results

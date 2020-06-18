@@ -43,6 +43,9 @@ const requirementFields: Array<keyof ManuscriptTemplate> = [
   'minWordCountRequirement',
 ]
 
+// const isManuscriptTemplate = (model: Model): model is ManuscriptTemplate =>
+//   model.objectType === ObjectTypes.ManuscriptTemplate
+
 export const buildTemplateRequirementIDs = (
   template: ManuscriptTemplate
 ): string[] => {
@@ -55,6 +58,19 @@ export const buildTemplateRequirementIDs = (
       ids.push(requirementID as string)
     }
   }
+
+  // TODO: Should requirements be inherited? They seem to be duplicates
+  // if (template.parent) {
+  //   // TODO: avoid loops
+  //   for (const model of templatesMap.values()) {
+  //     if (isManuscriptTemplate(model)) {
+  //       // TODO: template.parent should be an id instead of a title
+  //       if (model.title === template.parent) {
+  //         ids.push(...buildTemplateRequirementIDs(model))
+  //       }
+  //     }
+  //   }
+  // }
 
   return ids
 }
@@ -99,8 +115,7 @@ export const buildTemplateRequirements = (
   return requirements
 }
 
-export type ValidationType =
-  | 'required-section'
+export type CountValidationType =
   | 'manuscript-maximum-characters'
   | 'manuscript-minimum-characters'
   | 'manuscript-maximum-words'
@@ -110,13 +125,24 @@ export type ValidationType =
   | 'section-maximum-words'
   | 'section-minimum-words'
 
-export type ValidationResult = {
-  type: ValidationType
+export type RequiredSectionValidationResult = {
+  type: 'required-section'
   passed: boolean
   severity: number
-  data: Record<string, unknown>
+  data: { category: string }
+}
+
+export type CountValidationResult = {
+  type: CountValidationType
+  passed: boolean
+  severity: number
+  data: { count: number; value: number }
   // TODO: fixer function?
 }
+
+export type ValidationResult =
+  | RequiredSectionValidationResult
+  | CountValidationResult
 
 export type ValidationResults = Record<string, ValidationResult>
 

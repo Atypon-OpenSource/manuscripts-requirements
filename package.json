@@ -9,6 +9,9 @@
   "files": [
     "dist"
   ],
+  "bin": {
+    "manuscript-validator": "./dist/command.js"
+  },
   "scripts": {
     "build": "concurrently 'yarn:build:*'",
     "build:cjs": "tsc --outDir dist/cjs --module commonjs",
@@ -27,7 +30,13 @@
     "@manuscripts/data": "^0.0.7",
     "@manuscripts/eslint-config": "^0.2.1",
     "@manuscripts/manuscript-transform": "^0.30.0",
-    "grapheme-splitter": "^1.0.4"
+    "@types/decompress": "^4.2.3",
+    "chalk": "^4.1.0",
+    "decompress": "^4.2.1",
+    "fs-extra": "^9.0.1",
+    "grapheme-splitter": "^1.0.4",
+    "tempy": "^0.5.0",
+    "yargs": "^15.3.1"
   },
   "devDependencies": {
     "@babel/core": "^7.10.2",
@@ -35,6 +44,7 @@
     "@babel/preset-typescript": "^7.10.1",
     "@manuscripts/examples": "^0.0.7",
     "@manuscripts/manuscripts-json-schema": "^1.30.0",
+    "@types/fs-extra": "^9.0.1",
     "@types/jest": "^26.0.0",
     "@types/prosemirror-state": "^1.2.4",
     "@typescript-eslint/eslint-plugin": "^3.2.0",

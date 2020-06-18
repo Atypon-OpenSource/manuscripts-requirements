@@ -53,18 +53,11 @@ Array [
   Object {
     "data": Object {
       "count": 129,
+      "value": 4000,
     },
     "passed": true,
     "severity": 0,
     "type": "manuscript-maximum-words",
-  },
-  Object {
-    "data": Object {
-      "count": 129,
-    },
-    "passed": true,
-    "severity": 0,
-    "type": "manuscript-minimum-words",
   },
 ]
 `;
