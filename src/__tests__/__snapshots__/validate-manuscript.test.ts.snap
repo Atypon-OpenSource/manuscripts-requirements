@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`manuscript validator validates a manuscript with a template: validation-results 1`] = `
+Array [
+  Object {
+    "data": Object {
+      "category": "MPSectionCategory:introduction",
+    },
+    "passed": false,
+    "severity": 0,
+    "type": "required-section",
+  },
+  Object {
+    "data": Object {
+      "category": "MPSectionCategory:materials-method",
+    },
+    "passed": false,
+    "severity": 0,
+    "type": "required-section",
+  },
+  Object {
+    "data": Object {
+      "category": "MPSectionCategory:abstract",
+    },
+    "passed": false,
+    "severity": 0,
+    "type": "required-section",
+  },
+  Object {
+    "data": Object {
+      "category": "MPSectionCategory:results",
+    },
+    "passed": false,
+    "severity": 0,
+    "type": "required-section",
+  },
+  Object {
+    "data": Object {
+      "category": "MPSectionCategory:competing-interests",
+    },
+    "passed": false,
+    "severity": 0,
+    "type": "required-section",
+  },
+  Object {
+    "data": Object {
+      "category": "MPSectionCategory:discussion",
+    },
+    "passed": false,
+    "severity": 0,
+    "type": "required-section",
+  },
+  Object {
+    "data": Object {
+      "count": 129,
+    },
+    "passed": true,
+    "severity": 0,
+    "type": "manuscript-maximum-words",
+  },
+  Object {
+    "data": Object {
+      "count": 129,
+    },
+    "passed": true,
+    "severity": 0,
+    "type": "manuscript-minimum-words",
+  },
+]
+`;

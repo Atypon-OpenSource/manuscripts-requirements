@@ -15,6 +15,7 @@
  */
 
 import {
+  Decoder,
   isSectionNode,
   ManuscriptNode,
   SectionNode,
@@ -57,10 +58,13 @@ interface Counts {
 }
 
 export const validateManuscript = async (
-  article: ManuscriptNode,
   modelMap: Map<string, Model>,
+  manuscriptID: string,
   templateID: string
 ) => {
+  const decoder = new Decoder(modelMap)
+  const article = decoder.createArticleNode(manuscriptID)
+
   const template = templatesMap.get(templateID) as ManuscriptTemplate
   const requirementIDs = buildTemplateRequirementIDs(template)
   const requirementsMap = buildTemplateRequirementsMap(requirementIDs)
@@ -116,9 +120,11 @@ export const validateManuscript = async (
     requirement?: CountRequirement
   ) => {
     if (requirement) {
+      const value = requirement.count
+
       results.push({
         type,
-        passed: count <= requirement.count,
+        passed: count <= value,
         severity: requirement.severity,
         data: { count },
       })

@@ -33,6 +33,7 @@
     "@babel/core": "^7.10.2",
     "@babel/preset-env": "^7.10.2",
     "@babel/preset-typescript": "^7.10.1",
+    "@manuscripts/examples": "^0.0.7",
     "@manuscripts/manuscripts-json-schema": "^1.30.0",
     "@types/jest": "^26.0.0",
     "@types/prosemirror-state": "^1.2.4",
