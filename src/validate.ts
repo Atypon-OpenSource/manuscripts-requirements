@@ -22,6 +22,7 @@ import {
   Section,
 } from '@manuscripts/manuscripts-json-schema'
 
+import { TemplateRequirementsMap } from './manuscript-requirements'
 import { buildText } from './statistics'
 
 export interface NodeStatistics {
@@ -68,7 +69,7 @@ export type RequirementsValidator = (
 ) => Promise<RequirementsAlerts>
 
 export const createRequirementsValidator = (
-  modelMap: Map<string, Model>,
+  requirementsMap: TemplateRequirementsMap,
   analyzers: {
     countWords: (text: string) => Promise<number>
     countCharacters: (text: string) => Promise<number>
@@ -81,7 +82,7 @@ export const createRequirementsValidator = (
       return undefined
     }
 
-    const requirement = modelMap.get(id) as CountRequirement | undefined
+    const requirement = requirementsMap.get(id) as CountRequirement | undefined
 
     if (!requirement) {
       return undefined

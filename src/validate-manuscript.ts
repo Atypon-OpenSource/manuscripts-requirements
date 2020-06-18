@@ -13,82 +13,98 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import customTemplates from '@manuscripts/data/dist/shared/custom-templates.json'
-import templates from '@manuscripts/data/dist/shared/templates-v2.json'
+
+import {
+  isSectionNodeType,
+  ManuscriptNode,
+} from '@manuscripts/manuscript-transform'
 import { ManuscriptTemplate, Model } from '@manuscripts/manuscripts-json-schema'
 
-import { countCharacters, countWords } from './statistics'
-import { createRequirementsValidator, RequirementsValidator } from './validate'
+import {
+  buildManuscriptCountRequirements,
+  buildRequiredSections,
+  buildSectionCountRequirements,
+  buildTemplateRequirementIDs,
+  buildTemplateRequirements,
+  buildTemplateRequirementsMap,
+  ValidationResult,
+} from './requirements'
+import { buildText, countCharacters, countWords } from './statistics'
+import { templatesMap } from './templates'
 
-export const createTemplateValidator = (
+function* iterateChildren(
+  node: ManuscriptNode,
+  recurse = false
+): Iterable<ManuscriptNode> {
+  for (let i = 0; i < node.childCount; i++) {
+    const child = node.child(i)
+    yield child
+
+    if (recurse) {
+      for (const grandchild of iterateChildren(child, true)) {
+        yield grandchild
+      }
+    }
+  }
+}
+
+export const validateManuscript = async (
+  article: ManuscriptNode,
+  modelMap: Map<string, Model>,
   templateID: string
-): RequirementsValidator => {
-  const templatesMap = new Map<string, Model>()
+) => {
+  const template = templatesMap.get(templateID) as ManuscriptTemplate
+  const requirementIDs = buildTemplateRequirementIDs(template)
+  const requirementsMap = buildTemplateRequirementsMap(requirementIDs)
+  const requirements = buildTemplateRequirements(requirementsMap)
+  const requiredSections = buildRequiredSections(requirements)
+  const manuscriptCountRequirements = buildManuscriptCountRequirements(
+    requirements
+  )
+  const sectionCountRequirements = buildSectionCountRequirements(requirements)
 
-  for (const template of templates as Model[]) {
-    templatesMap.set(template._id, template)
-  }
+  const sectionCategories = new Set<string>()
 
-  for (const template of customTemplates as Model[]) {
-    templatesMap.set(template._id, template)
-  }
+  for (const node of iterateChildren(article)) {
+    if (isSectionNodeType(node.type)) {
+      const { category } = node.attrs
 
-  const modelMap = new Map<string, Model>()
-
-  const template = templatesMap.get(templateID) as
-    | ManuscriptTemplate
-    | undefined
-
-  if (!template) {
-    throw new Error('Could not find template')
-  }
-
-  if (template.requirementIDs) {
-    for (const requirementID of template.requirementIDs) {
-      const requirement = templatesMap.get(requirementID)
-
-      if (requirement) {
-        modelMap.set(requirement._id, requirement)
+      if (category) {
+        sectionCategories.add(category)
       }
     }
   }
 
-  const requirementFields: Array<keyof ManuscriptTemplate> = [
-    'manuscriptRunningTitleRequirement',
-    'maxCharCountRequirement',
-    'maxCombinedFigureTableCountRequirement',
-    'maxFigureFileSizeRequirement',
-    'maxFigureScreenDPIRequirement',
-    'maxManuscriptTitleCharacterCountRequirement',
-    'maxManuscriptTitleWordCountRequirement',
-    'maxPageCountRequirement',
-    'maxTableCountRequirement',
-    'maxWordCountRequirement',
-    'minCharCountRequirement',
-    'minCombinedFigureTableCountRequirement',
-    'minFigureCountRequirement',
-    'minFigureScreenDPIRequirement',
-    'minPageCountRequirement',
-    'minWordCountRequirement',
-  ]
+  const results: ValidationResult[] = []
 
-  for (const requirementField of requirementFields) {
-    const requirementID = template[requirementField]
+  for (const requiredSection of requiredSections) {
+    const { category, severity } = requiredSection
 
-    if (requirementID) {
-      const requirement = templatesMap.get(requirementID as string)
-
-      if (requirement) {
-        modelMap.set(requirement._id, requirement)
-      }
-    }
+    results.push({
+      type: 'required-section',
+      passed: sectionCategories.has(category),
+      severity,
+      data: { category },
+    })
   }
 
-  // TODO: add requirements of sections/subsections?
-  // TODO: build a requirements object?
+  const manuscriptText = buildText(article)
 
-  return createRequirementsValidator(modelMap, {
-    countCharacters,
-    countWords,
-  })
+  const manuscriptCounts = {
+    characters: await countCharacters(manuscriptText),
+    words: await countWords(manuscriptText),
+  }
+
+  if (manuscriptCountRequirements.characters.max) {
+    results.push({
+      type: 'manuscript-maximum-characters',
+      passed:
+        manuscriptCounts.characters <=
+        manuscriptCountRequirements.characters.max.count,
+      severity: manuscriptCountRequirements.characters.max.severity,
+      data: { count: manuscriptCounts.characters },
+    })
+  }
+
+  return results
 }

@@ -30,8 +30,10 @@
     "grapheme-splitter": "^1.0.4"
   },
   "devDependencies": {
+    "@babel/core": "^7.10.2",
     "@babel/preset-env": "^7.10.2",
     "@babel/preset-typescript": "^7.10.1",
+    "@manuscripts/manuscripts-json-schema": "^1.30.0",
     "@types/jest": "^26.0.0",
     "@types/prosemirror-state": "^1.2.4",
     "@typescript-eslint/eslint-plugin": "^3.2.0",

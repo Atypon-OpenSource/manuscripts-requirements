@@ -1,0 +1,310 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`manuscript requirements builds requirements from a template: manuscript-count-requirements 1`] = `
+Object {
+  "characters": Object {
+    "max": undefined,
+    "min": undefined,
+  },
+  "words": Object {
+    "max": Object {
+      "count": 4000,
+      "severity": 0,
+    },
+    "min": Object {
+      "count": 2000,
+      "severity": 0,
+    },
+  },
+}
+`;
+
+exports[`manuscript requirements builds requirements from a template: required-sections 1`] = `
+Array [
+  Object {
+    "category": "MPSectionCategory:introduction",
+    "severity": 0,
+  },
+  Object {
+    "category": "MPSectionCategory:materials-method",
+    "severity": 0,
+  },
+  Object {
+    "category": "MPSectionCategory:abstract",
+    "severity": 0,
+  },
+  Object {
+    "category": "MPSectionCategory:results",
+    "severity": 0,
+  },
+  Object {
+    "category": "MPSectionCategory:competing-interests",
+    "severity": 0,
+  },
+  Object {
+    "category": "MPSectionCategory:discussion",
+    "severity": 0,
+  },
+]
+`;
+
+exports[`manuscript requirements builds requirements from a template: requirements 1`] = `
+Object {
+  "MPMandatorySubsectionsRequirement": Array [
+    Object {
+      "_id": "MPMandatorySubsectionsRequirement:7BAF709D-5895-42AC-BCB3-CF1C07A7907A",
+      "createdAt": 1433095333.222016,
+      "embeddedSectionDescriptions": Array [
+        Object {
+          "_id": "MPSectionDescription:30856582-BC9E-426A-B4C5-56F5F681CDF8",
+          "objectType": "MPSectionDescription",
+          "required": true,
+          "sectionCategory": "MPSectionCategory:introduction",
+        },
+      ],
+      "evaluatedObject": "MPManuscriptTemplate:www-zotero-org-styles-nature-genetics-Nature-Genetics-Journal-Publication-Article",
+      "objectType": "MPMandatorySubsectionsRequirement",
+      "severity": 0,
+      "updatedAt": 1433095333.222016,
+    },
+    Object {
+      "_id": "MPMandatorySubsectionsRequirement:145EF64B-9282-4AA3-BC9E-B3C269ECAFF9",
+      "createdAt": 1433095333.224733,
+      "embeddedSectionDescriptions": Array [
+        Object {
+          "_id": "MPSectionDescription:03FC1135-1F04-49A0-9D8F-E595EC2E6863",
+          "objectType": "MPSectionDescription",
+          "required": true,
+          "sectionCategory": "MPSectionCategory:materials-method",
+          "title": "online methods",
+        },
+      ],
+      "evaluatedObject": "MPManuscriptTemplate:www-zotero-org-styles-nature-genetics-Nature-Genetics-Journal-Publication-Article",
+      "objectType": "MPMandatorySubsectionsRequirement",
+      "severity": 0,
+      "updatedAt": 1433095333.224733,
+    },
+    Object {
+      "_id": "MPMandatorySubsectionsRequirement:1490079D-7A05-4C23-8A83-0EB3F4BB3FAE",
+      "createdAt": 1433095333.226976,
+      "embeddedSectionDescriptions": Array [
+        Object {
+          "_id": "MPSectionDescription:9F8AC4A6-0B93-46A9-ADF4-BC8F6A6603BE",
+          "maxWordCount": 100,
+          "objectType": "MPSectionDescription",
+          "required": true,
+          "sectionCategory": "MPSectionCategory:abstract",
+        },
+      ],
+      "evaluatedObject": "MPManuscriptTemplate:www-zotero-org-styles-nature-genetics-Nature-Genetics-Journal-Publication-Article",
+      "objectType": "MPMandatorySubsectionsRequirement",
+      "severity": 0,
+      "updatedAt": 1433095333.226976,
+    },
+    Object {
+      "_id": "MPMandatorySubsectionsRequirement:9AA5E639-85EE-4B9B-8635-A446439E3FD1",
+      "createdAt": 1433095333.229599,
+      "embeddedSectionDescriptions": Array [
+        Object {
+          "_id": "MPSectionDescription:6C7F0155-A41D-456E-B396-E06FEB081CA9",
+          "objectType": "MPSectionDescription",
+          "required": true,
+          "sectionCategory": "MPSectionCategory:results",
+          "title": "Results",
+        },
+      ],
+      "evaluatedObject": "MPManuscriptTemplate:www-zotero-org-styles-nature-genetics-Nature-Genetics-Journal-Publication-Article",
+      "objectType": "MPMandatorySubsectionsRequirement",
+      "severity": 0,
+      "updatedAt": 1433095333.229599,
+    },
+    Object {
+      "_id": "MPMandatorySubsectionsRequirement:9D08EFED-77A1-4E79-B91A-4C3C739A4964",
+      "createdAt": 1433095333.232129,
+      "embeddedSectionDescriptions": Array [
+        Object {
+          "_id": "MPSectionDescription:C37FB688-B8E2-44A3-959A-C76CA1C405A3",
+          "objectType": "MPSectionDescription",
+          "required": true,
+          "sectionCategory": "MPSectionCategory:competing-interests",
+          "title": "Competing financial interest",
+        },
+      ],
+      "evaluatedObject": "MPManuscriptTemplate:www-zotero-org-styles-nature-genetics-Nature-Genetics-Journal-Publication-Article",
+      "objectType": "MPMandatorySubsectionsRequirement",
+      "severity": 0,
+      "updatedAt": 1433095333.232129,
+    },
+    Object {
+      "_id": "MPMandatorySubsectionsRequirement:62F0E86C-5FCF-4AA7-91A2-573A947BA082",
+      "createdAt": 1433095333.234507,
+      "embeddedSectionDescriptions": Array [
+        Object {
+          "_id": "MPSectionDescription:93F80550-FC34-4414-B356-51285D9E0101",
+          "objectType": "MPSectionDescription",
+          "sectionCategory": "MPSectionCategory:cover-letter",
+        },
+      ],
+      "evaluatedObject": "MPManuscriptTemplate:www-zotero-org-styles-nature-genetics-Nature-Genetics-Journal-Publication-Article",
+      "objectType": "MPMandatorySubsectionsRequirement",
+      "severity": 0,
+      "updatedAt": 1433095333.234507,
+    },
+    Object {
+      "_id": "MPMandatorySubsectionsRequirement:3E9BCAA1-2A82-4BA9-85E7-933A14E7EA18",
+      "createdAt": 1433095333.236987,
+      "embeddedSectionDescriptions": Array [
+        Object {
+          "_id": "MPSectionDescription:43239655-328D-4A07-A587-B21BF8E4230F",
+          "objectType": "MPSectionDescription",
+          "required": true,
+          "sectionCategory": "MPSectionCategory:discussion",
+          "title": "Discussion",
+        },
+      ],
+      "evaluatedObject": "MPManuscriptTemplate:www-zotero-org-styles-nature-genetics-Nature-Genetics-Journal-Publication-Article",
+      "objectType": "MPMandatorySubsectionsRequirement",
+      "severity": 0,
+      "updatedAt": 1433095333.236987,
+    },
+  ],
+  "MPMaximumAuxiliaryObjectCountRequirement": Array [
+    Object {
+      "_id": "MPMaximumAuxiliaryObjectCountRequirement:0B4A4E64-684C-4642-B92C-D19FC78E4A2A",
+      "count": 8,
+      "createdAt": 1433095333.243061,
+      "evaluatedObject": "MPManuscriptTemplate:www-zotero-org-styles-nature-genetics-Nature-Genetics-Journal-Publication-Article",
+      "objectType": "MPMaximumAuxiliaryObjectCountRequirement",
+      "severity": 0,
+      "updatedAt": 1433095333.243061,
+    },
+  ],
+  "MPMaximumManuscriptWordCountRequirement": Array [
+    Object {
+      "_id": "MPMaximumManuscriptWordCountRequirement:9427A4BD-2902-4655-8168-B84022EA7909",
+      "count": 4000,
+      "createdAt": 1433095333.23921,
+      "evaluatedObject": "MPManuscriptTemplate:www-zotero-org-styles-nature-genetics-Nature-Genetics-Journal-Publication-Article",
+      "objectType": "MPMaximumManuscriptWordCountRequirement",
+      "severity": 0,
+      "updatedAt": 1433095333.23921,
+    },
+  ],
+  "MPMinimumManuscriptWordCountRequirement": Array [
+    Object {
+      "_id": "MPMinimumManuscriptWordCountRequirement:DAC33160-823F-420F-8A57-3F31F8559D5C",
+      "count": 2000,
+      "createdAt": 1433095333.240941,
+      "evaluatedObject": "MPManuscriptTemplate:www-zotero-org-styles-nature-genetics-Nature-Genetics-Journal-Publication-Article",
+      "objectType": "MPMinimumManuscriptWordCountRequirement",
+      "severity": 0,
+      "updatedAt": 1433095333.240941,
+    },
+  ],
+}
+`;
+
+exports[`manuscript requirements builds requirements from a template: section-count-requirements 1`] = `
+Object {
+  "MPSectionCategory:abstract": Object {
+    "characters": Object {
+      "max": undefined,
+      "min": undefined,
+    },
+    "words": Object {
+      "max": Object {
+        "count": 100,
+        "severity": 0,
+      },
+      "min": undefined,
+    },
+  },
+  "MPSectionCategory:competing-interests": Object {
+    "characters": Object {
+      "max": undefined,
+      "min": undefined,
+    },
+    "words": Object {
+      "max": undefined,
+      "min": undefined,
+    },
+  },
+  "MPSectionCategory:cover-letter": Object {
+    "characters": Object {
+      "max": undefined,
+      "min": undefined,
+    },
+    "words": Object {
+      "max": undefined,
+      "min": undefined,
+    },
+  },
+  "MPSectionCategory:discussion": Object {
+    "characters": Object {
+      "max": undefined,
+      "min": undefined,
+    },
+    "words": Object {
+      "max": undefined,
+      "min": undefined,
+    },
+  },
+  "MPSectionCategory:introduction": Object {
+    "characters": Object {
+      "max": undefined,
+      "min": undefined,
+    },
+    "words": Object {
+      "max": undefined,
+      "min": undefined,
+    },
+  },
+  "MPSectionCategory:materials-method": Object {
+    "characters": Object {
+      "max": undefined,
+      "min": undefined,
+    },
+    "words": Object {
+      "max": undefined,
+      "min": undefined,
+    },
+  },
+  "MPSectionCategory:results": Object {
+    "characters": Object {
+      "max": undefined,
+      "min": undefined,
+    },
+    "words": Object {
+      "max": undefined,
+      "min": undefined,
+    },
+  },
+}
+`;
+
+exports[`manuscript requirements builds requirements from a template: template 1`] = `
+Object {
+  "_id": "MPManuscriptTemplate:www-zotero-org-styles-nature-genetics-Nature-Genetics-Journal-Publication-Article",
+  "aim": "Nature Genetics publishes the very highest quality research in genet- ics. It encompasses genetic and functional genomic studies on human traits and on other model organisms, including mouse, fly, nematode and yeast. Current emphasis is on the genetic basis for common and complex diseases and on the functional mechanism, architecture and evolution of gene networks, studied by experimental perturbation.",
+  "bundle": "MPBundle:www-zotero-org-styles-nature-genetics",
+  "category": "MPManuscriptCategory:research-article",
+  "createdAt": 1433095333.219065,
+  "desc": "An Article is a substantial novel research study, with a complex story often involving several techniques or approaches.",
+  "objectType": "MPManuscriptTemplate",
+  "parent": "Nature Genetics Journal Publication",
+  "requirementIDs": Array [
+    "MPMaximumManuscriptWordCountRequirement:9427A4BD-2902-4655-8168-B84022EA7909",
+    "MPMinimumManuscriptWordCountRequirement:DAC33160-823F-420F-8A57-3F31F8559D5C",
+    "MPMaximumAuxiliaryObjectCountRequirement:0B4A4E64-684C-4642-B92C-D19FC78E4A2A",
+    "MPMandatorySubsectionsRequirement:7BAF709D-5895-42AC-BCB3-CF1C07A7907A",
+    "MPMandatorySubsectionsRequirement:145EF64B-9282-4AA3-BC9E-B3C269ECAFF9",
+    "MPMandatorySubsectionsRequirement:1490079D-7A05-4C23-8A83-0EB3F4BB3FAE",
+    "MPMandatorySubsectionsRequirement:9AA5E639-85EE-4B9B-8635-A446439E3FD1",
+    "MPMandatorySubsectionsRequirement:9D08EFED-77A1-4E79-B91A-4C3C739A4964",
+    "MPMandatorySubsectionsRequirement:62F0E86C-5FCF-4AA7-91A2-573A947BA082",
+    "MPMandatorySubsectionsRequirement:3E9BCAA1-2A82-4BA9-85E7-933A14E7EA18",
+  ],
+  "title": "Article",
+  "updatedAt": 1433095363.405134,
+}
+`;
