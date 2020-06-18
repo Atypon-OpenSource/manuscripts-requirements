@@ -99,7 +99,16 @@ export const buildTemplateRequirements = (
   return requirements
 }
 
-export type ValidationType = 'required-section'
+export type ValidationType =
+  | 'required-section'
+  | 'manuscript-maximum-characters'
+  | 'manuscript-minimum-characters'
+  | 'manuscript-maximum-words'
+  | 'manuscript-minimum-words'
+  | 'section-maximum-characters'
+  | 'section-minimum-characters'
+  | 'section-maximum-words'
+  | 'section-minimum-words'
 
 export type ValidationResult = {
   type: ValidationType

@@ -15,8 +15,9 @@
  */
 
 import {
-  isSectionNodeType,
+  isSectionNode,
   ManuscriptNode,
+  SectionNode,
 } from '@manuscripts/manuscript-transform'
 import { ManuscriptTemplate, Model } from '@manuscripts/manuscripts-json-schema'
 
@@ -27,7 +28,9 @@ import {
   buildTemplateRequirementIDs,
   buildTemplateRequirements,
   buildTemplateRequirementsMap,
+  CountRequirement,
   ValidationResult,
+  ValidationType,
 } from './requirements'
 import { buildText, countCharacters, countWords } from './statistics'
 import { templatesMap } from './templates'
@@ -48,6 +51,11 @@ function* iterateChildren(
   }
 }
 
+interface Counts {
+  words: number
+  characters: number
+}
+
 export const validateManuscript = async (
   article: ManuscriptNode,
   modelMap: Map<string, Model>,
@@ -63,14 +71,28 @@ export const validateManuscript = async (
   )
   const sectionCountRequirements = buildSectionCountRequirements(requirements)
 
-  const sectionCategories = new Set<string>()
+  const sectionsWithCategory = new Map<
+    string,
+    Array<{ node: SectionNode; counts: Counts }>
+  >()
 
   for (const node of iterateChildren(article)) {
-    if (isSectionNodeType(node.type)) {
+    if (isSectionNode(node)) {
       const { category } = node.attrs
 
       if (category) {
-        sectionCategories.add(category)
+        const sections = sectionsWithCategory.get(category) || []
+
+        const text = buildText(node)
+
+        const counts = {
+          characters: await countCharacters(text),
+          words: await countWords(text),
+        }
+
+        sections.push({ node, counts })
+
+        sectionsWithCategory.set(category, sections)
       }
     }
   }
@@ -82,28 +104,90 @@ export const validateManuscript = async (
 
     results.push({
       type: 'required-section',
-      passed: sectionCategories.has(category),
+      passed: sectionsWithCategory.has(category),
       severity,
       data: { category },
     })
   }
 
+  const validateCount = (
+    type: ValidationType,
+    count: number,
+    requirement?: CountRequirement
+  ) => {
+    if (requirement) {
+      results.push({
+        type,
+        passed: count <= requirement.count,
+        severity: requirement.severity,
+        data: { count },
+      })
+    }
+  }
+
   const manuscriptText = buildText(article)
 
-  const manuscriptCounts = {
+  const manuscriptCounts: Counts = {
     characters: await countCharacters(manuscriptText),
     words: await countWords(manuscriptText),
   }
 
-  if (manuscriptCountRequirements.characters.max) {
-    results.push({
-      type: 'manuscript-maximum-characters',
-      passed:
-        manuscriptCounts.characters <=
-        manuscriptCountRequirements.characters.max.count,
-      severity: manuscriptCountRequirements.characters.max.severity,
-      data: { count: manuscriptCounts.characters },
-    })
+  validateCount(
+    'manuscript-maximum-characters',
+    manuscriptCounts.characters,
+    manuscriptCountRequirements.characters.max
+  )
+
+  validateCount(
+    'manuscript-minimum-characters',
+    manuscriptCounts.characters,
+    manuscriptCountRequirements.characters.min
+  )
+
+  validateCount(
+    'manuscript-maximum-words',
+    manuscriptCounts.words,
+    manuscriptCountRequirements.words.max
+  )
+
+  validateCount(
+    'manuscript-minimum-words',
+    manuscriptCounts.words,
+    manuscriptCountRequirements.words.min
+  )
+
+  for (const [category, requirements] of Object.entries(
+    sectionCountRequirements
+  )) {
+    const records = sectionsWithCategory.get(category)
+
+    if (records) {
+      for (const item of records) {
+        validateCount(
+          'section-maximum-characters',
+          item.counts.characters,
+          requirements.characters.max
+        )
+
+        validateCount(
+          'section-minimum-characters',
+          item.counts.characters,
+          requirements.characters.min
+        )
+
+        validateCount(
+          'section-maximum-words',
+          item.counts.words,
+          requirements.words.max
+        )
+
+        validateCount(
+          'section-minimum-words',
+          item.counts.words,
+          requirements.words.min
+        )
+      }
+    }
   }
 
   return results
