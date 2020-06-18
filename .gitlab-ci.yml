@@ -4,20 +4,24 @@ stages:
 
 build:
   stage: build
-  image: node:12-slim
+  #image: node:12-slim
   script:
     - yarn install --frozen-lockfile --non-interactive
     - yarn run typecheck
     - yarn run lint
     - yarn run test
     - yarn run build
+  tags:
+    - nodejs
   artifacts:
     paths:
       - dist/
 
 publish:
   stage: publish
-  image: node:12-slim
+  #image: node:12-slim
+  tags:
+    - nodejs
   only:
     refs:
       - master
