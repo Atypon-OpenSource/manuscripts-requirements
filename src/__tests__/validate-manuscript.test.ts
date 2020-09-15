@@ -14,17 +14,19 @@
  * limitations under the License.
  */
 
-import { ManuscriptTemplate } from '@manuscripts/manuscripts-json-schema'
+import { createTemplateValidator } from '../validate-manuscript'
+import { data } from './__fixtures__/manuscript-data.json'
 
-import { templateModelMap } from './templates'
-import { createRequirementsValidator } from './validate'
+test('validate manuscript', async () => {
+  const validateManuscript = createTemplateValidator(
+    'MPManuscriptTemplate:www-zotero-org-styles-nature-genetics-Nature-Genetics-Journal-Publication-Article'
+  )
 
-export const createTemplateValidator = (templateID: string) => {
-  if (!templateModelMap.has(templateID)) {
-    throw new Error('Could not find template')
-  }
+  const results = await validateManuscript(
+    // @ts-ignore
+    data,
+    'MPManuscript:9E0BEDBC-1084-4AA1-AB82-10ACFAE02232'
+  )
 
-  const template = templateModelMap.get(templateID) as ManuscriptTemplate
-
-  return createRequirementsValidator(template)
-}
+  expect(results).toMatchSnapshot('validate-manuscript')
+})
