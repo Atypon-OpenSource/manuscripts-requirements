@@ -17,10 +17,7 @@
       "MPMandatorySubsectionsRequirement:62F0E86C-5FCF-4AA7-91A2-573A947BA082",
       "MPMandatorySubsectionsRequirement:3E9BCAA1-2A82-4BA9-85E7-933A14E7EA18"
     ],
-    "acceptableFigureFormats": [
-      "tiff",
-      "jpeg"
-    ],
+    "acceptableFigureFormats": ["tiff", "jpeg"],
     "maxWordCountRequirement": "MPMaximumManuscriptWordCountRequirement:9427A4BD-2902-4655-8168-B84022EA7909",
     "minWordCountRequirement": "MPMinimumManuscriptWordCountRequirement:DAC33160-823F-420F-8A57-3F31F8559D5C",
     "minCharacterCountRequirement": "MPMinimumManuscriptCharacterCountRequirement:2DB38985-9A65-4DA0-BC09-CE3F3E9C3ABC",
@@ -33,6 +30,10 @@
     "maxTableCountRequirement": "MPMaximumTableCountRequirement:09055BAA-F393-451A-A1F3-F624B1F27235",
     "maxCombinedFigureTableCountRequirement": "MPMaximumCombinedFigureTableCountRequirement:1EB6D9C9-F6CA-4D2F-9666-0A26A9B1DATR",
     "maxManuscriptReferenceCountRequirement": "MPMaximumManuscriptReferenceCountRequirement:663650BF-D382-4EEE-96A2-C6E4A216FAE6",
+    "minFigureWidthPixelsRequirement": "MPMinimumFigurePixelsRequirement:75E42B0A-63D9-4371-A05A-57A3B8BF33E9",
+    "maxFigureWidthPixelsRequirement": "MPMaximumFigurePixelsRequirement:1BEC993B-6213-4270-8B66-130FDE8F2D0F",
+    "minFigureHeightPixelsRequirement": "MPMinimumFigurePixelsRequirement:19E7D55C-5413-4967-A223-35B6AAA68270",
+    "maxFigureHeightPixelsRequirement": "MPMaximumFigurePixelsRequirement:2BB9C90B-0164-494A-B290-A95A4C71D305",
     "requirementIDs": [
       "MPMaximumAuxiliaryObjectCountRequirement:0B4A4E64-684C-4642-B92C-D19FC78E4A2A"
     ],
@@ -70,6 +71,42 @@
     "objectType": "MPMaximumManuscriptCharacterCountRequirement",
     "severity": 0,
     "updatedAt": 1439634017.900541
+  },
+  {
+    "_id": "MPMinimumFigurePixelsRequirement:75E42B0A-63D9-4371-A05A-57A3B8BF33E9",
+    "count": 600,
+    "createdAt": 1439634017.707647,
+    "objectType": "MPMinimumFigurePixelsRequirement",
+    "severity": 0,
+    "updatedAt": 1439634017.900541,
+    "dimension": 1
+  },
+  {
+    "_id": "MPMinimumFigurePixelsRequirement:19E7D55C-5413-4967-A223-35B6AAA68270",
+    "count": 400,
+    "createdAt": 1439634017.707647,
+    "objectType": "MPMinimumFigurePixelsRequirement",
+    "severity": 0,
+    "updatedAt": 1439634017.900541,
+    "dimension": 2
+  },
+  {
+    "_id": "MPMaximumFigurePixelsRequirement:2BB9C90B-0164-494A-B290-A95A4C71D305",
+    "count": 1000,
+    "createdAt": 1439634017.707647,
+    "objectType": "MPMaximumFigurePixelsRequirement",
+    "severity": 0,
+    "updatedAt": 1439634017.900541,
+    "dimension": 2
+  },
+  {
+    "_id": "MPMaximumFigurePixelsRequirement:1BEC993B-6213-4270-8B66-130FDE8F2D0F",
+    "count": 4000,
+    "createdAt": 1439634017.707647,
+    "objectType": "MPMaximumFigurePixelsRequirement",
+    "severity": 0,
+    "updatedAt": 1439634017.900541,
+    "dimension": 1
   },
   {
     "_id": "MPMaximumFigureCountRequirement:109621BB-3EDE-462E-822B-4D749DF6D123",

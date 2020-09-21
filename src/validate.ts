@@ -27,6 +27,7 @@ import {
   ObjectTypes,
   Section,
 } from '@manuscripts/manuscripts-json-schema'
+import { imageSize } from 'image-size'
 
 import {
   buildCombinedFigureTableCountRequirements,
@@ -39,6 +40,7 @@ import {
   buildTableCountRequirements,
   buildTitleCountRequirements,
   getAllowedFigureFormats,
+  getAllowedFigureResolution,
 } from './requirements'
 import { buildText, countCharacters, countWords } from './statistics'
 import { sectionCategoriesMap } from './templates'
@@ -52,6 +54,7 @@ import {
   CountValidationType,
   FigureCountRequirements,
   FigureFormatValidationResult,
+  FigureResolutionsRequirements,
   FigureValidationType,
   ReferenceCountRequirements,
   RequiredSections,
@@ -69,6 +72,7 @@ import {
 import {
   countModelsByType,
   createArticle,
+  getFigure,
   getFigureFormat,
   getManuscriptId,
   getManuscriptTitle,
@@ -291,18 +295,15 @@ const validateCount = (
   type: CountValidationType,
   count: number,
   checkMax: boolean,
-  requirement?: CountRequirement,
-  sectionName?: string
+  requirement?: CountRequirement
 ): CountValidationResult | undefined => {
   if (requirement && requirement.count !== undefined) {
     const requirementCount = requirement.count
-
     return {
       type,
       passed: checkMax ? count <= requirementCount : count >= requirementCount,
       severity: requirement.severity,
       data: { count, value: requirementCount },
-      section: sectionName,
     }
   }
 }
@@ -366,6 +367,20 @@ const validateSectionCounts = async function* (
   sectionsWithCategory: Sections,
   sectionCountRequirements: SectionCountRequirements
 ) {
+  const validate = (
+    type: CountValidationType,
+    count: number,
+    checkMax: boolean,
+    requirement?: CountRequirement,
+    sectionCategory?: string
+  ): CountValidationResult | undefined => {
+    const countResult = validateCount(type, count, checkMax, requirement)
+    if (countResult) {
+      countResult.sectionCategory = sectionCategory
+    }
+    return countResult
+  }
+
   for (const [category, requirements] of Object.entries(
     sectionCountRequirements
   )) {
@@ -373,7 +388,7 @@ const validateSectionCounts = async function* (
 
     if (records) {
       for (const item of records) {
-        yield validateCount(
+        yield validate(
           'section-maximum-characters',
           item.counts.characters,
           true,
@@ -381,7 +396,7 @@ const validateSectionCounts = async function* (
           category
         )
 
-        yield validateCount(
+        yield validate(
           'section-minimum-characters',
           item.counts.characters,
           false,
@@ -389,7 +404,7 @@ const validateSectionCounts = async function* (
           category
         )
 
-        yield validateCount(
+        yield validate(
           'section-maximum-words',
           item.counts.words,
           true,
@@ -397,7 +412,7 @@ const validateSectionCounts = async function* (
           category
         )
 
-        yield validateCount(
+        yield validate(
           'section-minimum-words',
           item.counts.words,
           false,
@@ -565,12 +580,76 @@ const validateFigureFormats = (
   })
   return results
 }
+export const validateFigureResolution = async function* (
+  requirement: FigureResolutionsRequirements,
+  figures: Array<Figure>,
+  getData: (id: string) => Promise<Buffer>
+): AsyncGenerator<CountValidationResult | undefined> {
+  const validate = (
+    type: CountValidationType,
+    count: number,
+    checkMax: boolean,
+    requirement?: CountRequirement,
+    id?: string
+  ) => {
+    const result = validateCount(type, count, checkMax, requirement)
+    if (result) {
+      result.data.id = id
+    }
+    return result
+  }
+
+  for (const { _id } of figures) {
+    const figure = await getFigure(_id, getData)
+    const { width, height } = imageSize(figure)
+    const { min, max } = requirement
+
+    if (width) {
+      yield validate(
+        'figure-minimum-width-resolution',
+        width,
+        false,
+        min.width,
+        _id
+      )
+      yield validate(
+        'figure-maximum-width-resolution',
+        width,
+        true,
+        max.width,
+        _id
+      )
+    } else if (max.width || min.width) {
+      throw new Error('Unknown image width')
+    }
+
+    if (height) {
+      yield validate(
+        'figure-minimum-height-resolution',
+        height,
+        false,
+        min.height,
+        _id
+      )
+      yield validate(
+        'figure-maximum-height-resolution',
+        height,
+        true,
+        max.height,
+        _id
+      )
+    } else if (max.height || min.height) {
+      throw new Error('Unknown image height')
+    }
+  }
+}
 
 export const createRequirementsValidator = (
   template: ManuscriptTemplate
 ) => async (
   manuscriptsData: ContainedModel[],
-  manuscriptId: string
+  manuscriptId: string,
+  getData: (id: string) => Promise<Buffer>
 ): Promise<ValidationResult[]> => {
   const results: ValidationResult[] = []
 
@@ -701,5 +780,14 @@ export const createRequirementsValidator = (
     result && results.push(result)
   }
 
+  const allowedFigureResolutions = getAllowedFigureResolution(template)
+  const figures = getModelsByType<Figure>(modelMap, ObjectTypes.Figure)
+  for await (const result of validateFigureResolution(
+    allowedFigureResolutions,
+    figures,
+    getData
+  )) {
+    result && results.push(result)
+  }
   return results
 }

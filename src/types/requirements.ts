@@ -40,6 +40,10 @@ export type CountValidationType =
   | 'manuscript-maximum-tables'
   | 'manuscript-maximum-combined-figure-tables'
   | 'manuscript-maximum-references'
+  | 'figure-minimum-width-resolution'
+  | 'figure-minimum-height-resolution'
+  | 'figure-maximum-width-resolution'
+  | 'figure-maximum-height-resolution'
 
 export type FigureValidationType = 'figure-format-validation'
 
@@ -69,8 +73,8 @@ export interface SectionCategoryValidation extends BaseValidationResult {
 }
 export interface CountValidationResult extends BaseValidationResult {
   type: CountValidationType
-  data: { count: number; value: number }
-  section?: string
+  data: { count: number; value: number; id?: string }
+  sectionCategory?: string
 }
 
 export interface FigureFormatValidationResult extends BaseValidationResult {
@@ -103,7 +107,7 @@ export type RequiredSections = Array<{
   severity: number
 }>
 
-export type CountRequirement = { count: number; severity: number }
+export type CountRequirement = { count: number | undefined; severity: number }
 
 export type CountRequirements = {
   characters: {
@@ -179,3 +183,14 @@ export type Sections = Map<
   string,
   Array<{ node: SectionNode; counts: Counts; section: Section }>
 >
+
+export type FigureResolutionsRequirements = {
+  max: {
+    width?: CountRequirement
+    height?: CountRequirement
+  }
+  min: {
+    width?: CountRequirement
+    height?: CountRequirement
+  }
+}

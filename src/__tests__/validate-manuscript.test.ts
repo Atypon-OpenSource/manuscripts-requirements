@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import fs from 'fs'
+
 import { createTemplateValidator } from '../validate-manuscript'
 import { data } from './__fixtures__/manuscript-data.json'
 
@@ -22,10 +24,14 @@ test('validate manuscript', async () => {
     'MPManuscriptTemplate:www-zotero-org-styles-nature-genetics-Nature-Genetics-Journal-Publication-Article'
   )
 
+  const getData = (id: string): Promise<Buffer> => {
+    return fs.promises.readFile(`${__dirname}/__fixtures__/data/${id}`)
+  }
   const results = await validateManuscript(
     // @ts-ignore
     data,
-    'MPManuscript:9E0BEDBC-1084-4AA1-AB82-10ACFAE02232'
+    'MPManuscript:9E0BEDBC-1084-4AA1-AB82-10ACFAE02232',
+    getData
   )
 
   expect(results).toMatchSnapshot('validate-manuscript')

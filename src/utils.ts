@@ -26,9 +26,10 @@ import {
   ObjectTypes,
   Section,
 } from '@manuscripts/manuscripts-json-schema'
+import FileType from 'file-type'
+import { types as imageTypes } from 'image-size'
 
 import { RequiredSections } from './types/requirements'
-
 export const isSection = hasObjectType<Section>(ObjectTypes.Section)
 
 export const getManuscriptId = (data: ContainedModel[]): string | undefined =>
@@ -150,3 +151,21 @@ export const createArticle = (
 
 const VALID_DOI_REGEX = /^10\..+\/.+/
 export const isValidDOI = (doi: string): boolean => VALID_DOI_REGEX.test(doi)
+
+export const getFigure = async (
+  id: string,
+  getData: (id: string) => Promise<Buffer>
+): Promise<Buffer> => {
+  const figure = await getData(id)
+  if (!Buffer.isBuffer(figure)) {
+    throw new Error(`Figure for ${id} must be a buffer`)
+  }
+  const fileType = await FileType.fromBuffer(figure)
+  if (!fileType) {
+    throw new Error(`Unknown file type for ${id}`)
+  }
+  if (!imageTypes.includes(fileType.ext)) {
+    throw new Error(`Unsupported file type for ${id}`)
+  }
+  return figure
+}

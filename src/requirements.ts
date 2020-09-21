@@ -17,6 +17,8 @@
 import {
   MandatorySubsectionsRequirement,
   ManuscriptTemplate,
+  MaximumFigurePixelsRequirement,
+  MinimumFigurePixelsRequirement,
   Model,
   ObjectTypes,
 } from '@manuscripts/manuscripts-json-schema'
@@ -28,6 +30,7 @@ import {
   CountRequirementModel,
   CountRequirements,
   FigureCountRequirements,
+  FigureResolutionsRequirements,
   ReferenceCountRequirements,
   RequiredSections,
   SectionCountRequirements,
@@ -293,6 +296,39 @@ export const buildSectionCountRequirements = (
   return sectionCountRequirements
 }
 
+export const getAllowedFigureResolution = (
+  template: ManuscriptTemplate
+): FigureResolutionsRequirements => {
+  const getAllowedPixels = (
+    requirementID: string | undefined
+  ): undefined | CountRequirement => {
+    if (requirementID) {
+      const requirement = getRequirement(requirementID) as
+        | MinimumFigurePixelsRequirement
+        | MaximumFigurePixelsRequirement
+
+      const { count, severity } = requirement
+      return { count, severity }
+    }
+  }
+  const {
+    minFigureWidthPixelsRequirement,
+    maxFigureWidthPixelsRequirement,
+    minFigureHeightPixelsRequirement,
+    maxFigureHeightPixelsRequirement,
+  } = template
+
+  return {
+    min: {
+      width: getAllowedPixels(minFigureWidthPixelsRequirement),
+      height: getAllowedPixels(minFigureHeightPixelsRequirement),
+    },
+    max: {
+      width: getAllowedPixels(maxFigureWidthPixelsRequirement),
+      height: getAllowedPixels(maxFigureHeightPixelsRequirement),
+    },
+  }
+}
 export const getAllowedFigureFormats = (
   template: ManuscriptTemplate
 ): Array<string> => {
