@@ -29,6 +29,7 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import { imageSize } from 'image-size'
 
+import { InputError } from './errors'
 import {
   buildCombinedFigureTableCountRequirements,
   buildFigureCountRequirements,
@@ -655,7 +656,7 @@ export const createRequirementsValidator = (
 
   const id = getManuscriptId(manuscriptsData)
   if (id !== manuscriptId) {
-    throw new Error(
+    throw new InputError(
       'manuscriptID does not match the one available in the Manuscript project.'
     )
   }

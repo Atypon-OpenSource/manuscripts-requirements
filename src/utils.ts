@@ -29,6 +29,7 @@ import {
 import FileType from 'file-type'
 import { types as imageTypes } from 'image-size'
 
+import { InputError } from './errors'
 import { RequiredSections } from './types/requirements'
 export const isSection = hasObjectType<Section>(ObjectTypes.Section)
 
@@ -158,14 +159,14 @@ export const getFigure = async (
 ): Promise<Buffer> => {
   const figure = await getData(id)
   if (!Buffer.isBuffer(figure)) {
-    throw new Error(`Figure for ${id} must be a buffer`)
+    throw new InputError(`Figure for ${id} must be a buffer`)
   }
   const fileType = await FileType.fromBuffer(figure)
   if (!fileType) {
-    throw new Error(`Unknown file type for ${id}`)
+    throw new InputError(`Unknown file type for ${id}`)
   }
   if (!imageTypes.includes(fileType.ext)) {
-    throw new Error(`Unsupported file type for ${id}`)
+    throw new InputError(`Unsupported file type for ${id}`)
   }
   return figure
 }

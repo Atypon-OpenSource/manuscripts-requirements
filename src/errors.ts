@@ -14,18 +14,9 @@
  * limitations under the License.
  */
 
-import { ManuscriptTemplate } from '@manuscripts/manuscripts-json-schema'
-
-import { InputError } from './errors'
-import { templateModelMap } from './templates'
-import { createRequirementsValidator } from './validate'
-
-export const createTemplateValidator = (templateID: string) => {
-  if (!templateModelMap.has(templateID)) {
-    throw new InputError('Could not find template')
+export class InputError extends Error {
+  constructor(message: string) {
+    super(message)
+    this.name = 'InputError'
   }
-
-  const template = templateModelMap.get(templateID) as ManuscriptTemplate
-
-  return createRequirementsValidator(template)
 }

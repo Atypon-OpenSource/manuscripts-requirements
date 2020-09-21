@@ -16,3 +16,4 @@
 export * from './statistics'
 export * from './validate'
 export * from './validate-manuscript'
+export * from './errors'
