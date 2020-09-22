@@ -36,4 +36,4 @@ export const countWords = async (text: string): Promise<number> =>
   wordCount(text)
 
 export const countCharacters = async (text: string): Promise<number> =>
-  splitter.countGraphemes(text) - 1
+  splitter.countGraphemes(text)
