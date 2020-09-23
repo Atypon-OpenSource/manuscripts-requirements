@@ -4,6 +4,7 @@ exports[`validate manuscript: validate-manuscript 1`] = `
 Array [
   Object {
     "data": Object {
+      "sectionCategory": "MPSectionCategory:introduction",
       "sectionDescription": Object {
         "_id": "MPSectionDescription:30856582-BC9E-426A-B4C5-56F5F681CDF8",
         "objectType": "MPSectionDescription",
@@ -17,6 +18,7 @@ Array [
   },
   Object {
     "data": Object {
+      "sectionCategory": "MPSectionCategory:materials-method",
       "sectionDescription": Object {
         "_id": "MPSectionDescription:03FC1135-1F04-49A0-9D8F-E595EC2E6863",
         "objectType": "MPSectionDescription",
@@ -31,6 +33,7 @@ Array [
   },
   Object {
     "data": Object {
+      "sectionCategory": "MPSectionCategory:abstract",
       "sectionDescription": Object {
         "_id": "MPSectionDescription:9F8AC4A6-0B93-46A9-ADF4-BC8F6A6603BE",
         "maxTitleCharLength": 400,
@@ -46,6 +49,7 @@ Array [
   },
   Object {
     "data": Object {
+      "sectionCategory": "MPSectionCategory:results",
       "sectionDescription": Object {
         "_id": "MPSectionDescription:6C7F0155-A41D-456E-B396-E06FEB081CA9",
         "objectType": "MPSectionDescription",
@@ -60,6 +64,7 @@ Array [
   },
   Object {
     "data": Object {
+      "sectionCategory": "MPSectionCategory:competing-interests",
       "sectionDescription": Object {
         "_id": "MPSectionDescription:C37FB688-B8E2-44A3-959A-C76CA1C405A3",
         "objectType": "MPSectionDescription",
@@ -74,6 +79,7 @@ Array [
   },
   Object {
     "data": Object {
+      "sectionCategory": "MPSectionCategory:discussion",
       "sectionDescription": Object {
         "_id": "MPSectionDescription:43239655-328D-4A07-A587-B21BF8E4230F",
         "objectType": "MPSectionDescription",

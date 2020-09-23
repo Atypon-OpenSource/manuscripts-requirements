@@ -144,7 +144,7 @@ const validateSectionsCategory = async function* (
           yield {
             type: 'section-category-uniqueness',
             passed: false,
-            data: { id: section._id },
+            data: { id: section._id, sectionCategory: section.category },
             severity: 0,
           }
         } else {
@@ -164,7 +164,7 @@ const validateSectionBody = async function* (
         type: 'section-body-has-content',
         passed: containsBodyContent(node),
         severity: 0, // What severity it should be?
-        data: { id: section._id },
+        data: { id: section._id, sectionCategory: section.category },
       }
     }
   }
@@ -232,12 +232,12 @@ async function* validateRequiredSections(
 ): AsyncGenerator<RequiredSectionValidationResult> {
   for (const requiredSection of requiredSections) {
     const { sectionDescription, severity } = requiredSection
-
+    const { sectionCategory } = sectionDescription
     yield {
       type: 'required-section',
-      passed: sectionCategories.has(sectionDescription.sectionCategory),
+      passed: sectionCategories.has(sectionCategory),
       severity,
-      data: { sectionDescription }, // Todo pass the data only when fix needed
+      data: { sectionDescription, sectionCategory },
     }
   }
 }
@@ -267,13 +267,13 @@ const validateTitleContent = async (
   requirement: SectionTitleRequirement,
   section: Section
 ): Promise<SectionTitleValidationResult> => {
-  const { title, _id } = section
+  const { title, _id, category } = section
   const passed = !!(title && title.trim().length > 0)
   return {
     type: 'section-title-contains-content',
     passed,
     severity: requirement.severity,
-    data: { id: _id },
+    data: { id: _id, sectionCategory: category },
   }
 }
 
@@ -281,14 +281,14 @@ const validateExpectedTitle = (
   requirement: SectionTitleRequirement,
   section: Section
 ): SectionTitleValidationResult | undefined => {
-  const { title: sectionTitle, _id } = section
+  const { title: sectionTitle, _id, category } = section
   const { title: requiredTitle, severity } = requirement
   if (requiredTitle) {
     return {
       type: 'section-title-match',
       passed: sectionTitle === requiredTitle,
       severity,
-      data: { id: _id, title: requiredTitle },
+      data: { id: _id, title: requiredTitle, sectionCategory: category },
     }
   }
 }
@@ -377,7 +377,7 @@ const validateSectionCounts = async function* (
   ): CountValidationResult | undefined => {
     const countResult = validateCount(type, count, checkMax, requirement)
     if (countResult) {
-      countResult.sectionCategory = sectionCategory
+      countResult.data.sectionCategory = sectionCategory
     }
     return countResult
   }

@@ -49,12 +49,12 @@ export type FigureValidationType = 'figure-format-validation'
 
 export interface RequiredSectionValidationResult extends BaseValidationResult {
   type: 'required-section'
-  data: { sectionDescription: SectionDescription }
+  data: { sectionDescription: SectionDescription; sectionCategory: string }
 }
 
 export interface SectionTitleValidationResult extends BaseValidationResult {
   type: 'section-title-match' | 'section-title-contains-content'
-  data: { id: string; title?: string }
+  data: { id: string; title?: string; sectionCategory?: string }
 }
 
 export interface SectionOrderValidationResult extends BaseValidationResult {
@@ -64,17 +64,16 @@ export interface SectionOrderValidationResult extends BaseValidationResult {
 
 export interface SectionBodyValidationResult extends BaseValidationResult {
   type: 'section-body-has-content'
-  data: { id: string }
+  data: { id: string; sectionCategory?: string }
 }
 
 export interface SectionCategoryValidation extends BaseValidationResult {
   type: 'section-category-uniqueness'
-  data: { id: string }
+  data: { id: string; sectionCategory?: string }
 }
 export interface CountValidationResult extends BaseValidationResult {
   type: CountValidationType
-  data: { count: number; value: number; id?: string }
-  sectionCategory?: string
+  data: { count: number; value: number; id?: string; sectionCategory?: string }
 }
 
 export interface FigureFormatValidationResult extends BaseValidationResult {

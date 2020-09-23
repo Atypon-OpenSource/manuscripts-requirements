@@ -33,6 +33,5 @@ test('validate manuscript', async () => {
     'MPManuscript:9E0BEDBC-1084-4AA1-AB82-10ACFAE02232',
     getData
   )
-
   expect(results).toMatchSnapshot('validate-manuscript')
 })
