@@ -223,6 +223,7 @@ const validateSectionsOrder = (
     severity: 0,
     passed,
     data: { order: requiredOrder },
+    fix: true,
   }
 }
 
@@ -238,6 +239,7 @@ async function* validateRequiredSections(
       passed: sectionCategories.has(sectionCategory),
       severity,
       data: { sectionDescription, sectionCategory },
+      fix: true,
     }
   }
 }
@@ -289,6 +291,7 @@ const validateExpectedTitle = (
       passed: sectionTitle === requiredTitle,
       severity,
       data: { id: _id, title: requiredTitle, sectionCategory: category },
+      fix: true,
     }
   }
 }

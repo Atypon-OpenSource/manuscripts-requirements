@@ -38,7 +38,7 @@ export const getManuscriptId = (data: ContainedModel[]): string | undefined =>
 
 export const nextPriority = (data: Array<ContainedModel>): number => {
   const priorities = data.filter(isSection).map((section) => section.priority)
-  return Math.max(...priorities) + 1
+  return Math.max(...priorities, 0) + 1
 }
 
 // Returns manuscripts title or an empty string if one is not defined

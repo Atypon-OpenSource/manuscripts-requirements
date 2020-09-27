@@ -90,6 +90,7 @@ export type BaseValidationResult = {
   type: string
   passed: boolean
   severity: number
+  fix?: boolean
 }
 export type ValidationResult =
   | RequiredSectionValidationResult
