@@ -17,10 +17,12 @@ import {
   buildParagraph,
   buildSection,
   ContainedModel,
+  getModelsByType,
   ManuscriptModel,
   timestamp,
 } from '@manuscripts/manuscript-transform'
 import {
+  Manuscript,
   ObjectTypes,
   ParagraphElement,
   Section,
@@ -28,6 +30,7 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import { v4 as uuid } from 'uuid'
 
+import { InputError } from './errors'
 import {
   SectionTitleValidationResult,
   ValidationResult,
@@ -43,13 +46,15 @@ export const runManuscriptFixes = (
   const failedResults = results.filter((result) => !result.passed)
   // change sessionID/updatedAt of the fixed objects?
   const sessionID = uuid()
-  const manuscript = manuscriptData.find(
-    (model) => model.objectType === ObjectTypes.Manuscript
+  const manuscripts = getModelsByType<Manuscript>(
+    modelsMap,
+    ObjectTypes.Manuscript
   )
-  if (!manuscript) {
-    throw new Error('Could not find a Manuscript object')
+  // No or multiple manuscript object
+  if (manuscripts.length !== 1) {
+    throw new InputError('Could not find a Manuscript object')
   }
-
+  const [manuscript] = manuscripts
   for (const result of failedResults) {
     switch (result.type) {
       case 'required-section': {
@@ -77,6 +82,12 @@ export const runManuscriptFixes = (
       case 'section-order': {
         const { data } = result
         reorderSections(data.order, manuscriptData)
+        break
+      }
+      case 'keywords-order': {
+        const { data } = result
+        reorderKeywords(data.order, modelsMap, manuscript)
+        break
       }
     }
   }
@@ -204,4 +215,18 @@ const addRequiredSection = (
   }
 
   return manuscriptsModels
+}
+
+const reorderKeywords = (
+  order: Array<string>,
+  modelMap: Map<string, ContainedModel>,
+  manuscript: Manuscript
+) => {
+  // Make sure the function received valid IDs
+  for (const id of order) {
+    if (!modelMap.has(id)) {
+      throw new InputError(`${id} not found in ManuscriptData`)
+    }
+  }
+  manuscript.keywordIDs = order
 }

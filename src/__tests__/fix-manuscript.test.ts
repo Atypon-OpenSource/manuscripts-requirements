@@ -15,10 +15,16 @@
  */
 
 import { ContainedModel } from '@manuscripts/manuscript-transform'
-import { ObjectTypes, Section } from '@manuscripts/manuscripts-json-schema'
+import {
+  Manuscript,
+  ManuscriptKeyword,
+  ObjectTypes,
+  Section,
+} from '@manuscripts/manuscripts-json-schema'
 
 import { runManuscriptFixes } from '../fix-manuscript'
 import {
+  KeywordsOrderValidationResult,
   RequiredSectionValidationResult,
   SectionOrderValidationResult,
   SectionTitleValidationResult,
@@ -142,4 +148,53 @@ test('Retitle sections', async () => {
     (model) => model._id === 'MPSection:TEST'
   ) as Section
   expect(testSection.title).toMatch(requiredTitle)
+})
+
+test('Reorder keywords', async () => {
+  const manuscriptData: Array<ContainedModel> = [
+    {
+      containerID: 'MPProject:1',
+      createdAt: 0,
+      updatedAt: 0,
+      objectType: ObjectTypes.Manuscript,
+      _id: 'test',
+      keywordIDs: [
+        'MPManuscriptKeyword:2',
+        'MPManuscriptKeyword:0',
+        'MPManuscriptKeyword:1',
+      ],
+    },
+  ]
+
+  for (let i = 0; i < 3; i++) {
+    const keyword = Object.assign(
+      {
+        _id: '',
+        objectType: 'MPManuscriptKeyword',
+        name: '',
+        containerID: 'MPProject:1',
+      },
+      { _id: `MPManuscriptKeyword:${i}` }
+    ) as ManuscriptKeyword
+    manuscriptData.push(keyword)
+  }
+  const order = [
+    'MPManuscriptKeyword:0',
+    'MPManuscriptKeyword:1',
+    'MPManuscriptKeyword:2',
+  ]
+  const validationResults: KeywordsOrderValidationResult = {
+    passed: false,
+    fix: true,
+    severity: 0,
+    type: 'keywords-order',
+    data: {
+      order,
+    },
+  }
+
+  const manuscript = runManuscriptFixes(manuscriptData, [
+    validationResults,
+  ]).find((model) => model.objectType === ObjectTypes.Manuscript) as Manuscript
+  expect(manuscript.keywordIDs).toStrictEqual(order)
 })

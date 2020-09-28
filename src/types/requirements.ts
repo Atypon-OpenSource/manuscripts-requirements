@@ -86,6 +86,12 @@ export interface BibliographyValidationResult extends BaseValidationResult {
   data: { id: string }
 }
 
+export interface KeywordsOrderValidationResult extends BaseValidationResult {
+  type: 'keywords-order'
+  fix: true
+  data: { order: Array<string> }
+}
+
 export type BaseValidationResult = {
   type: string
   passed: boolean
@@ -101,6 +107,7 @@ export type ValidationResult =
   | SectionBodyValidationResult
   | SectionCategoryValidation
   | BibliographyValidationResult
+  | KeywordsOrderValidationResult
 
 export type RequiredSections = Array<{
   sectionDescription: SectionDescription

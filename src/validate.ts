@@ -23,6 +23,8 @@ import {
 import {
   BibliographyItem,
   Figure,
+  Manuscript,
+  ManuscriptKeyword,
   ManuscriptTemplate,
   ObjectTypes,
   Section,
@@ -57,6 +59,7 @@ import {
   FigureFormatValidationResult,
   FigureResolutionsRequirements,
   FigureValidationType,
+  KeywordsOrderValidationResult,
   ReferenceCountRequirements,
   RequiredSections,
   RequiredSectionValidationResult,
@@ -648,6 +651,46 @@ export const validateFigureResolution = async function* (
   }
 }
 
+const validateKeywordsOrder = (
+  modelMap: Map<string, ContainedModel>
+): KeywordsOrderValidationResult | undefined => {
+  const [manuscript] = getModelsByType<Manuscript>(
+    modelMap,
+    ObjectTypes.Manuscript
+  )
+  if (!manuscript) {
+    throw new InputError('Could not find a Manuscript object')
+  }
+  const { keywordIDs } = manuscript
+  if (!keywordIDs || keywordIDs.length <= 0) {
+    // No keywords skip
+    return
+  }
+  const keywords: Array<ManuscriptKeyword> = []
+  for (const id of keywordIDs) {
+    const keyword = modelMap.get(id)
+    if (!keyword) {
+      throw new InputError(`${id} not found`)
+    }
+    keywords.push(keyword as ManuscriptKeyword)
+  }
+
+  const orderedKeywords = keywords.slice().sort((a, b) =>
+    a.name.localeCompare(b.name, undefined, {
+      sensitivity: 'accent',
+      ignorePunctuation: true,
+    })
+  )
+  const order = orderedKeywords.map((keywords) => keywords._id)
+  return {
+    type: 'keywords-order',
+    fix: true,
+    passed: JSON.stringify(orderedKeywords) === JSON.stringify(keywords),
+    data: { order },
+    severity: 0,
+  }
+}
+
 export const createRequirementsValidator = (
   template: ManuscriptTemplate
 ) => async (
@@ -792,6 +835,12 @@ export const createRequirementsValidator = (
     getData
   )) {
     result && results.push(result)
+  }
+
+  // validate keywords order
+  const keywordsValidationResult = validateKeywordsOrder(modelMap)
+  if (keywordsValidationResult) {
+    results.push(keywordsValidationResult)
   }
   return results
 }
