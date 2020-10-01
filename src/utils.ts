@@ -26,7 +26,7 @@ import {
   ObjectTypes,
   Section,
 } from '@manuscripts/manuscripts-json-schema'
-import FileType from 'file-type'
+import FileType from 'file-type/browser'
 import { types as imageTypes } from 'image-size'
 
 import { InputError } from './errors'
