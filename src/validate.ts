@@ -17,6 +17,7 @@
 import {
   ContainedModel,
   getModelsByType,
+  isManuscript,
   isSectionNode,
   ManuscriptNode,
 } from '@manuscripts/manuscript-transform'
@@ -76,9 +77,9 @@ import {
 import {
   countModelsByType,
   createArticle,
+  findModelByID,
   getFigure,
   getFigureFormat,
-  getManuscriptId,
   getManuscriptTitle,
   getReferences,
   getSectionScope,
@@ -700,8 +701,8 @@ export const createRequirementsValidator = (
 ): Promise<ValidationResult[]> => {
   const results: ValidationResult[] = []
 
-  const id = getManuscriptId(manuscriptsData)
-  if (id !== manuscriptId) {
+  const manuscript = findModelByID(manuscriptsData, manuscriptId)
+  if (!manuscript || !isManuscript(manuscript)) {
     throw new InputError(
       'manuscriptID does not match the one available in the Manuscript project.'
     )

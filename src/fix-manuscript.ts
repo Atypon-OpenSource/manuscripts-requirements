@@ -17,13 +17,12 @@ import {
   buildParagraph,
   buildSection,
   ContainedModel,
-  getModelsByType,
+  isManuscript,
   ManuscriptModel,
   timestamp,
 } from '@manuscripts/manuscript-transform'
 import {
   Manuscript,
-  ObjectTypes,
   ParagraphElement,
   Section,
   SectionDescription,
@@ -40,21 +39,18 @@ type RequiredSection = { section: Section; placeholder?: ParagraphElement }
 
 export const runManuscriptFixes = (
   manuscriptData: Array<ContainedModel>,
+  manuscriptID: string,
   results: Array<ValidationResult>
 ): Array<ContainedModel> => {
   const modelsMap = new Map(manuscriptData.map((model) => [model._id, model]))
   const failedResults = results.filter((result) => !result.passed)
   // change sessionID/updatedAt of the fixed objects?
   const sessionID = uuid()
-  const manuscripts = getModelsByType<Manuscript>(
-    modelsMap,
-    ObjectTypes.Manuscript
-  )
-  // No or multiple manuscript object
-  if (manuscripts.length !== 1) {
+  const manuscript = modelsMap.get(manuscriptID)
+  // No manuscript object
+  if (!manuscript || !isManuscript(manuscript)) {
     throw new InputError('Could not find a Manuscript object')
   }
-  const [manuscript] = manuscripts
   for (const result of failedResults) {
     switch (result.type) {
       case 'required-section': {

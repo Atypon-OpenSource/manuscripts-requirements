@@ -72,6 +72,7 @@ test('Add and reorder sections', async () => {
   )
   const requiredSectionsFix = runManuscriptFixes(
     data,
+    'test',
     requiredSectionValidationResults
   )
     .filter((model) => isSection(model))
@@ -91,6 +92,7 @@ test('Add and reorder sections', async () => {
   ]
   const sectionsOrderFix = runManuscriptFixes(
     data,
+    'test',
     sectionOrderValidationResult
   )
     .filter((model) => isSection(model))
@@ -143,7 +145,9 @@ test('Retitle sections', async () => {
     },
   }
 
-  const results = runManuscriptFixes(manuscriptData, [validationResults])
+  const results = runManuscriptFixes(manuscriptData, 'test', [
+    validationResults,
+  ])
   const testSection = results.find(
     (model) => model._id === 'MPSection:TEST'
   ) as Section
@@ -193,7 +197,7 @@ test('Reorder keywords', async () => {
     },
   }
 
-  const manuscript = runManuscriptFixes(manuscriptData, [
+  const manuscript = runManuscriptFixes(manuscriptData, 'test', [
     validationResults,
   ]).find((model) => model.objectType === ObjectTypes.Manuscript) as Manuscript
   expect(manuscript.keywordIDs).toStrictEqual(order)

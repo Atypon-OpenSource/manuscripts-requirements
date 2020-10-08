@@ -33,8 +33,10 @@ import { InputError } from './errors'
 import { RequiredSections } from './types/requirements'
 export const isSection = hasObjectType<Section>(ObjectTypes.Section)
 
-export const getManuscriptId = (data: ContainedModel[]): string | undefined =>
-  data.find((model) => model.objectType === ObjectTypes.Manuscript)?._id
+export const findModelByID = (
+  data: ContainedModel[],
+  id: string
+): ContainedModel | undefined => data.find((model) => model._id === id)
 
 export const nextPriority = (data: Array<ContainedModel>): number => {
   const priorities = data.filter(isSection).map((section) => section.priority)
