@@ -189,7 +189,7 @@ Array [
   },
   Object {
     "data": Object {
-      "count": 1,
+      "count": 2,
       "value": 5,
     },
     "passed": true,
@@ -207,12 +207,21 @@ Array [
   },
   Object {
     "data": Object {
-      "count": 2,
+      "count": 3,
       "value": 3,
     },
     "passed": true,
     "severity": 0,
     "type": "manuscript-maximum-combined-figure-tables",
+  },
+  Object {
+    "data": Object {
+      "contentType": "image/jpeg",
+      "id": "MPFigure:C9A3CBCE-4AF4-4AD2-97B0-D2848BEFDE5F",
+    },
+    "passed": true,
+    "severity": 0,
+    "type": "figure-format-validation",
   },
   Object {
     "data": Object {
@@ -222,6 +231,22 @@ Array [
     "passed": false,
     "severity": 0,
     "type": "figure-format-validation",
+  },
+  Object {
+    "data": Object {
+      "id": "MPFigure:C9A3CBCE-4AF4-4AD2-97B0-D2848BEFDE5F",
+    },
+    "passed": false,
+    "severity": 0,
+    "type": "figure-contains-image",
+  },
+  Object {
+    "data": Object {
+      "id": "MPFigure:C9A3CBCE-4AF4-4AD2-97B0-D2848BEFDE5A",
+    },
+    "passed": true,
+    "severity": 0,
+    "type": "figure-contains-image",
   },
   Object {
     "data": Object {

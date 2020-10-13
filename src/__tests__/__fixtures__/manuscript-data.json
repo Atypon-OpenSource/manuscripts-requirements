@@ -528,6 +528,11 @@
       "manuscriptID": "MPManuscript:9E0BEDBC-1084-4AA1-AB82-10ACFAE02232"
     },
     {
+      "contentType": "image/jpeg",
+      "_id": "MPFigure:C9A3CBCE-4AF4-4AD2-97B0-D2848BEFDE5F",
+      "objectType": "MPFigure"
+    },
+    {
       "contentType": "image/png",
       "_id": "MPFigure:C9A3CBCE-4AF4-4AD2-97B0-D2848BEFDE5A",
       "objectType": "MPFigure"

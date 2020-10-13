@@ -92,6 +92,11 @@ export interface KeywordsOrderValidationResult extends BaseValidationResult {
   data: { order: Array<string> }
 }
 
+export interface FigureImageValidationResult extends BaseValidationResult {
+  type: 'figure-contains-image'
+  data: { id: string }
+}
+
 export type BaseValidationResult = {
   type: string
   passed: boolean
@@ -108,7 +113,7 @@ export type ValidationResult =
   | SectionCategoryValidation
   | BibliographyValidationResult
   | KeywordsOrderValidationResult
-
+  | FigureImageValidationResult
 export type RequiredSections = Array<{
   sectionDescription: SectionDescription
   severity: number

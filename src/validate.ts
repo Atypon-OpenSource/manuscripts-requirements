@@ -58,6 +58,7 @@ import {
   CountValidationType,
   FigureCountRequirements,
   FigureFormatValidationResult,
+  FigureImageValidationResult,
   FigureResolutionsRequirements,
   FigureValidationType,
   KeywordsOrderValidationResult,
@@ -691,13 +692,13 @@ const validateKeywordsOrder = (
     severity: 0,
   }
 }
-
+type GetData = (id: string) => Promise<Buffer | undefined>
 export const createRequirementsValidator = (
   template: ManuscriptTemplate
 ) => async (
   manuscriptsData: ContainedModel[],
   manuscriptId: string,
-  getData: (id: string) => Promise<Buffer>
+  getData: GetData
 ): Promise<ValidationResult[]> => {
   const results: ValidationResult[] = []
 
@@ -830,10 +831,19 @@ export const createRequirementsValidator = (
 
   const allowedFigureResolutions = getAllowedFigureResolution(template)
   const figures = getModelsByType<Figure>(modelMap, ObjectTypes.Figure)
+  const figuresWithImage = await getFiguresWithImage(figures, getData)
+
+  for (const result of validateFigureContainsImage(
+    figures,
+    new Set(figuresWithImage.map((fig) => fig._id))
+  )) {
+    result && results.push(result)
+  }
+
   for await (const result of validateFigureResolution(
     allowedFigureResolutions,
-    figures,
-    getData
+    figuresWithImage,
+    getData as (id: string) => Promise<Buffer>
   )) {
     result && results.push(result)
   }
@@ -844,4 +854,32 @@ export const createRequirementsValidator = (
     results.push(keywordsValidationResult)
   }
   return results
+}
+
+const getFiguresWithImage = async (
+  figures: Array<Figure>,
+  getData: GetData
+): Promise<Array<Figure>> => {
+  const results: Array<Figure> = []
+  for (const figure of figures) {
+    const image = await getData(figure._id)
+    if (image) {
+      results.push(figure)
+    }
+  }
+  return results
+}
+
+const validateFigureContainsImage = function* (
+  figures: Array<Figure>,
+  figuresWithImages: Set<string>
+): Generator<FigureImageValidationResult> {
+  for (const { _id } of figures) {
+    yield {
+      type: 'figure-contains-image',
+      passed: figuresWithImages.has(_id),
+      severity: 0,
+      data: { id: _id },
+    }
+  }
 }

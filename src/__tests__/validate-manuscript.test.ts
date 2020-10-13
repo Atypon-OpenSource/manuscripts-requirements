@@ -24,8 +24,12 @@ test('validate manuscript', async () => {
     'MPManuscriptTemplate:www-zotero-org-styles-nature-genetics-Nature-Genetics-Journal-Publication-Article'
   )
 
-  const getData = (id: string): Promise<Buffer> => {
-    return fs.promises.readFile(`${__dirname}/__fixtures__/data/${id}`)
+  const getData = async (id: string): Promise<Buffer | undefined> => {
+    const path = `${__dirname}/__fixtures__/data/${id}`
+    if (fs.existsSync(path)) {
+      return fs.readFileSync(path)
+    }
+    return undefined
   }
   const results = await validateManuscript(
     // @ts-ignore
