@@ -69,7 +69,7 @@ export const runManuscriptFixes = (
         const { data } = result
         const modelToFix = modelsMap.get(data.id)
         if (modelToFix) {
-          retitleSection(result, modelToFix)
+          retitleSection(result, modelToFix, sessionID)
         } else {
           throw new Error(`${data.id} not found`)
         }
@@ -77,12 +77,12 @@ export const runManuscriptFixes = (
       }
       case 'section-order': {
         const { data } = result
-        reorderSections(data.order, manuscriptData)
+        reorderSections(data.order, manuscriptData, sessionID)
         break
       }
       case 'keywords-order': {
         const { data } = result
-        reorderKeywords(data.order, modelsMap, manuscript)
+        reorderKeywords(data.order, modelsMap, manuscript, sessionID)
         break
       }
     }
@@ -92,7 +92,8 @@ export const runManuscriptFixes = (
 
 const retitleSection = (
   result: SectionTitleValidationResult,
-  model: ContainedModel
+  model: ContainedModel,
+  sessionID: string
 ) => {
   const { data } = result
 
@@ -100,11 +101,13 @@ const retitleSection = (
     throw new Error(`${data.id} must be of type MPSection`)
   }
   model.title = data.title
+  updateModel(model, sessionID)
 }
 
 const reorderSections = (
   orderedSections: Array<string>,
-  data: Array<ContainedModel>
+  data: Array<ContainedModel>,
+  sessionID: string
 ) => {
   const sectionsCategory = new Map(
     orderedSections.map((section, index) => [section, index])
@@ -130,7 +133,10 @@ const reorderSections = (
     return getIndex(s1) - getIndex(s2)
   })
   let priority = nextPriority(data)
-  sortedSections.forEach((section) => (section.priority = priority++))
+  sortedSections.forEach((section) => {
+    section.priority = priority++
+    updateModel(section, sessionID)
+  })
 }
 
 const createRequiredSection = (
@@ -216,7 +222,8 @@ const addRequiredSection = (
 const reorderKeywords = (
   order: Array<string>,
   modelMap: Map<string, ContainedModel>,
-  manuscript: Manuscript
+  manuscript: Manuscript,
+  sessionID: string
 ) => {
   // Make sure the function received valid IDs
   for (const id of order) {
@@ -225,4 +232,10 @@ const reorderKeywords = (
     }
   }
   manuscript.keywordIDs = order
+  updateModel(manuscript, sessionID)
+}
+
+const updateModel = (model: ContainedModel, sessionID: string) => {
+  model.updatedAt = timestamp()
+  model.sessionID = sessionID
 }
