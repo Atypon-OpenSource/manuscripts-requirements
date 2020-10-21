@@ -14,21 +14,19 @@
  * limitations under the License.
  */
 
-import { ContainedModel } from '@manuscripts/manuscript-transform'
+import { Build, ContainedModel } from '@manuscripts/manuscript-transform'
 import {
+  KeywordsOrderValidationResult,
   Manuscript,
   ManuscriptKeyword,
   ObjectTypes,
+  RequiredSectionValidationResult,
   Section,
+  SectionOrderValidationResult,
+  SectionTitleValidationResult,
 } from '@manuscripts/manuscripts-json-schema'
 
 import { runManuscriptFixes } from '../fix-manuscript'
-import {
-  KeywordsOrderValidationResult,
-  RequiredSectionValidationResult,
-  SectionOrderValidationResult,
-  SectionTitleValidationResult,
-} from '../types/requirements'
 import { isSection } from '../utils'
 
 test('Add and reorder sections', async () => {
@@ -80,7 +78,9 @@ test('Add and reorder sections', async () => {
 
   expect(requiredSectionsFix).toEqual(shuffledSections)
 
-  const sectionOrderValidationResult: Array<SectionOrderValidationResult> = [
+  const sectionOrderValidationResult: Array<Build<
+    SectionOrderValidationResult
+  >> = [
     {
       passed: false,
       severity: 0,
@@ -88,6 +88,8 @@ test('Add and reorder sections', async () => {
       data: {
         order: orderedSections,
       },
+      _id: '',
+      objectType: 'MPSectionOrderValidationResult',
     },
   ]
   const sectionsOrderFix = runManuscriptFixes(
@@ -135,7 +137,9 @@ test('Retitle sections', async () => {
     },
   ]
 
-  const validationResults: SectionTitleValidationResult = {
+  const validationResults: Build<SectionTitleValidationResult> = {
+    _id: '',
+    objectType: 'MPSectionTitleValidationResult',
     passed: false,
     severity: 0,
     type: 'section-title-match',
@@ -187,7 +191,7 @@ test('Reorder keywords', async () => {
     'MPManuscriptKeyword:1',
     'MPManuscriptKeyword:2',
   ]
-  const validationResults: KeywordsOrderValidationResult = {
+  const validationResults: Build<KeywordsOrderValidationResult> = {
     passed: false,
     fix: true,
     severity: 0,
@@ -195,6 +199,8 @@ test('Reorder keywords', async () => {
     data: {
       order,
     },
+    objectType: 'MPKeywordsOrderValidationResult',
+    _id: 'test',
   }
 
   const manuscript = runManuscriptFixes(manuscriptData, 'test', [

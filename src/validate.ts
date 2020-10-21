@@ -15,7 +15,9 @@
  */
 
 import {
+  Build,
   ContainedModel,
+  generateID,
   getModelsByType,
   isManuscript,
   isSectionNode,
@@ -23,12 +25,22 @@ import {
 } from '@manuscripts/manuscript-transform'
 import {
   BibliographyItem,
+  BibliographyValidationResult,
+  CountValidationResult,
   Figure,
+  FigureFormatValidationResult,
+  FigureImageValidationResult,
+  KeywordsOrderValidationResult,
   Manuscript,
   ManuscriptKeyword,
   ManuscriptTemplate,
   ObjectTypes,
+  RequiredSectionValidationResult,
   Section,
+  SectionBodyValidationResult,
+  SectionCategoryValidationResult,
+  SectionOrderValidationResult,
+  SectionTitleValidationResult,
 } from '@manuscripts/manuscripts-json-schema'
 import { imageSize } from 'image-size'
 
@@ -49,31 +61,21 @@ import {
 import { buildText, countCharacters, countWords } from './statistics'
 import { sectionCategoriesMap } from './templates'
 import {
-  BibliographyValidationResult,
+  AnyValidationResult,
   CombinedFigureTableCountRequirements,
   CountRequirement,
   CountRequirements,
   Counts,
-  CountValidationResult,
   CountValidationType,
   FigureCountRequirements,
-  FigureFormatValidationResult,
-  FigureImageValidationResult,
   FigureResolutionsRequirements,
   FigureValidationType,
-  KeywordsOrderValidationResult,
   ReferenceCountRequirements,
   RequiredSections,
-  RequiredSectionValidationResult,
-  SectionBodyValidationResult,
-  SectionCategoryValidation,
   SectionCountRequirements,
-  SectionOrderValidationResult,
   Sections,
   SectionTitleRequirement,
-  SectionTitleValidationResult,
   TableCountRequirements,
-  ValidationResult,
 } from './types/requirements'
 import {
   countModelsByType,
@@ -138,7 +140,7 @@ const buildSections = async (
 
 const validateSectionsCategory = async function* (
   sectionsWithCategory: Sections
-): AsyncGenerator<SectionCategoryValidation> {
+): AsyncGenerator<Build<SectionCategoryValidationResult>> {
   for (const [dataCategory, dataSections] of sectionsWithCategory) {
     const category = sectionCategoriesMap.get(dataCategory)
     if (category && category.uniqueInScope) {
@@ -151,6 +153,8 @@ const validateSectionsCategory = async function* (
             passed: false,
             data: { id: section._id, sectionCategory: section.category },
             severity: 0,
+            objectType: ObjectTypes.SectionCategoryValidationResult,
+            _id: generateID(ObjectTypes.SectionCategoryValidationResult),
           }
         } else {
           scopes.add(scope)
@@ -162,7 +166,7 @@ const validateSectionsCategory = async function* (
 
 const validateSectionBody = async function* (
   sectionsWithCategory: Sections
-): AsyncGenerator<SectionBodyValidationResult> {
+): AsyncGenerator<Build<SectionBodyValidationResult>> {
   for (const [, category] of sectionsWithCategory) {
     for (const { section, node } of category) {
       yield {
@@ -170,6 +174,8 @@ const validateSectionBody = async function* (
         passed: containsBodyContent(node),
         severity: 0, // What severity it should be?
         data: { id: section._id, sectionCategory: section.category },
+        objectType: ObjectTypes.SectionBodyValidationResult,
+        _id: generateID(ObjectTypes.SectionBodyValidationResult),
       }
     }
   }
@@ -201,7 +207,7 @@ export const containsBodyContent = (sectionNode: ManuscriptNode): boolean => {
 const validateSectionsOrder = (
   requiredSections: RequiredSections,
   sectionsWithCategory: Sections
-): SectionOrderValidationResult => {
+): Build<SectionOrderValidationResult> => {
   const requiredOrder = sortSections(requiredSections).map(
     (el) => el.sectionCategory
   )
@@ -229,13 +235,15 @@ const validateSectionsOrder = (
     passed,
     data: { order: requiredOrder },
     fix: true,
+    objectType: ObjectTypes.SectionOrderValidationResult,
+    _id: generateID(ObjectTypes.SectionOrderValidationResult),
   }
 }
 
 async function* validateRequiredSections(
   requiredSections: RequiredSections,
   sectionCategories: Set<string>
-): AsyncGenerator<RequiredSectionValidationResult> {
+): AsyncGenerator<Build<RequiredSectionValidationResult>> {
   for (const requiredSection of requiredSections) {
     const { sectionDescription, severity } = requiredSection
     const { sectionCategory } = sectionDescription
@@ -245,13 +253,15 @@ async function* validateRequiredSections(
       severity,
       data: { sectionDescription, sectionCategory },
       fix: true,
+      objectType: ObjectTypes.RequiredSectionValidationResult,
+      _id: generateID(ObjectTypes.RequiredSectionValidationResult),
     }
   }
 }
 async function* validateSectionsTitle(
   requiredSections: Array<SectionTitleRequirement>,
   sectionCategories: Sections
-): AsyncGenerator<SectionTitleValidationResult> {
+): AsyncGenerator<Build<SectionTitleValidationResult>> {
   for (const requirement of requiredSections) {
     const { category } = requirement
     const sections = sectionCategories.get(category)
@@ -273,23 +283,27 @@ async function* validateSectionsTitle(
 const validateTitleContent = async (
   requirement: SectionTitleRequirement,
   section: Section
-): Promise<SectionTitleValidationResult> => {
+): Promise<Build<SectionTitleValidationResult>> => {
   const { title, _id, category } = section
   const passed = !!(title && title.trim().length > 0)
+
   return {
     type: 'section-title-contains-content',
     passed,
     severity: requirement.severity,
     data: { id: _id, sectionCategory: category },
+    objectType: ObjectTypes.SectionTitleValidationResult,
+    _id: generateID(ObjectTypes.SectionTitleValidationResult),
   }
 }
 
 const validateExpectedTitle = (
   requirement: SectionTitleRequirement,
   section: Section
-): SectionTitleValidationResult | undefined => {
+): Build<SectionTitleValidationResult> | undefined => {
   const { title: sectionTitle, _id, category } = section
   const { title: requiredTitle, severity } = requirement
+
   if (requiredTitle) {
     return {
       type: 'section-title-match',
@@ -297,6 +311,9 @@ const validateExpectedTitle = (
       severity,
       data: { id: _id, title: requiredTitle, sectionCategory: category },
       fix: true,
+
+      objectType: ObjectTypes.SectionTitleValidationResult,
+      _id: generateID(ObjectTypes.SectionTitleValidationResult),
     }
   }
 }
@@ -305,7 +322,7 @@ const validateCount = (
   count: number,
   checkMax: boolean,
   requirement?: CountRequirement
-): CountValidationResult | undefined => {
+): Build<CountValidationResult> | undefined => {
   if (requirement && requirement.count !== undefined) {
     const requirementCount = requirement.count
     return {
@@ -313,6 +330,8 @@ const validateCount = (
       passed: checkMax ? count <= requirementCount : count >= requirementCount,
       severity: requirement.severity,
       data: { count, value: requirementCount },
+      objectType: ObjectTypes.CountValidationResult,
+      _id: generateID(ObjectTypes.CountValidationResult),
     }
   }
 }
@@ -323,19 +342,21 @@ const validateFigureFormat = (
   id: string,
   contentType: string,
   allowedFormats: Array<string>
-): FigureFormatValidationResult | undefined => {
+): Build<FigureFormatValidationResult> | undefined => {
   return {
     type,
     passed: (format && allowedFormats.includes(format)) || false,
     data: { id, contentType },
     severity: 0,
+    objectType: ObjectTypes.FigureFormatValidationResult,
+    _id: generateID(ObjectTypes.FigureFormatValidationResult),
   }
 }
 
 const validateManuscriptCounts = async function* (
   article: ManuscriptNode,
   requirements: CountRequirements
-): AsyncGenerator<CountValidationResult | undefined> {
+): AsyncGenerator<Build<CountValidationResult> | undefined> {
   const manuscriptText = buildText(article)
 
   const manuscriptCounts: Counts = {
@@ -382,7 +403,7 @@ const validateSectionCounts = async function* (
     checkMax: boolean,
     requirement?: CountRequirement,
     sectionCategory?: string
-  ): CountValidationResult | undefined => {
+  ): Build<CountValidationResult> | undefined => {
     const countResult = validateCount(type, count, checkMax, requirement)
     if (countResult) {
       countResult.data.sectionCategory = sectionCategory
@@ -530,7 +551,7 @@ const validateReferenceCounts = async function* (
 const validateBibliography = async function* (
   modelMap: Map<string, ContainedModel>,
   references: Array<string>
-): AsyncGenerator<BibliographyValidationResult> {
+): AsyncGenerator<Build<BibliographyValidationResult>> {
   for (const reference of references) {
     const model = modelMap.get(reference)
     if (model) {
@@ -547,8 +568,8 @@ const validateBibliography = async function* (
 
 const validateDOI = function (
   bibliographyItem: BibliographyItem
-): Array<BibliographyValidationResult> {
-  const result: Array<BibliographyValidationResult> = []
+): Array<Build<BibliographyValidationResult>> {
+  const result: Array<Build<BibliographyValidationResult>> = []
   const { DOI } = bibliographyItem
   if (DOI) {
     result.push({
@@ -556,6 +577,8 @@ const validateDOI = function (
       passed: isValidDOI(DOI),
       data: { id: bibliographyItem._id },
       severity: 0,
+      objectType: ObjectTypes.BibliographyValidationResult,
+      _id: generateID(ObjectTypes.BibliographyValidationResult),
     })
   }
   result.push({
@@ -563,15 +586,17 @@ const validateDOI = function (
     passed: !!DOI,
     data: { id: bibliographyItem._id },
     severity: 0,
+    objectType: ObjectTypes.BibliographyValidationResult,
+    _id: generateID(ObjectTypes.BibliographyValidationResult),
   })
   return result
 }
 const validateFigureFormats = (
   modelMap: Map<string, ContainedModel>,
   allowedFormats: Array<string>
-): Array<FigureFormatValidationResult> => {
+): Array<Build<FigureFormatValidationResult>> => {
   const figures = getModelsByType<Figure>(modelMap, ObjectTypes.Figure)
-  const results: FigureFormatValidationResult[] = []
+  const results: Build<FigureFormatValidationResult>[] = []
   figures.forEach((figure) => {
     if (figure.contentType) {
       const figFormat = getFigureFormat(figure.contentType)
@@ -593,7 +618,7 @@ export const validateFigureResolution = async function* (
   requirement: FigureResolutionsRequirements,
   figures: Array<Figure>,
   getData: (id: string) => Promise<Buffer>
-): AsyncGenerator<CountValidationResult | undefined> {
+): AsyncGenerator<Build<CountValidationResult> | undefined> {
   const validate = (
     type: CountValidationType,
     count: number,
@@ -655,7 +680,7 @@ export const validateFigureResolution = async function* (
 
 const validateKeywordsOrder = (
   modelMap: Map<string, ContainedModel>
-): KeywordsOrderValidationResult | undefined => {
+): Build<KeywordsOrderValidationResult> | undefined => {
   const [manuscript] = getModelsByType<Manuscript>(
     modelMap,
     ObjectTypes.Manuscript
@@ -690,6 +715,9 @@ const validateKeywordsOrder = (
     passed: JSON.stringify(orderedKeywords) === JSON.stringify(keywords),
     data: { order },
     severity: 0,
+
+    objectType: ObjectTypes.KeywordsOrderValidationResult,
+    _id: generateID(ObjectTypes.KeywordsOrderValidationResult),
   }
 }
 type GetData = (id: string) => Promise<Buffer | undefined>
@@ -699,8 +727,8 @@ export const createRequirementsValidator = (
   manuscriptsData: ContainedModel[],
   manuscriptId: string,
   getData: GetData
-): Promise<ValidationResult[]> => {
-  const results: ValidationResult[] = []
+): Promise<AnyValidationResult[]> => {
+  const results: AnyValidationResult[] = []
 
   const manuscript = findModelByID(manuscriptsData, manuscriptId)
   if (!manuscript || !isManuscript(manuscript)) {
@@ -718,7 +746,6 @@ export const createRequirementsValidator = (
   // validate required sections
   const requiredSections = buildRequiredSections(template)
   const sectionCategories = new Set(sectionsWithCategory.keys())
-
   for await (const result of validateRequiredSections(
     requiredSections,
     sectionCategories
@@ -873,13 +900,15 @@ const getFiguresWithImage = async (
 const validateFigureContainsImage = function* (
   figures: Array<Figure>,
   figuresWithImages: Set<string>
-): Generator<FigureImageValidationResult> {
+): Generator<Build<FigureImageValidationResult>> {
   for (const { _id } of figures) {
     yield {
       type: 'figure-contains-image',
       passed: figuresWithImages.has(_id),
       severity: 0,
       data: { id: _id },
+      objectType: ObjectTypes.FigureImageValidationResult,
+      _id: generateID(ObjectTypes.FigureImageValidationResult),
     }
   }
 }

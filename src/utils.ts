@@ -20,6 +20,7 @@ import {
   hasObjectType,
   isManuscript,
   ManuscriptNode,
+  timestamp,
 } from '@manuscripts/manuscript-transform'
 import {
   Citation,
@@ -28,6 +29,7 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 import FileType from 'file-type/browser'
 import { types as imageTypes } from 'image-size'
+import { v4 as uuid } from 'uuid'
 
 import { InputError } from './errors'
 import { RequiredSections } from './types/requirements'
@@ -172,3 +174,19 @@ export const getFigure = async (
   }
   return figure
 }
+
+export const createRequiredModelProperties = (
+  manuscriptID: string,
+  containerID: string,
+  sessionID = uuid()
+) => {
+  const createdAt = timestamp()
+  return {
+    containerID,
+    manuscriptID,
+    createdAt,
+    updatedAt: createdAt,
+    sessionID,
+  }
+}
+

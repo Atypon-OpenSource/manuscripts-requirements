@@ -13,12 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { SectionNode } from '@manuscripts/manuscript-transform'
+import { Build, SectionNode } from '@manuscripts/manuscript-transform'
 import {
+  BibliographyValidationResult,
+  CountValidationResult,
+  FigureFormatValidationResult,
+  FigureImageValidationResult,
+  KeywordsOrderValidationResult,
   Model,
   ObjectTypes,
+  RequiredSectionValidationResult,
   Section,
+  SectionBodyValidationResult,
+  SectionCategoryValidationResult,
   SectionDescription,
+  SectionOrderValidationResult,
+  SectionTitleValidationResult,
 } from '@manuscripts/manuscripts-json-schema'
 
 export type TemplateRequirements = Partial<Record<ObjectTypes, Model[]>>
@@ -47,73 +57,17 @@ export type CountValidationType =
 
 export type FigureValidationType = 'figure-format-validation'
 
-export interface RequiredSectionValidationResult extends BaseValidationResult {
-  type: 'required-section'
-  data: { sectionDescription: SectionDescription; sectionCategory: string }
-}
-
-export interface SectionTitleValidationResult extends BaseValidationResult {
-  type: 'section-title-match' | 'section-title-contains-content'
-  data: { id: string; title?: string; sectionCategory?: string }
-}
-
-export interface SectionOrderValidationResult extends BaseValidationResult {
-  type: 'section-order'
-  data: { order: Array<string> }
-}
-
-export interface SectionBodyValidationResult extends BaseValidationResult {
-  type: 'section-body-has-content'
-  data: { id: string; sectionCategory?: string }
-}
-
-export interface SectionCategoryValidation extends BaseValidationResult {
-  type: 'section-category-uniqueness'
-  data: { id: string; sectionCategory?: string }
-}
-export interface CountValidationResult extends BaseValidationResult {
-  type: CountValidationType
-  data: { count: number; value: number; id?: string; sectionCategory?: string }
-}
-
-export interface FigureFormatValidationResult extends BaseValidationResult {
-  type: FigureValidationType
-  data: { id: string; contentType: string }
-}
-
-export interface BibliographyValidationResult extends BaseValidationResult {
-  type: 'bibliography-doi-format' | 'bibliography-doi-exist'
-  data: { id: string }
-}
-
-export interface KeywordsOrderValidationResult extends BaseValidationResult {
-  type: 'keywords-order'
-  fix: true
-  data: { order: Array<string> }
-}
-
-export interface FigureImageValidationResult extends BaseValidationResult {
-  type: 'figure-contains-image'
-  data: { id: string }
-}
-
-export type BaseValidationResult = {
-  type: string
-  passed: boolean
-  severity: number
-  fix?: boolean
-}
-export type ValidationResult =
-  | RequiredSectionValidationResult
-  | CountValidationResult
-  | FigureFormatValidationResult
-  | SectionTitleValidationResult
-  | SectionOrderValidationResult
-  | SectionBodyValidationResult
-  | SectionCategoryValidation
-  | BibliographyValidationResult
-  | KeywordsOrderValidationResult
-  | FigureImageValidationResult
+export type AnyValidationResult =
+  | Build<RequiredSectionValidationResult>
+  | Build<CountValidationResult>
+  | Build<FigureFormatValidationResult>
+  | Build<SectionTitleValidationResult>
+  | Build<SectionOrderValidationResult>
+  | Build<SectionBodyValidationResult>
+  | Build<SectionCategoryValidationResult>
+  | Build<BibliographyValidationResult>
+  | Build<KeywordsOrderValidationResult>
+  | Build<FigureImageValidationResult>
 export type RequiredSections = Array<{
   sectionDescription: SectionDescription
   severity: number

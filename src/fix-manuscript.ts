@@ -14,33 +14,32 @@
  * limitations under the License.
  */
 import {
+  Build,
   buildParagraph,
   buildSection,
   ContainedModel,
   isManuscript,
   ManuscriptModel,
-  timestamp,
 } from '@manuscripts/manuscript-transform'
 import {
   Manuscript,
   ParagraphElement,
   Section,
   SectionDescription,
+  SectionTitleValidationResult,
 } from '@manuscripts/manuscripts-json-schema'
 import { v4 as uuid } from 'uuid'
 
 import { InputError } from './errors'
-import {
-  SectionTitleValidationResult,
-  ValidationResult,
-} from './types/requirements'
-import { isSection, nextPriority } from './utils'
+import { AnyValidationResult } from './types/requirements'
+import { createRequiredModelProperties, isSection, nextPriority } from './utils'
+
 type RequiredSection = { section: Section; placeholder?: ParagraphElement }
 
 export const runManuscriptFixes = (
   manuscriptData: Array<ContainedModel>,
   manuscriptID: string,
-  results: Array<ValidationResult>
+  results: Array<AnyValidationResult>
 ): Array<ContainedModel> => {
   const modelsMap = new Map(manuscriptData.map((model) => [model._id, model]))
   const failedResults = results.filter((result) => !result.passed)
@@ -59,6 +58,7 @@ export const runManuscriptFixes = (
         const requiredSection = addRequiredSection(
           data.sectionDescription,
           manuscript._id,
+          manuscript.containerID,
           priority,
           sessionID
         )
@@ -91,7 +91,7 @@ export const runManuscriptFixes = (
 }
 
 const retitleSection = (
-  result: SectionTitleValidationResult,
+  result: Build<SectionTitleValidationResult>,
   model: ContainedModel
 ) => {
   const { data } = result
@@ -136,12 +136,13 @@ const reorderSections = (
 const createRequiredSection = (
   requirement: SectionDescription,
   manuscriptID: string,
+  containerID: string,
   priority: number,
   sessionID: string,
   path?: string[]
 ): RequiredSection => {
   const section = {
-    ...createRequiredProperties(manuscriptID, sessionID),
+    ...createRequiredModelProperties(manuscriptID, containerID, sessionID),
     ...buildSection(priority, path),
     title: requirement.title,
     category: requirement.sectionCategory,
@@ -153,7 +154,7 @@ const createRequiredSection = (
   const { placeholder } = requirement
   if (placeholder) {
     const placeholderParagraph = {
-      ...createRequiredProperties(manuscriptID, sessionID),
+      ...createRequiredModelProperties(manuscriptID, containerID, sessionID),
       ...buildParagraph(placeholder),
     } as ParagraphElement
     section.elementIDs = [placeholderParagraph._id]
@@ -162,25 +163,17 @@ const createRequiredSection = (
   return requiredSection
 }
 
-const createRequiredProperties = (manuscriptID: string, sessionID = uuid()) => {
-  const createdAt = timestamp()
-  return {
-    containerID: 'MPProject:1', // TODO, this is a project id
-    manuscriptID,
-    createdAt,
-    updatedAt: createdAt,
-    sessionID,
-  }
-}
 const addRequiredSection = (
   requirement: SectionDescription,
   manuscriptID: string,
+  containerID: string,
   priority: number,
   sessionID: string
 ): Array<ManuscriptModel> => {
   const parentSection = createRequiredSection(
     requirement,
     manuscriptID,
+    containerID,
     priority,
     sessionID
   )
@@ -196,6 +189,7 @@ const addRequiredSection = (
         createRequiredSection(
           subsection as SectionDescription,
           manuscriptID,
+          containerID,
           ++priority,
           sessionID,
           [parentSection.section._id]
