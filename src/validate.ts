@@ -19,8 +19,11 @@ import {
   ContainedModel,
   generateID,
   getModelsByType,
+  isBibliographySectionNode,
+  isKeywordsSectionNode,
   isManuscript,
   isSectionNode,
+  isTOCSectionNode,
   ManuscriptNode,
 } from '@manuscripts/manuscript-transform'
 import {
@@ -114,24 +117,33 @@ const buildSections = async (
   recurse = false
 ): Promise<Sections> => {
   const output: Sections = new Map()
-
-  for (const node of iterateChildren(article, recurse)) {
+  const findSectionCategory = (node: ManuscriptNode) => {
     if (isSectionNode(node)) {
-      const { category, id } = node.attrs
-      if (category) {
-        const sections = output.get(category) || []
+      return node.attrs.category
+    } else if (isKeywordsSectionNode(node)) {
+      return 'MPSectionCategory:keywords'
+    } else if (isBibliographySectionNode(node)) {
+      return 'MPSectionCategory:bibliography'
+    } else if (isTOCSectionNode(node)) {
+      return 'MPSectionCategory:toc'
+    }
+  }
+  for (const node of iterateChildren(article, recurse)) {
+    const category = findSectionCategory(node)
+    if (category) {
+      const { id } = node.attrs
+      const sections = output.get(category) || []
 
-        const text = buildText(node)
+      const text = buildText(node)
 
-        const counts = {
-          characters: await countCharacters(text),
-          words: await countWords(text),
-        }
-        const section = modelMap.get(id) as Section
-        sections.push({ node, counts, section })
-
-        output.set(category, sections)
+      const counts = {
+        characters: await countCharacters(text),
+        words: await countWords(text),
       }
+      const section = modelMap.get(id) as Section
+      sections.push({ node, counts, section })
+
+      output.set(category, sections)
     }
   }
 

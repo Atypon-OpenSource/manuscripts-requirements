@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Build, SectionNode } from '@manuscripts/manuscript-transform'
+import { Build, ManuscriptNode } from '@manuscripts/manuscript-transform'
 import {
   BibliographyValidationResult,
   CountValidationResult,
@@ -147,7 +147,7 @@ export type ReferenceCountRequirements = {
 
 export type Sections = Map<
   string,
-  Array<{ node: SectionNode; counts: Counts; section: Section }>
+  Array<{ node: ManuscriptNode; counts: Counts; section: Section }>
 >
 
 export type FigureResolutionsRequirements = {

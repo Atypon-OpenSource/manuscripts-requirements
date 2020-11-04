@@ -141,11 +141,18 @@ const createRequiredSection = (
   sessionID: string,
   path?: string[]
 ): RequiredSection => {
+  const { title, sectionCategory } = requirement
+  const [, categoryName] = sectionCategory.split(':')
+  const capitalize = (name: string): string | undefined => {
+    if (name) {
+      return name.charAt(0).toUpperCase() + name.slice(1)
+    }
+  }
   const section = {
     ...createRequiredModelProperties(manuscriptID, containerID, sessionID),
     ...buildSection(priority, path),
-    title: requirement.title,
-    category: requirement.sectionCategory,
+    title: capitalize(title || categoryName),
+    category: sectionCategory,
   } as Section
   const requiredSection: RequiredSection = {
     section: section,
