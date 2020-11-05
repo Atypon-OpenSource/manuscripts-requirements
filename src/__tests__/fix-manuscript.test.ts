@@ -25,9 +25,12 @@ import {
   SectionOrderValidationResult,
   SectionTitleValidationResult,
 } from '@manuscripts/manuscripts-json-schema'
+import fs from 'fs'
 
 import { runManuscriptFixes } from '../fix-manuscript'
 import { isSection } from '../utils'
+import { createTemplateValidator } from '../validate-manuscript'
+import { data } from './__fixtures__/manuscript-data.json'
 
 test('Add and reorder sections', async () => {
   const data: Array<ContainedModel> = [
@@ -207,4 +210,37 @@ test('Reorder keywords', async () => {
     validationResults,
   ]).find((model) => model.objectType === ObjectTypes.Manuscript) as Manuscript
   expect(manuscript.keywordIDs).toStrictEqual(order)
+})
+
+test('Validate autofix', async () => {
+  const validateManuscript = createTemplateValidator(
+    'MPManuscriptTemplate:www-zotero-org-styles-nature-genetics-Nature-Genetics-Journal-Publication-Article'
+  )
+
+  const getData = async (id: string): Promise<Buffer | undefined> => {
+    const path = `${__dirname}/__fixtures__/data/${id}`
+    if (fs.existsSync(path)) {
+      return fs.readFileSync(path)
+    }
+    return undefined
+  }
+  const manuscriptID = 'MPManuscript:9E0BEDBC-1084-4AA1-AB82-10ACFAE02232'
+  //@ts-ignore
+  const manuscriptModels = data as Array<ContainedModel>
+  const validationResults = await validateManuscript(
+    manuscriptModels,
+    manuscriptID,
+    getData
+  )
+  const fixedModels = runManuscriptFixes(
+    manuscriptModels,
+    manuscriptID,
+    validationResults
+  )
+  const results = await validateManuscript(fixedModels, manuscriptID, getData)
+  results.forEach((result) => {
+    // make sure all the fixable objects are passed now
+    const value = !result.passed && result.fix
+    expect(value).toBeFalsy()
+  })
 })

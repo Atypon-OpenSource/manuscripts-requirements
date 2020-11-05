@@ -15,7 +15,9 @@
       "MPMandatorySubsectionsRequirement:9AA5E639-85EE-4B9B-8635-A446439E3FD1",
       "MPMandatorySubsectionsRequirement:9D08EFED-77A1-4E79-B91A-4C3C739A4964",
       "MPMandatorySubsectionsRequirement:62F0E86C-5FCF-4AA7-91A2-573A947BA082",
-      "MPMandatorySubsectionsRequirement:3E9BCAA1-2A82-4BA9-85E7-933A14E7EA18"
+      "MPMandatorySubsectionsRequirement:3E9BCAA1-2A82-4BA9-85E7-933A14E7EA18",
+      "MPMandatorySubsectionsRequirement:E1302DA1-AC2F-4B2F-A63F-7B76A2CF0150",
+      "MPMandatorySubsectionsRequirement:99648399-D223-42BA-8757-052B150016A3"
     ],
     "acceptableFigureFormats": ["tiff", "jpeg"],
     "maxWordCountRequirement": "MPMaximumManuscriptWordCountRequirement:9427A4BD-2902-4655-8168-B84022EA7909",
