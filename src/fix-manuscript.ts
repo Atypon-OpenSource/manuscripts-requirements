@@ -18,11 +18,15 @@ import {
   buildParagraph,
   buildSection,
   ContainedModel,
+  getModelsByType,
   isManuscript,
   ManuscriptModel,
 } from '@manuscripts/manuscript-transform'
 import {
+  KeywordsElement,
   Manuscript,
+  ManuscriptKeyword,
+  ObjectTypes,
   ParagraphElement,
   Section,
   SectionDescription,
@@ -39,7 +43,8 @@ type RequiredSection = { section: Section; placeholder?: ParagraphElement }
 export const runManuscriptFixes = (
   manuscriptData: Array<ContainedModel>,
   manuscriptID: string,
-  results: Array<AnyValidationResult>
+  results: Array<AnyValidationResult>,
+  { parser, serializer }: { parser: DOMParser; serializer: XMLSerializer }
 ): Array<ContainedModel> => {
   const modelsMap = new Map(manuscriptData.map((model) => [model._id, model]))
   const failedResults = results.filter((result) => !result.passed)
@@ -82,7 +87,10 @@ export const runManuscriptFixes = (
       }
       case 'keywords-order': {
         const { data } = result
-        reorderKeywords(data.order, modelsMap, manuscript)
+        reorderKeywords(data.order, modelsMap, manuscript, {
+          parser,
+          serializer,
+        })
         break
       }
     }
@@ -217,13 +225,44 @@ const addRequiredSection = (
 const reorderKeywords = (
   order: Array<string>,
   modelMap: Map<string, ContainedModel>,
-  manuscript: Manuscript
+  manuscript: Manuscript,
+  { parser, serializer }: { parser: DOMParser; serializer: XMLSerializer }
 ) => {
+  const keys: Array<string> = []
   // Make sure the function received valid IDs
   for (const id of order) {
     if (!modelMap.has(id)) {
       throw new InputError(`${id} not found in ManuscriptData`)
+    } else {
+      const { name } = modelMap.get(id) as ManuscriptKeyword
+      keys.push(name)
     }
   }
   manuscript.keywordIDs = order
+
+  const sections = getModelsByType<Section>(modelMap, ObjectTypes.Section)
+
+  const keywordsSections = sections.filter(
+    ({ category }) => category === 'MPSectionCategory:keywords'
+  )
+  if (keywordsSections.length > 1) {
+    throw new InputError('Multiple keywords sections found')
+  }
+  const [keywordsSection] = keywordsSections
+  if (keywordsSection && keywordsSection.elementIDs) {
+    const [id] = keywordsSection.elementIDs
+
+    if (modelMap.has(id)) {
+      const keywordsElement = modelMap.get(id) as KeywordsElement
+      const { contents } = keywordsElement
+      const contentNode = parser.parseFromString(
+        contents,
+        'application/xhtml+xml'
+      ).firstChild
+      if (contentNode) {
+        contentNode.textContent = keys.join(', ')
+        keywordsElement.contents = serializer.serializeToString(contentNode)
+      }
+    }
+  }
 }

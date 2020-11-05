@@ -16,6 +16,7 @@
 
 import { Build, ContainedModel } from '@manuscripts/manuscript-transform'
 import {
+  KeywordsElement,
   KeywordsOrderValidationResult,
   Manuscript,
   ManuscriptKeyword,
@@ -31,6 +32,8 @@ import { runManuscriptFixes } from '../fix-manuscript'
 import { isSection } from '../utils'
 import { createTemplateValidator } from '../validate-manuscript'
 import { data } from './__fixtures__/manuscript-data.json'
+
+const parser = { parser: new DOMParser(), serializer: new XMLSerializer() }
 
 test('Add and reorder sections', async () => {
   const data: Array<ContainedModel> = [
@@ -74,7 +77,8 @@ test('Add and reorder sections', async () => {
   const requiredSectionsFix = runManuscriptFixes(
     data,
     'test',
-    requiredSectionValidationResults
+    requiredSectionValidationResults,
+    parser
   )
     .filter((model) => isSection(model))
     .map((model) => (model as Section).category)
@@ -98,7 +102,8 @@ test('Add and reorder sections', async () => {
   const sectionsOrderFix = runManuscriptFixes(
     data,
     'test',
-    sectionOrderValidationResult
+    sectionOrderValidationResult,
+    parser
   )
     .filter((model) => isSection(model))
     .map((model) => model as Section)
@@ -152,9 +157,12 @@ test('Retitle sections', async () => {
     },
   }
 
-  const results = runManuscriptFixes(manuscriptData, 'test', [
-    validationResults,
-  ])
+  const results = runManuscriptFixes(
+    manuscriptData,
+    'test',
+    [validationResults],
+    { parser: new DOMParser(), serializer: new XMLSerializer() }
+  )
   const testSection = results.find(
     (model) => model._id === 'MPSection:TEST'
   ) as Section
@@ -162,11 +170,8 @@ test('Retitle sections', async () => {
 })
 
 test('Reorder keywords', async () => {
-  const manuscriptData: Array<ContainedModel> = [
+  const manuscriptData = [
     {
-      containerID: 'MPProject:1',
-      createdAt: 0,
-      updatedAt: 0,
       objectType: ObjectTypes.Manuscript,
       _id: 'test',
       keywordIDs: [
@@ -175,15 +180,24 @@ test('Reorder keywords', async () => {
         'MPManuscriptKeyword:1',
       ],
     },
-  ]
+    {
+      objectType: ObjectTypes.Section,
+      _id: 'MPSection:1',
+      elementIDs: ['MPKeywordsElement:1'],
+      category: 'MPSectionCategory:keywords',
+    },
+    {
+      contents: '<p class="x y" id="test">Key1, Key2, Key0</p>',
+      _id: 'MPKeywordsElement:1',
+    },
+  ] as Array<ContainedModel>
 
   for (let i = 0; i < 3; i++) {
     const keyword = Object.assign(
       {
         _id: '',
         objectType: 'MPManuscriptKeyword',
-        name: '',
-        containerID: 'MPProject:1',
+        name: `Key${i}`,
       },
       { _id: `MPManuscriptKeyword:${i}` }
     ) as ManuscriptKeyword
@@ -206,10 +220,23 @@ test('Reorder keywords', async () => {
     _id: 'test',
   }
 
-  const manuscript = runManuscriptFixes(manuscriptData, 'test', [
-    validationResults,
-  ]).find((model) => model.objectType === ObjectTypes.Manuscript) as Manuscript
+  const results = runManuscriptFixes(
+    manuscriptData,
+    'test',
+    [validationResults],
+    parser
+  )
+
+  const manuscript = results.find(
+    (model) => model.objectType === ObjectTypes.Manuscript
+  ) as Manuscript
   expect(manuscript.keywordIDs).toStrictEqual(order)
+
+  const keywordsElement = results.find(
+    (model) => model._id === 'MPKeywordsElement:1'
+  ) as KeywordsElement
+  const expectedContents = '<p class="x y" id="test">Key0, Key1, Key2</p>'
+  expect(keywordsElement.contents).toStrictEqual(expectedContents)
 })
 
 test('Validate autofix', async () => {
@@ -235,7 +262,8 @@ test('Validate autofix', async () => {
   const fixedModels = runManuscriptFixes(
     manuscriptModels,
     manuscriptID,
-    validationResults
+    validationResults,
+    parser
   )
   const results = await validateManuscript(fixedModels, manuscriptID, getData)
   results.forEach((result) => {
