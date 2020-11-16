@@ -1,6 +1,6 @@
 {
   "name": "@manuscripts/requirements",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "author": "Alf Eaton <aeaton@atypon.com>",
   "license": "MIT",
   "main": "dist/cjs",
