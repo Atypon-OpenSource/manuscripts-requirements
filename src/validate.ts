@@ -94,6 +94,7 @@ import {
   isValidDOI,
   sortSections,
 } from './utils'
+import { appendValidationMessages } from './validation-messages'
 
 const iterateChildren = function* (
   node: ManuscriptNode,
@@ -892,7 +893,7 @@ export const createRequirementsValidator = (
   if (keywordsValidationResult) {
     results.push(keywordsValidationResult)
   }
-  return results
+  return appendValidationMessages(results)
 }
 
 const getFiguresWithImage = async (
