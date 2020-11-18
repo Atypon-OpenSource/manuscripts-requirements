@@ -26,7 +26,7 @@
   "dependencies": {
     "@iarna/word-count": "^1.1.2",
     "@manuscripts/data": "^0.1.2",
-    "@manuscripts/manuscript-transform": "^0.37.0",
+    "@manuscripts/manuscript-transform": "^0.38.0",
     "@manuscripts/manuscripts-json-schema": "^1.39.0",
     "file-type": "^15.0.1",
     "grapheme-splitter": "^1.0.4",
