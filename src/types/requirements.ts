@@ -42,6 +42,7 @@ export type CountValidationType =
   | 'section-minimum-characters'
   | 'section-maximum-words'
   | 'section-minimum-words'
+  | 'section-maximum-paragraphs'
   | 'manuscript-title-maximum-characters'
   | 'manuscript-title-minimum-characters'
   | 'manuscript-title-maximum-words'
@@ -75,7 +76,7 @@ export type RequiredSections = Array<{
 
 export type CountRequirement = { count: number | undefined; severity: number }
 
-export type CountRequirements = {
+export interface CountRequirements {
   characters: {
     max?: CountRequirement
     min?: CountRequirement
@@ -87,6 +88,12 @@ export type CountRequirements = {
   title?: {
     max?: CountRequirement
     min?: CountRequirement
+  }
+}
+
+export interface SectionCountRequirement extends CountRequirements {
+  paragraphs: {
+    max?: CountRequirement
   }
 }
 
@@ -108,7 +115,7 @@ export type TableCountRequirements = {
   }
 }
 
-export type SectionCountRequirements = Record<string, CountRequirements>
+export type SectionCountRequirements = Record<string, SectionCountRequirement>
 
 export type SectionTitleRequirement = {
   title: string
@@ -133,10 +140,15 @@ export type SectionDescriptionCountProperty =
   | 'minKeywordCount'
   | 'maxCharCount'
   | 'minCharCount'
+  | 'maxParagraphsCount'
 
 export interface Counts {
   words: number
   characters: number
+}
+
+export interface SectionCounts extends Counts {
+  paragraphs: number
 }
 
 export type ReferenceCountRequirements = {
@@ -147,7 +159,7 @@ export type ReferenceCountRequirements = {
 
 export type Sections = Map<
   string,
-  Array<{ node: ManuscriptNode; counts: Counts; section: Section }>
+  Array<{ node: ManuscriptNode; counts: SectionCounts; section: Section }>
 >
 
 export type FigureResolutionsRequirements = {

@@ -50,6 +50,7 @@ Object {
     "sectionCategory": "MPSectionCategory:abstract",
     "sectionDescription": Object {
       "_id": "MPSectionDescription:9F8AC4A6-0B93-46A9-ADF4-BC8F6A6603BE",
+      "maxParagraphsCount": 1,
       "maxTitleCharLength": 400,
       "maxWordCount": 400,
       "objectType": "MPSectionDescription",
@@ -58,9 +59,9 @@ Object {
     },
   },
   "fix": true,
-  "message": "There must be Abstract section",
+  "message": undefined,
   "objectType": "MPRequiredSectionValidationResult",
-  "passed": false,
+  "passed": true,
   "severity": 0,
   "type": "required-section",
 }
@@ -177,7 +178,7 @@ Object {
     "count": 458,
     "value": 100,
   },
-  "message": "The manuscript must have more than or equal to 100 characters",
+  "message": undefined,
   "objectType": "MPCountValidationResult",
   "passed": true,
   "severity": 0,
@@ -192,7 +193,7 @@ Object {
     "count": 80,
     "value": 4000,
   },
-  "message": "The manuscript must have less than or equal to 4000 words",
+  "message": undefined,
   "objectType": "MPCountValidationResult",
   "passed": true,
   "severity": 0,
@@ -219,6 +220,53 @@ exports[`validate manuscript: validate-manuscript 12`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
+    "count": 14,
+    "sectionCategory": "MPSectionCategory:abstract",
+    "value": 400,
+  },
+  "message": undefined,
+  "objectType": "MPCountValidationResult",
+  "passed": true,
+  "severity": 0,
+  "type": "section-maximum-words",
+}
+`;
+
+exports[`validate manuscript: validate-manuscript 13`] = `
+Object {
+  "_id": Any<String>,
+  "data": Object {
+    "count": 1,
+    "sectionCategory": "MPSectionCategory:abstract",
+    "value": 1,
+  },
+  "message": undefined,
+  "objectType": "MPCountValidationResult",
+  "passed": true,
+  "severity": 0,
+  "type": "section-maximum-paragraphs",
+}
+`;
+
+exports[`validate manuscript: validate-manuscript 14`] = `
+Object {
+  "_id": Any<String>,
+  "data": Object {
+    "id": "MPSection:A67FABCE-B7A0-457A-95C0-3A6B4AFD80BB",
+    "sectionCategory": "MPSectionCategory:abstract",
+  },
+  "message": undefined,
+  "objectType": "MPSectionBodyValidationResult",
+  "passed": true,
+  "severity": 0,
+  "type": "section-body-has-content",
+}
+`;
+
+exports[`validate manuscript: validate-manuscript 15`] = `
+Object {
+  "_id": Any<String>,
+  "data": Object {
     "id": "MPSection:FFC7095E-A048-4CC4-BFF3-ADA4AF2C919E",
     "sectionCategory": "MPSectionCategory:bibliography",
   },
@@ -230,14 +278,14 @@ Object {
 }
 `;
 
-exports[`validate manuscript: validate-manuscript 13`] = `
+exports[`validate manuscript: validate-manuscript 16`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
     "count": 3,
     "value": 50,
   },
-  "message": "The manuscript title must have less than or equal to 50 words",
+  "message": undefined,
   "objectType": "MPCountValidationResult",
   "passed": true,
   "severity": 0,
@@ -245,7 +293,7 @@ Object {
 }
 `;
 
-exports[`validate manuscript: validate-manuscript 14`] = `
+exports[`validate manuscript: validate-manuscript 17`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
@@ -260,14 +308,14 @@ Object {
 }
 `;
 
-exports[`validate manuscript: validate-manuscript 15`] = `
+exports[`validate manuscript: validate-manuscript 18`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
     "count": 16,
     "value": 80,
   },
-  "message": "The manuscript title must have less than or equal to 80 characters",
+  "message": undefined,
   "objectType": "MPCountValidationResult",
   "passed": true,
   "severity": 0,
@@ -275,7 +323,7 @@ Object {
 }
 `;
 
-exports[`validate manuscript: validate-manuscript 16`] = `
+exports[`validate manuscript: validate-manuscript 19`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
@@ -290,14 +338,14 @@ Object {
 }
 `;
 
-exports[`validate manuscript: validate-manuscript 17`] = `
+exports[`validate manuscript: validate-manuscript 20`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
     "count": 1,
     "value": 15,
   },
-  "message": "The manuscript must have less than or equal to 15 references",
+  "message": undefined,
   "objectType": "MPCountValidationResult",
   "passed": true,
   "severity": 0,
@@ -305,7 +353,7 @@ Object {
 }
 `;
 
-exports[`validate manuscript: validate-manuscript 18`] = `
+exports[`validate manuscript: validate-manuscript 21`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
@@ -319,14 +367,14 @@ Object {
 }
 `;
 
-exports[`validate manuscript: validate-manuscript 19`] = `
+exports[`validate manuscript: validate-manuscript 22`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
     "count": 2,
     "value": 5,
   },
-  "message": "The manuscript must have less than or equal to 5 figures",
+  "message": undefined,
   "objectType": "MPCountValidationResult",
   "passed": true,
   "severity": 0,
@@ -334,14 +382,14 @@ Object {
 }
 `;
 
-exports[`validate manuscript: validate-manuscript 20`] = `
+exports[`validate manuscript: validate-manuscript 23`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
     "count": 1,
     "value": 3,
   },
-  "message": "The manuscript must have less than or equal to 3 tables",
+  "message": undefined,
   "objectType": "MPCountValidationResult",
   "passed": true,
   "severity": 0,
@@ -349,14 +397,14 @@ Object {
 }
 `;
 
-exports[`validate manuscript: validate-manuscript 21`] = `
+exports[`validate manuscript: validate-manuscript 24`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
     "count": 3,
     "value": 3,
   },
-  "message": "Requirement did not pass",
+  "message": undefined,
   "objectType": "MPCountValidationResult",
   "passed": true,
   "severity": 0,
@@ -364,14 +412,14 @@ Object {
 }
 `;
 
-exports[`validate manuscript: validate-manuscript 22`] = `
+exports[`validate manuscript: validate-manuscript 25`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
     "contentType": "image/jpeg",
     "id": "MPFigure:C9A3CBCE-4AF4-4AD2-97B0-D2848BEFDE5F",
   },
-  "message": "image/jpeg format is not allowed for MPFigure:C9A3CBCE-4AF4-4AD2-97B0-D2848BEFDE5F",
+  "message": undefined,
   "objectType": "MPFigureFormatValidationResult",
   "passed": true,
   "severity": 0,
@@ -379,14 +427,14 @@ Object {
 }
 `;
 
-exports[`validate manuscript: validate-manuscript 23`] = `
+exports[`validate manuscript: validate-manuscript 26`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
     "contentType": "image/png",
     "id": "MPFigure:C9A3CBCE-4AF4-4AD2-97B0-D2848BEFDE5A",
   },
-  "message": "image/png format is not allowed for MPFigure:C9A3CBCE-4AF4-4AD2-97B0-D2848BEFDE5A",
+  "message": "image/png format is not allowed",
   "objectType": "MPFigureFormatValidationResult",
   "passed": false,
   "severity": 0,
@@ -394,7 +442,7 @@ Object {
 }
 `;
 
-exports[`validate manuscript: validate-manuscript 24`] = `
+exports[`validate manuscript: validate-manuscript 27`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
@@ -408,13 +456,13 @@ Object {
 }
 `;
 
-exports[`validate manuscript: validate-manuscript 25`] = `
+exports[`validate manuscript: validate-manuscript 28`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
     "id": "MPFigure:C9A3CBCE-4AF4-4AD2-97B0-D2848BEFDE5A",
   },
-  "message": "Image in figure is missing",
+  "message": undefined,
   "objectType": "MPFigureImageValidationResult",
   "passed": true,
   "severity": 0,
@@ -422,7 +470,7 @@ Object {
 }
 `;
 
-exports[`validate manuscript: validate-manuscript 26`] = `
+exports[`validate manuscript: validate-manuscript 29`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
@@ -438,7 +486,7 @@ Object {
 }
 `;
 
-exports[`validate manuscript: validate-manuscript 27`] = `
+exports[`validate manuscript: validate-manuscript 30`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
@@ -446,7 +494,7 @@ Object {
     "id": "MPFigure:C9A3CBCE-4AF4-4AD2-97B0-D2848BEFDE5A",
     "value": 4000,
   },
-  "message": "Figure width must be less than or equal to 4000",
+  "message": undefined,
   "objectType": "MPCountValidationResult",
   "passed": true,
   "severity": 0,
@@ -454,7 +502,7 @@ Object {
 }
 `;
 
-exports[`validate manuscript: validate-manuscript 28`] = `
+exports[`validate manuscript: validate-manuscript 31`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
@@ -470,7 +518,7 @@ Object {
 }
 `;
 
-exports[`validate manuscript: validate-manuscript 29`] = `
+exports[`validate manuscript: validate-manuscript 32`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
@@ -478,7 +526,7 @@ Object {
     "id": "MPFigure:C9A3CBCE-4AF4-4AD2-97B0-D2848BEFDE5A",
     "value": 1000,
   },
-  "message": "Figure height must be less than or equal to 1000",
+  "message": undefined,
   "objectType": "MPCountValidationResult",
   "passed": true,
   "severity": 0,
@@ -486,7 +534,7 @@ Object {
 }
 `;
 
-exports[`validate manuscript: validate-manuscript 30`] = `
+exports[`validate manuscript: validate-manuscript 33`] = `
 Object {
   "_id": Any<String>,
   "data": Object {

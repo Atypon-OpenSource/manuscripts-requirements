@@ -37,9 +37,13 @@ const getSectionName = (sectionCategory: string) => {
 export const appendValidationMessages = (results: Array<AnyValidationResult>) =>
   results.map((result) => ({ ...result, message: validationMessage(result) }))
 
-export const validationMessage = (result: AnyValidationResult): string => {
-  const { type, data } = result
-
+export const validationMessage = (
+  result: AnyValidationResult
+): string | undefined => {
+  const { type, data, passed } = result
+  if (passed) {
+    return
+  }
   switch (type) {
     case 'bibliography-doi-exist':
       // Add the citation text?
@@ -73,17 +77,30 @@ export const validationMessage = (result: AnyValidationResult): string => {
     case 'manuscript-maximum-tables':
       return `The manuscript must have less than or equal to ${data.value} tables`
 
-    case 'section-maximum-characters':
-      return `The section must have less than or equal to ${data.value} characters`
+    case 'section-maximum-characters': {
+      const name = getSectionName(data.sectionCategory)
+      return `${name} must have less than or equal to ${data.value} characters`
+    }
 
-    case 'section-minimum-characters':
-      return `The section must have more than or equal to ${data.value} characters`
+    case 'section-minimum-characters': {
+      const name = getSectionName(data.sectionCategory)
+      return `${name} must have more than or equal to ${data.value} characters`
+    }
 
-    case 'section-maximum-words':
-      return `The section must have less than or equal to ${data.value} words`
+    case 'section-maximum-words': {
+      const name = getSectionName(data.sectionCategory)
+      return `${name} must have less than or equal to ${data.value} words`
+    }
 
-    case 'section-minimum-words':
-      return `The section must have more than or equal to ${data.value} words`
+    case 'section-minimum-words': {
+      const name = getSectionName(data.sectionCategory)
+      return `${name} must have more than or equal to ${data.value} words`
+    }
+
+    case 'section-maximum-paragraphs': {
+      const name = getSectionName(data.sectionCategory)
+      return `${name} must have less than or equal to ${data.value} paragraphs`
+    }
 
     case 'manuscript-title-maximum-characters':
       return `The manuscript title must have less than or equal to ${data.value} characters`
@@ -101,7 +118,7 @@ export const validationMessage = (result: AnyValidationResult): string => {
       return `Image in figure is missing`
 
     case 'figure-format-validation':
-      return `${data.contentType} format is not allowed for ${data.id}`
+      return `${data.contentType} format is not allowed`
 
     case 'figure-maximum-height-resolution':
       return `Figure height must be less than or equal to ${data.value}`

@@ -129,6 +129,16 @@ const buildSections = async (
       return 'MPSectionCategory:toc'
     }
   }
+
+  const findNumberOfParagraphs = (section: Section): number =>
+    section.elementIDs?.filter((id) => {
+      const manuscriptModel = modelMap.get(id)
+      return (
+        manuscriptModel &&
+        manuscriptModel.objectType === ObjectTypes.ParagraphElement
+      )
+    }).length || 0
+
   for (const node of iterateChildren(article, recurse)) {
     const category = findSectionCategory(node)
     if (category) {
@@ -136,12 +146,14 @@ const buildSections = async (
       const sections = output.get(category) || []
 
       const text = buildText(node)
+      const section = modelMap.get(id) as Section
 
       const counts = {
         characters: await countCharacters(text),
         words: await countWords(text),
+        paragraphs: findNumberOfParagraphs(section),
       }
-      const section = modelMap.get(id) as Section
+
       sections.push({ node, counts, section })
 
       output.set(category, sections)
@@ -460,6 +472,14 @@ const validateSectionCounts = async function* (
           item.counts.words,
           false,
           requirements.words.min,
+          category
+        )
+
+        yield validate(
+          'section-maximum-paragraphs',
+          item.counts.paragraphs,
+          true,
+          requirements.paragraphs?.max,
           category
         )
       }

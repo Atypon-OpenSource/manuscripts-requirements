@@ -142,6 +142,7 @@
         "_id": "MPSectionDescription:9F8AC4A6-0B93-46A9-ADF4-BC8F6A6603BE",
         "maxWordCount": 400,
         "maxTitleCharLength": 400,
+        "maxParagraphsCount": 1,
         "objectType": "MPSectionDescription",
         "required": true,
         "sectionCategory": "MPSectionCategory:abstract"

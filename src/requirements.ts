@@ -281,6 +281,9 @@ export const buildSectionCountRequirements = (
           max: getCountRequirement('maxWordCount'),
           min: getCountRequirement('minWordCount'),
         },
+        paragraphs: {
+          max: getCountRequirement('maxParagraphsCount'),
+        },
         // title: {
         //   max: getCountRequirement('maxTitleCharLength'),
         //   min: getCountRequirement('minTitleCharLength'),
