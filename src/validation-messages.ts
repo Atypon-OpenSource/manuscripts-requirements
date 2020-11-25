@@ -77,6 +77,9 @@ export const validationMessage = (
     case 'manuscript-maximum-tables':
       return `The manuscript must have less than or equal to ${data.value} tables`
 
+    case 'manuscript-maximum-corresponding-authors':
+      return `The manuscript must have less than or equal to ${data.value} corresponding authors`
+
     case 'section-maximum-characters': {
       const name = getSectionName(data.sectionCategory)
       return `${name} must have less than or equal to ${data.value} characters`

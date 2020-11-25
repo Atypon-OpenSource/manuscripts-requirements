@@ -29,6 +29,7 @@ import {
 import {
   BibliographyItem,
   BibliographyValidationResult,
+  Contributor,
   CountValidationResult,
   Figure,
   FigureFormatValidationResult,
@@ -50,6 +51,7 @@ import { imageSize } from 'image-size'
 import { InputError } from './errors'
 import {
   buildCombinedFigureTableCountRequirements,
+  buildContributorsCountRequirements,
   buildFigureCountRequirements,
   buildManuscriptCountRequirements,
   buildManuscriptReferenceCountRequirements,
@@ -66,6 +68,7 @@ import { sectionCategoriesMap } from './templates'
 import {
   AnyValidationResult,
   CombinedFigureTableCountRequirements,
+  ContributorsCountRequirement,
   CountRequirement,
   CountRequirements,
   Counts,
@@ -83,6 +86,7 @@ import {
 import {
   countModelsByType,
   createArticle,
+  findContributors,
   findModelByID,
   getFigure,
   getFigureFormat,
@@ -485,6 +489,20 @@ const validateSectionCounts = async function* (
       }
     }
   }
+}
+const validateContributorCountRequirements = function* (
+  requirements: ContributorsCountRequirement,
+  contributors: Array<Contributor>
+) {
+  const numberOfCorrespondingAuthors = contributors.filter(
+    (contributor) => contributor.isCorresponding
+  ).length
+  yield validateCount(
+    'manuscript-maximum-corresponding-authors',
+    numberOfCorrespondingAuthors,
+    true,
+    requirements.correspondingAuthors.max
+  )
 }
 
 const validateTitleCounts = async function* (
@@ -913,6 +931,17 @@ export const createRequirementsValidator = (
   if (keywordsValidationResult) {
     results.push(keywordsValidationResult)
   }
+
+  const contributorRequirements = buildContributorsCountRequirements(template)
+  const contributors = findContributors(manuscriptId, manuscriptsData)
+
+  for await (const result of validateContributorCountRequirements(
+    contributorRequirements,
+    contributors
+  )) {
+    result && results.push(result)
+  }
+
   return appendValidationMessages(results)
 }
 

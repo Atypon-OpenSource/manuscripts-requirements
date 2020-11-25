@@ -557,3 +557,18 @@ Object {
   "type": "keywords-order",
 }
 `;
+
+exports[`validate manuscript: validate-manuscript 34`] = `
+Object {
+  "_id": Any<String>,
+  "data": Object {
+    "count": 2,
+    "value": 1,
+  },
+  "message": "The manuscript must have less than or equal to 1 corresponding authors",
+  "objectType": "MPCountValidationResult",
+  "passed": false,
+  "severity": 0,
+  "type": "manuscript-maximum-corresponding-authors",
+}
+`;

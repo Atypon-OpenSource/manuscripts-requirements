@@ -356,6 +356,40 @@
       "manuscriptID": "MPManuscript:9E0BEDBC-1084-4AA1-AB82-10ACFAE02232"
     },
     {
+      "_id": "MPContributor:1327CC94-A940-4506-A547-BB8649478768",
+      "objectType": "MPContributor",
+      "priority": 0,
+      "role": "author",
+      "affiliations": [],
+      "bibliographicName": {
+        "_id": "MPBibliographicName:8DDEBCB0-0106-4051-98FD-672FDA4232F2",
+        "family": "Yaseen",
+        "given": "Ihab",
+        "objectType": "MPBibliographicName"
+      },
+      "isCorresponding": true,
+      "userID": "iyaseen@atypon.com",
+      "containerID": "MPProject:B81D5F33-6338-420C-AAEC-CF0CF33E675C",
+      "manuscriptID": "MPManuscript:9E0BEDBC-1084-4AA1-AB82-10ACFAE02232"
+    },
+    {
+      "_id": "MPContributor:1327CC94-A940-4506-A547-BB8649478768",
+      "objectType": "MPContributor",
+      "priority": 0,
+      "role": "author",
+      "affiliations": [],
+      "bibliographicName": {
+        "_id": "MPBibliographicName:8DDEBCB0-0106-4051-98FD-672FDA4232F3",
+        "family": "Varia",
+        "given": "Mayank",
+        "objectType": "MPBibliographicName"
+      },
+      "isCorresponding": true,
+      "userID": "mvaria@atypon.com",
+      "containerID": "MPProject:B81D5F33-6338-420C-AAEC-CF0CF33E675C",
+      "manuscriptID": "MPManuscript:9E0BEDBC-1084-4AA1-AB82-10ACFAE02232"
+    },
+    {
       "_id": "MPContributorRole:0A583635-257F-42F2-B04D-67AAD801ED4D",
       "uri": "https://dictionary.casrai.org/Contributor_Roles/Data_curation",
       "name": "Data curation",

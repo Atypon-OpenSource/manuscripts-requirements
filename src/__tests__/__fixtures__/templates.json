@@ -36,6 +36,7 @@
     "maxFigureWidthPixelsRequirement": "MPMaximumFigurePixelsRequirement:1BEC993B-6213-4270-8B66-130FDE8F2D0F",
     "minFigureHeightPixelsRequirement": "MPMinimumFigurePixelsRequirement:19E7D55C-5413-4967-A223-35B6AAA68270",
     "maxFigureHeightPixelsRequirement": "MPMaximumFigurePixelsRequirement:2BB9C90B-0164-494A-B290-A95A4C71D305",
+    "maxCorrespondingAuthorCountRequirement": "MPMaximumCorrespondingAuthorCountRequirement:TEST",
     "requirementIDs": [
       "MPMaximumAuxiliaryObjectCountRequirement:0B4A4E64-684C-4642-B92C-D19FC78E4A2A"
     ],
@@ -115,6 +116,14 @@
     "count": 5,
     "createdAt": 1445196095.857493,
     "objectType": "MPMaximumFigureCountRequirement",
+    "severity": 0,
+    "updatedAt": 1445196095.857493
+  },
+  {
+    "_id": "MPMaximumCorrespondingAuthorCountRequirement:TEST",
+    "count": 1,
+    "createdAt": 1445196095.857493,
+    "objectType": "MPMaximumCorrespondingAuthorCountRequirement",
     "severity": 0,
     "updatedAt": 1445196095.857493
   },
