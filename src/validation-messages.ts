@@ -117,6 +117,9 @@ export const validationMessage = (
     case 'manuscript-title-minimum-words':
       return `The manuscript title must have more than or equal to ${data.value} words`
 
+    case 'manuscript-running-title-maximum-characters':
+      return `The manuscript running title must have less than or equal to ${data.value} characters`
+
     case 'figure-contains-image':
       return `Image in figure is missing`
 

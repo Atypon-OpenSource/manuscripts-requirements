@@ -47,6 +47,7 @@ export type CountValidationType =
   | 'manuscript-title-minimum-characters'
   | 'manuscript-title-maximum-words'
   | 'manuscript-title-minimum-words'
+  | 'manuscript-running-title-maximum-characters'
   | 'manuscript-maximum-figures'
   | 'manuscript-maximum-tables'
   | 'manuscript-maximum-corresponding-authors'
@@ -89,6 +90,12 @@ export interface CountRequirements {
   title?: {
     max?: CountRequirement
     min?: CountRequirement
+  }
+}
+
+export interface RunningTitleRequirement {
+  runningTitle: {
+    max?: CountRequirement
   }
 }
 

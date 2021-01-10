@@ -368,3 +368,17 @@ export const buildContributorsCountRequirements = (
     },
   }
 }
+
+export const buildRunningTitleCountRequirements = (
+  template: ManuscriptTemplate
+) => {
+  return {
+    runningTitle: {
+      max: findCountRequirement(
+        ObjectTypes.MaximumRunningTitleCharacterCountRequirement,
+        'maxManuscriptRunningTitleCharacterCountRequirement',
+        template
+      ),
+    },
+  }
+}
