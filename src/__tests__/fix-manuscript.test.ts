@@ -152,9 +152,9 @@ test('Retitle sections', async () => {
     severity: 0,
     type: 'section-title-match',
     data: {
-      id: sectionID,
       title: requiredTitle,
     },
+    affectedElementId: sectionID,
   }
 
   const results = runManuscriptFixes(
@@ -210,7 +210,7 @@ test('Reorder keywords', async () => {
   ]
   const validationResults: Build<KeywordsOrderValidationResult> = {
     passed: false,
-    fix: true,
+    fixable: true,
     severity: 0,
     type: 'keywords-order',
     data: {
@@ -268,7 +268,7 @@ test('Validate autofix', async () => {
   const results = await validateManuscript(fixedModels, manuscriptID, getData)
   results.forEach((result) => {
     // make sure all the fixable objects are passed now
-    const value = !result.passed && result.fix
+    const value = !result.passed && result.fixable
     // TODO: section-order requires two fix passes if there is a missing sections can this be done in one pass?
     if (value && result.type === 'section-order') {
       return
