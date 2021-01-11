@@ -72,8 +72,13 @@ export const runManuscriptFixes = (
       }
       case 'section-title-match': {
         const { data } = result
-        const modelToFix = modelsMap.get(data.id)
-        if (modelToFix) {
+        if (
+          result.affectedElementId &&
+          modelsMap.has(result.affectedElementId)
+        ) {
+          const modelToFix = modelsMap.get(
+            result.affectedElementId
+          ) as ContainedModel
           retitleSection(result, modelToFix)
         } else {
           throw new Error(`${data.id} not found`)

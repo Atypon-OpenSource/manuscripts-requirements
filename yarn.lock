@@ -1245,13 +1245,13 @@
     eslint-config-prettier "^6.11.0"
     prettier "^2.1.1"
 
-"@manuscripts/manuscript-transform@^0.40.2":
-  version "0.40.2"
-  resolved "https://registry.yarnpkg.com/@manuscripts/manuscript-transform/-/manuscript-transform-0.40.2.tgz#0b9a6fbb8ae9930f97263098d5304f20c041acb8"
-  integrity sha512-bJsTz2eMZ9B/wl86FYvM3blqmS8bT390yWUTaxp/K6BbxzAeaOGZ2V3EtXnCkfOX+qVOC46p5szdiqvbuJQvqg==
+"@manuscripts/manuscript-transform@^0.40.3":
+  version "0.40.3"
+  resolved "https://registry.yarnpkg.com/@manuscripts/manuscript-transform/-/manuscript-transform-0.40.3.tgz#6c6b2f3e9ab66187fc916c617f2078c58c18ce22"
+  integrity sha512-pz1dae9/qetQUCe6DaTVMOTWg45rr7+4aBxgy5OXZ1R591H7tadS9W8WVMtPBqO4CNJIG6ebg4uOFiKXLqEZBg==
   dependencies:
     "@manuscripts/data" "^0.1.3"
-    "@manuscripts/manuscripts-json-schema" "^1.42.0"
+    "@manuscripts/manuscripts-json-schema" "^1.44.0"
     debug "^4.1.1"
     mathjax-full "^3.1.2"
     mime "^2.4.6"
@@ -1259,10 +1259,10 @@
     uuid "^8.2.0"
     w3c-xmlserializer "^2.0.0"
 
-"@manuscripts/manuscripts-json-schema@^1.42.0", "@manuscripts/manuscripts-json-schema@^1.44.2":
-  version "1.44.2"
-  resolved "https://registry.yarnpkg.com/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.44.2.tgz#bd759b62369d4d63915b2ca9101d32182ac4defb"
-  integrity sha512-p8u5CN3Z+PC5gqQHgR92USAQmruWMbXkJY6yiGknHIQDLa+CEENQZBUFSj0rk56WcvfehhohL187Cy/d+QPtRA==
+"@manuscripts/manuscripts-json-schema@^1.44.0", "@manuscripts/manuscripts-json-schema@^1.45.0":
+  version "1.45.0"
+  resolved "https://registry.yarnpkg.com/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.45.0.tgz#5eca840919002b77610dc440b2a53760b1e5f877"
+  integrity sha512-VNmd7rItCOXiIy1zcKMPvPbMVitTDzMSInIyK5HxcldKXbj9RRUOTflVsLjrF4sqC60z+BNfORc5TEiEoVFvSQ==
   dependencies:
     ajv "^6.10.0"
     deepmerge "^3.2.0"

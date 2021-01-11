@@ -265,7 +265,7 @@ const validateSectionsOrder = (
     severity: 0,
     passed,
     data: { order: requiredOrder },
-    fix: true,
+    fixable: true,
     objectType: ObjectTypes.SectionOrderValidationResult,
     _id: generateID(ObjectTypes.SectionOrderValidationResult),
   }
@@ -283,7 +283,7 @@ async function* validateRequiredSections(
       passed: sectionCategories.has(sectionCategory),
       severity,
       data: { sectionDescription, sectionCategory },
-      fix: true,
+      fixable: true,
       objectType: ObjectTypes.RequiredSectionValidationResult,
       _id: generateID(ObjectTypes.RequiredSectionValidationResult),
     }
@@ -341,7 +341,7 @@ const validateExpectedTitle = (
       passed: sectionTitle === requiredTitle,
       severity,
       data: { id: _id, title: requiredTitle, sectionCategory: category },
-      fix: true,
+      fixable: true,
 
       objectType: ObjectTypes.SectionTitleValidationResult,
       _id: generateID(ObjectTypes.SectionTitleValidationResult),
@@ -644,7 +644,7 @@ const validateDOI = function (
     result.push({
       type: 'bibliography-doi-format',
       passed: isValidDOI(DOI),
-      data: { id: bibliographyItem._id },
+      affectedElementId: bibliographyItem._id,
       severity: 0,
       objectType: ObjectTypes.BibliographyValidationResult,
       _id: generateID(ObjectTypes.BibliographyValidationResult),
@@ -653,7 +653,7 @@ const validateDOI = function (
   result.push({
     type: 'bibliography-doi-exist',
     passed: !!DOI,
-    data: { id: bibliographyItem._id },
+    affectedElementId: bibliographyItem._id,
     severity: 0,
     objectType: ObjectTypes.BibliographyValidationResult,
     _id: generateID(ObjectTypes.BibliographyValidationResult),
@@ -780,7 +780,7 @@ const validateKeywordsOrder = (
   const order = orderedKeywords.map((keywords) => keywords._id)
   return {
     type: 'keywords-order',
-    fix: true,
+    fixable: true,
     passed: JSON.stringify(orderedKeywords) === JSON.stringify(keywords),
     data: { order },
     severity: 0,
@@ -996,7 +996,7 @@ const validateFigureContainsImage = function* (
       type: 'figure-contains-image',
       passed: figuresWithImages.has(_id),
       severity: 0,
-      data: { id: _id },
+      affectedElementId: _id,
       objectType: ObjectTypes.FigureImageValidationResult,
       _id: generateID(ObjectTypes.FigureImageValidationResult),
     }
