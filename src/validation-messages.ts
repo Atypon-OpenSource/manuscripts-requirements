@@ -25,7 +25,10 @@ const sectionCategoriesMap = new Map<string, SectionCategory>(
   ])
 )
 
-const getSectionName = (sectionCategory: string) => {
+const getSectionName = (sectionCategory: string | undefined) => {
+  if (!sectionCategory) {
+    return 'Section'
+  }
   const category = sectionCategoriesMap.get(sectionCategory)
   if (category) {
     return category.name
@@ -40,11 +43,10 @@ export const appendValidationMessages = (results: Array<AnyValidationResult>) =>
 export const validationMessage = (
   result: AnyValidationResult
 ): string | undefined => {
-  const { type, data, passed } = result
-  if (passed) {
+  if (result.passed) {
     return
   }
-  switch (type) {
+  switch (result.type) {
     case 'bibliography-doi-exist':
       // Add the citation text?
       return `DOI is required`
@@ -53,112 +55,114 @@ export const validationMessage = (
       return `Incorrect DOI format`
 
     case 'required-section': {
-      return `There must be ${getSectionName(data.sectionCategory)} section`
+      return `There must be ${getSectionName(
+        result.data.sectionCategory
+      )} section`
     }
 
     case 'manuscript-maximum-characters':
-      return `The manuscript must have less than or equal to ${data.value} characters`
+      return `The manuscript must have less than or equal to ${result.data.value} characters`
 
     case 'manuscript-minimum-characters':
-      return `The manuscript must have more than or equal to ${data.value} characters`
+      return `The manuscript must have more than or equal to ${result.data.value} characters`
 
     case 'manuscript-maximum-words':
-      return `The manuscript must have less than or equal to ${data.value} words`
+      return `The manuscript must have less than or equal to ${result.data.value} words`
 
     case 'manuscript-minimum-words':
-      return `The manuscript must have more than or equal to ${data.value} words`
+      return `The manuscript must have more than or equal to ${result.data.value} words`
 
     case 'manuscript-maximum-figures':
-      return `The manuscript must have less than or equal to ${data.value} figures`
+      return `The manuscript must have less than or equal to ${result.data.value} figures`
 
     case 'manuscript-maximum-references':
-      return `The manuscript must have less than or equal to ${data.value} references`
+      return `The manuscript must have less than or equal to ${result.data.value} references`
 
     case 'manuscript-maximum-tables':
-      return `The manuscript must have less than or equal to ${data.value} tables`
+      return `The manuscript must have less than or equal to ${result.data.value} tables`
 
     case 'section-maximum-characters': {
-      const name = getSectionName(data.sectionCategory)
-      return `${name} must have less than or equal to ${data.value} characters`
+      const name = getSectionName(result.data.sectionCategory)
+      return `${name} must have less than or equal to ${result.data.value} characters`
     }
 
     case 'section-minimum-characters': {
-      const name = getSectionName(data.sectionCategory)
-      return `${name} must have more than or equal to ${data.value} characters`
+      const name = getSectionName(result.data.sectionCategory)
+      return `${name} must have more than or equal to ${result.data.value} characters`
     }
 
     case 'section-maximum-words': {
-      const name = getSectionName(data.sectionCategory)
-      return `${name} must have less than or equal to ${data.value} words`
+      const name = getSectionName(result.data.sectionCategory)
+      return `${name} must have less than or equal to ${result.data.value} words`
     }
 
     case 'section-minimum-words': {
-      const name = getSectionName(data.sectionCategory)
-      return `${name} must have more than or equal to ${data.value} words`
+      const name = getSectionName(result.data.sectionCategory)
+      return `${name} must have more than or equal to ${result.data.value} words`
     }
 
     case 'section-maximum-paragraphs': {
-      const name = getSectionName(data.sectionCategory)
-      return `${name} must have less than or equal to ${data.value} paragraphs`
+      const name = getSectionName(result.data.sectionCategory)
+      return `${name} must have less than or equal to ${result.data.value} paragraphs`
     }
 
     case 'manuscript-title-maximum-characters':
-      return `The manuscript title must have less than or equal to ${data.value} characters`
+      return `The manuscript title must have less than or equal to ${result.data.value} characters`
 
     case 'manuscript-title-minimum-characters':
-      return `The manuscript title must have more than or equal to ${data.value} characters`
+      return `The manuscript title must have more than or equal to ${result.data.value} characters`
 
     case 'manuscript-title-maximum-words':
-      return `The manuscript title must have less than or equal to ${data.value} words`
+      return `The manuscript title must have less than or equal to ${result.data.value} words`
 
     case 'manuscript-title-minimum-words':
-      return `The manuscript title must have more than or equal to ${data.value} words`
+      return `The manuscript title must have more than or equal to ${result.data.value} words`
 
     case 'figure-contains-image':
       return `Image in figure is missing`
 
     case 'figure-format-validation':
-      return `${data.contentType} format is not allowed`
+      return `${result.data.contentType} format is not allowed`
 
     case 'figure-maximum-height-resolution':
-      return `Figure height must be less than or equal to ${data.value}`
+      return `Figure height must be less than or equal to ${result.data.value}`
 
     case 'figure-minimum-height-resolution':
-      return `Figure height must be greater than or equal to ${data.value}`
+      return `Figure height must be greater than or equal to ${result.data.value}`
 
     case 'figure-maximum-width-resolution':
-      return `Figure width must be less than or equal to ${data.value}`
+      return `Figure width must be less than or equal to ${result.data.value}`
 
     case 'figure-minimum-width-resolution':
-      return `Figure width must be greater than or equal to ${data.value}`
+      return `Figure width must be greater than or equal to ${result.data.value}`
 
     case 'keywords-order':
       return 'Keywords must be listed in alphabetical order'
 
     case 'section-order': {
-      const order = data.order as Array<string>
+      const order = result.data.order as Array<string>
       const sections = order.map(getSectionName).join(', ')
       return `Sections must be listed in the following order ${sections}`
     }
 
     case 'section-body-has-content': {
-      const name = getSectionName(data.sectionCategory)
+      const name = getSectionName(result.data.sectionCategory)
       return `${name} section must contains content`
     }
 
     case 'section-category-uniqueness': {
-      const name = getSectionName(data.sectionCategory)
+      const name = getSectionName(result.data.sectionCategory)
       return `Cannot have more than one ${name} section in the same scope`
     }
 
     case 'section-title-match': {
-      const { requiredTitle, sectionCategory } = data
+      const { requiredTitle, sectionCategory } = result.data
       const name = getSectionName(sectionCategory)
       return `Title for ${name} section should be ${requiredTitle}`
     }
 
     case 'section-title-contains-content': {
-      const name = getSectionName(data.sectionCategory)
+      const name = getSectionName(result.data.sectionCategory)
       return `${name} title cannot be empty`
     }
 
