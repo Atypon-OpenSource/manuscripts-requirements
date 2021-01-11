@@ -29,6 +29,7 @@ import {
 import {
   BibliographyItem,
   BibliographyValidationResult,
+  Contributor,
   CountValidationResult,
   Figure,
   FigureFormatValidationResult,
@@ -50,10 +51,12 @@ import { imageSize } from 'image-size'
 import { InputError } from './errors'
 import {
   buildCombinedFigureTableCountRequirements,
+  buildContributorsCountRequirements,
   buildFigureCountRequirements,
   buildManuscriptCountRequirements,
   buildManuscriptReferenceCountRequirements,
   buildRequiredSections,
+  buildRunningTitleCountRequirements,
   buildSectionCountRequirements,
   buildSectionTitleRequirements,
   buildTableCountRequirements,
@@ -66,6 +69,7 @@ import { sectionCategoriesMap } from './templates'
 import {
   AnyValidationResult,
   CombinedFigureTableCountRequirements,
+  ContributorsCountRequirement,
   CountRequirement,
   CountRequirements,
   Counts,
@@ -75,6 +79,7 @@ import {
   FigureValidationType,
   ReferenceCountRequirements,
   RequiredSections,
+  RunningTitleRequirement,
   SectionCountRequirements,
   Sections,
   SectionTitleRequirement,
@@ -83,6 +88,7 @@ import {
 import {
   countModelsByType,
   createArticle,
+  findContributors,
   findModelByID,
   getFigure,
   getFigureFormat,
@@ -486,6 +492,20 @@ const validateSectionCounts = async function* (
     }
   }
 }
+const validateContributorCountRequirements = function* (
+  requirements: ContributorsCountRequirement,
+  contributors: Array<Contributor>
+) {
+  const numberOfCorrespondingAuthors = contributors.filter(
+    (contributor) => contributor.isCorresponding
+  ).length
+  yield validateCount(
+    'manuscript-maximum-corresponding-authors',
+    numberOfCorrespondingAuthors,
+    true,
+    requirements.correspondingAuthors.max
+  )
+}
 
 const validateTitleCounts = async function* (
   manuscriptTitle: string,
@@ -523,6 +543,22 @@ const validateTitleCounts = async function* (
     false,
     requirements.characters.min
   )
+}
+
+const validateRunningTitleCount = async function* (
+  runningTitle: string | undefined,
+  requirement: RunningTitleRequirement
+) {
+  if (runningTitle) {
+    const runningTitleCounts = await countCharacters(runningTitle)
+
+    yield validateCount(
+      'manuscript-running-title-maximum-characters',
+      runningTitleCounts,
+      true,
+      requirement.runningTitle.max
+    )
+  }
 }
 
 const validateFigureCounts = async function* (
@@ -913,6 +949,27 @@ export const createRequirementsValidator = (
   if (keywordsValidationResult) {
     results.push(keywordsValidationResult)
   }
+
+  const contributorRequirements = buildContributorsCountRequirements(template)
+  const contributors = findContributors(manuscriptId, manuscriptsData)
+
+  for await (const result of validateContributorCountRequirements(
+    contributorRequirements,
+    contributors
+  )) {
+    result && results.push(result)
+  }
+
+  const runningTitleCountRequirements = buildRunningTitleCountRequirements(
+    template
+  )
+  for await (const result of validateRunningTitleCount(
+    manuscript.runningTitle,
+    runningTitleCountRequirements
+  )) {
+    result && results.push(result)
+  }
+
   return appendValidationMessages(results)
 }
 

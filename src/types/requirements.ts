@@ -47,8 +47,10 @@ export type CountValidationType =
   | 'manuscript-title-minimum-characters'
   | 'manuscript-title-maximum-words'
   | 'manuscript-title-minimum-words'
+  | 'manuscript-running-title-maximum-characters'
   | 'manuscript-maximum-figures'
   | 'manuscript-maximum-tables'
+  | 'manuscript-maximum-corresponding-authors'
   | 'manuscript-maximum-combined-figure-tables'
   | 'manuscript-maximum-references'
   | 'figure-minimum-width-resolution'
@@ -88,6 +90,12 @@ export interface CountRequirements {
   title?: {
     max?: CountRequirement
     min?: CountRequirement
+  }
+}
+
+export interface RunningTitleRequirement {
+  runningTitle: {
+    max?: CountRequirement
   }
 }
 
@@ -156,7 +164,11 @@ export type ReferenceCountRequirements = {
     max?: CountRequirement
   }
 }
-
+export type ContributorsCountRequirement = {
+  correspondingAuthors: {
+    max?: CountRequirement
+  }
+}
 export type Sections = Map<
   string,
   Array<{ node: ManuscriptNode; counts: SectionCounts; section: Section }>

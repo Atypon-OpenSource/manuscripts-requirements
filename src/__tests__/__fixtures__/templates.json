@@ -28,6 +28,7 @@
     "minManuscriptTitleCharacterCountRequirement": "MPMinimumManuscriptTitleCharacterCountRequirement:A985DD48-1AA0-4248-8F3D-DFF383AC5E55",
     "maxManuscriptTitleWordCountRequirement": "MPMaximumManuscriptTitleWordCountRequirement:2DB38985-9A65-4DA0-BC09-CE3F3E9C3324",
     "minManuscriptTitleWordCountRequirement": "MPMinimumManuscriptTitleWordCountRequirement:2DB38985-9A65-4DA0-BC09-CE3F3E9C3377",
+    "maxManuscriptRunningTitleCharacterCountRequirement": "MPMaximumRunningTitleCharacterCountRequirement:79D65EAF-C239-46B3-A89C-B57AE209ED7D",
     "maxFigureCountRequirement": "MPMaximumFigureCountRequirement:109621BB-3EDE-462E-822B-4D749DF6D123",
     "maxTableCountRequirement": "MPMaximumTableCountRequirement:09055BAA-F393-451A-A1F3-F624B1F27235",
     "maxCombinedFigureTableCountRequirement": "MPMaximumCombinedFigureTableCountRequirement:1EB6D9C9-F6CA-4D2F-9666-0A26A9B1DATR",
@@ -36,6 +37,7 @@
     "maxFigureWidthPixelsRequirement": "MPMaximumFigurePixelsRequirement:1BEC993B-6213-4270-8B66-130FDE8F2D0F",
     "minFigureHeightPixelsRequirement": "MPMinimumFigurePixelsRequirement:19E7D55C-5413-4967-A223-35B6AAA68270",
     "maxFigureHeightPixelsRequirement": "MPMaximumFigurePixelsRequirement:2BB9C90B-0164-494A-B290-A95A4C71D305",
+    "maxCorrespondingAuthorCountRequirement": "MPMaximumCorrespondingAuthorCountRequirement:TEST",
     "requirementIDs": [
       "MPMaximumAuxiliaryObjectCountRequirement:0B4A4E64-684C-4642-B92C-D19FC78E4A2A"
     ],
@@ -73,6 +75,14 @@
     "objectType": "MPMaximumManuscriptCharacterCountRequirement",
     "severity": 0,
     "updatedAt": 1439634017.900541
+  },
+  {
+    "_id": "MPMaximumRunningTitleCharacterCountRequirement:79D65EAF-C239-46B3-A89C-B57AE209ED7D",
+    "createdAt": 1439145341.438561,
+    "count": 60,
+    "objectType": "MPMaximumRunningTitleCharacterCountRequirement",
+    "severity": 0,
+    "updatedAt": 1439145355.239477
   },
   {
     "_id": "MPMinimumFigurePixelsRequirement:75E42B0A-63D9-4371-A05A-57A3B8BF33E9",
@@ -115,6 +125,14 @@
     "count": 5,
     "createdAt": 1445196095.857493,
     "objectType": "MPMaximumFigureCountRequirement",
+    "severity": 0,
+    "updatedAt": 1445196095.857493
+  },
+  {
+    "_id": "MPMaximumCorrespondingAuthorCountRequirement:TEST",
+    "count": 1,
+    "createdAt": 1445196095.857493,
+    "objectType": "MPMaximumCorrespondingAuthorCountRequirement",
     "severity": 0,
     "updatedAt": 1445196095.857493
   },

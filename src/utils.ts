@@ -24,6 +24,7 @@ import {
 } from '@manuscripts/manuscript-transform'
 import {
   Citation,
+  Contributor,
   ObjectTypes,
   Section,
 } from '@manuscripts/manuscripts-json-schema'
@@ -188,4 +189,17 @@ export const createRequiredModelProperties = (
     updatedAt: createdAt,
     sessionID,
   }
+}
+
+export const findContributors = (
+  manuscriptID: string,
+  manuscriptData: Array<ContainedModel>
+) => {
+  const contributors = manuscriptData.filter(
+    (model) => model.objectType === ObjectTypes.Contributor
+  ) as Array<Contributor>
+
+  return contributors.filter(
+    (contributor) => contributor.manuscriptID === manuscriptID
+  )
 }

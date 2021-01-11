@@ -26,6 +26,7 @@ import {
 import { templateModelMap } from './templates'
 import {
   CombinedFigureTableCountRequirements,
+  ContributorsCountRequirement,
   CountRequirement,
   CountRequirementModel,
   CountRequirements,
@@ -348,6 +349,34 @@ export const buildManuscriptReferenceCountRequirements = (
       max: findCountRequirement(
         ObjectTypes.MaximumManuscriptReferenceCountRequirement,
         'maxManuscriptReferenceCountRequirement',
+        template
+      ),
+    },
+  }
+}
+
+export const buildContributorsCountRequirements = (
+  template: ManuscriptTemplate
+): ContributorsCountRequirement => {
+  return {
+    correspondingAuthors: {
+      max: findCountRequirement(
+        ObjectTypes.MaximumCorrespondingAuthorCountRequirement,
+        'maxCorrespondingAuthorCountRequirement',
+        template
+      ),
+    },
+  }
+}
+
+export const buildRunningTitleCountRequirements = (
+  template: ManuscriptTemplate
+) => {
+  return {
+    runningTitle: {
+      max: findCountRequirement(
+        ObjectTypes.MaximumRunningTitleCharacterCountRequirement,
+        'maxManuscriptRunningTitleCharacterCountRequirement',
         template
       ),
     },

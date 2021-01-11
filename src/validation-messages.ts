@@ -81,6 +81,9 @@ export const validationMessage = (
     case 'manuscript-maximum-tables':
       return `The manuscript must have less than or equal to ${result.data.value} tables`
 
+    case 'manuscript-maximum-corresponding-authors':
+      return `The manuscript must have less than or equal to ${data.value} corresponding authors`
+
     case 'section-maximum-characters': {
       const name = getSectionName(result.data.sectionCategory)
       return `${name} must have less than or equal to ${result.data.value} characters`
@@ -117,6 +120,9 @@ export const validationMessage = (
 
     case 'manuscript-title-minimum-words':
       return `The manuscript title must have more than or equal to ${result.data.value} words`
+
+    case 'manuscript-running-title-maximum-characters':
+      return `The manuscript running title must have less than or equal to ${data.value} characters`
 
     case 'figure-contains-image':
       return `Image in figure is missing`
