@@ -162,9 +162,9 @@ export const validationMessage = (
     }
 
     case 'section-title-match': {
-      const { requiredTitle, sectionCategory } = result.data
+      const { title, sectionCategory } = result.data
       const name = getSectionName(sectionCategory)
-      return `Title for ${name} section should be ${requiredTitle}`
+      return `Title for ${name} section should be ${title}`
     }
 
     case 'section-title-contains-content': {

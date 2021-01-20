@@ -33,11 +33,7 @@
       "title": "Introducing Manuscripts.io: open source editing environment for structured, computationally reproducible research documents",
       "abstract": "Manuscripts.io is an open source collaborative editing environment, tailored for scholarly and research papers. It features a structured editor which can validate content against the requirements of a target publication outlet (e.g. a specific article type in a journal), and it allows for embedding authorship metadata, bibliographic references, experimental data, code and interactive visualizations. It ties collaborative projects together with strong content semantics and project management capabilities, in one environment. The effort has as its origin the macOS based editor Manuscripts.app, with Manuscripts.io fully rebuilt for collaboration on the web while retaining the most-loved features of the desktop application.",
       "issued": {
-        "date-parts": [
-          [
-            "2019"
-          ]
-        ],
+        "date-parts": [["2019"]],
         "_id": "MPBibliographicDate:C4682C8E-C666-49E5-B77C-A34FE7FEA3BB",
         "objectType": "MPBibliographicDate"
       },
@@ -47,13 +43,7 @@
       "shortTitle": "Introducing Manuscripts.io",
       "URL": "https://www.ncbi.nlm.nih.gov/books/NBK540955/",
       "accessed": {
-        "date-parts": [
-          [
-            "2020",
-            "06",
-            "08"
-          ]
-        ],
+        "date-parts": [["2020", "06", "08"]],
         "_id": "MPBibliographicDate:6B9D6AAC-071E-424B-9AD7-A537D0EC228B",
         "objectType": "MPBibliographicDate"
       },
@@ -87,10 +77,7 @@
       "title": "Dashed",
       "objectType": "MPBorderStyle",
       "bundled": true,
-      "pattern": [
-        2,
-        2
-      ],
+      "pattern": [2, 2],
       "priority": 20,
       "prototype": "MPBorderStyle:E28AA90C-4379-434F-AF58-E2D8C8ED1EB4",
       "containerID": "MPProject:B81D5F33-6338-420C-AAEC-CF0CF33E675C",
@@ -102,10 +89,7 @@
       "title": "Dotted",
       "objectType": "MPBorderStyle",
       "bundled": true,
-      "pattern": [
-        1,
-        1
-      ],
+      "pattern": [1, 1],
       "priority": 30,
       "prototype": "MPBorderStyle:00FD8810-B85D-4FC5-8C23-8022A36E07BD",
       "containerID": "MPProject:B81D5F33-6338-420C-AAEC-CF0CF33E675C",
@@ -137,22 +121,15 @@
     {
       "bundled": true,
       "csl": {
-        "ISSNs": [
-          "00280836"
-        ],
+        "ISSNs": ["00280836"],
         "_id": "MPCitationStyle:www-zotero-org-styles-nature",
         "author-email": "mberkowi@gmu.edu",
         "author-name": "Michael Berkowitz",
         "cslIdentifier": "http://www.zotero.org/styles/nature",
         "defaultLocale": "en-GB",
         "documentation-URL": "http://www.nature.com/nature/authors/gta/index.html#a5.4",
-        "eISSNs": [
-          "14764687"
-        ],
-        "fields": [
-          "MPResearchField:science",
-          "MPResearchField:generic-base"
-        ],
+        "eISSNs": ["14764687"],
+        "fields": ["MPResearchField:science", "MPResearchField:generic-base"],
         "license": "http://creativecommons.org/licenses/by-sa/3.0/",
         "self-URL": "http://www.zotero.org/styles/nature",
         "title": "Nature",
@@ -572,9 +549,7 @@
       "objectType": "MPFigure"
     },
     {
-      "containedObjectIDs": [
-        "MPFigure:C9A3CBCE-4AF4-4AD2-97B0-D2848BEFDE5A"
-      ],
+      "containedObjectIDs": ["MPFigure:C9A3CBCE-4AF4-4AD2-97B0-D2848BEFDE5A"],
       "caption": "The Manuscripts logo",
       "elementType": "figure",
       "listingID": "MPListing:B2FC3BFC-4426-4FE7-BE86-55262F6402A4",
@@ -1434,9 +1409,7 @@
       "_id": "MPSection:3A1ECA84-AA87-4E3A-AB70-6686FF6FE452",
       "objectType": "MPSection",
       "priority": 7,
-      "path": [
-        "MPSection:3A1ECA84-AA87-4E3A-AB70-6686FF6FE452"
-      ],
+      "path": ["MPSection:3A1ECA84-AA87-4E3A-AB70-6686FF6FE452"],
       "elementIDs": [
         "MPParagraphElement:69BEE95C-ADA9-4CBB-8E4C-6E3E9D1DDADA",
         "MPFigureElement:A7BBA561-7FA2-4576-981B-3D75E91B614A"
@@ -1448,12 +1421,8 @@
     {
       "priority": 2,
       "title": "A citation",
-      "path": [
-        "MPSection:62247D30-86C2-40C8-9B25-55E323397F57"
-      ],
-      "elementIDs": [
-        "MPParagraphElement:E51EFD7D-52FF-4B72-BF9C-B47F2989436F"
-      ],
+      "path": ["MPSection:62247D30-86C2-40C8-9B25-55E323397F57"],
+      "elementIDs": ["MPParagraphElement:E51EFD7D-52FF-4B72-BF9C-B47F2989436F"],
       "_id": "MPSection:62247D30-86C2-40C8-9B25-55E323397F57",
       "objectType": "MPSection",
       "containerID": "MPProject:B81D5F33-6338-420C-AAEC-CF0CF33E675C",
@@ -1462,12 +1431,8 @@
     {
       "priority": 5,
       "title": "A bullet list",
-      "path": [
-        "MPSection:6AFAA84A-3E7D-40B8-96F0-72EFB0DD2165"
-      ],
-      "elementIDs": [
-        "MPListElement:F211C6B1-2E91-4F48-8F09-2C05CAAF829F"
-      ],
+      "path": ["MPSection:6AFAA84A-3E7D-40B8-96F0-72EFB0DD2165"],
+      "elementIDs": ["MPListElement:F211C6B1-2E91-4F48-8F09-2C05CAAF829F"],
       "_id": "MPSection:6AFAA84A-3E7D-40B8-96F0-72EFB0DD2165",
       "objectType": "MPSection",
       "containerID": "MPProject:B81D5F33-6338-420C-AAEC-CF0CF33E675C",
@@ -1476,12 +1441,8 @@
     {
       "priority": 4,
       "title": "An ordered list",
-      "path": [
-        "MPSection:7EB59268-1C3A-4522-B250-A7B09AC5C97D"
-      ],
-      "elementIDs": [
-        "MPListElement:130F24F7-0F78-43DA-AB80-5B5DAF840C0B"
-      ],
+      "path": ["MPSection:7EB59268-1C3A-4522-B250-A7B09AC5C97D"],
+      "elementIDs": ["MPListElement:130F24F7-0F78-43DA-AB80-5B5DAF840C0B"],
       "_id": "MPSection:7EB59268-1C3A-4522-B250-A7B09AC5C97D",
       "objectType": "MPSection",
       "containerID": "MPProject:B81D5F33-6338-420C-AAEC-CF0CF33E675C",
@@ -1490,12 +1451,8 @@
     {
       "priority": 1,
       "title": "A paragraph",
-      "path": [
-        "MPSection:A67FABCE-B7A0-457A-95C0-3A6B4AFD80BB"
-      ],
-      "elementIDs": [
-        "MPParagraphElement:2F64B77A-161C-48BB-AC09-C7EF425F752F"
-      ],
+      "path": ["MPSection:A67FABCE-B7A0-457A-95C0-3A6B4AFD80BB"],
+      "elementIDs": ["MPParagraphElement:2F64B77A-161C-48BB-AC09-C7EF425F752F"],
       "_id": "MPSection:A67FABCE-B7A0-457A-95C0-3A6B4AFD80BB",
       "objectType": "MPSection",
       "containerID": "MPProject:B81D5F33-6338-420C-AAEC-CF0CF33E675C",
@@ -1505,9 +1462,7 @@
     {
       "priority": 3,
       "title": "An equation",
-      "path": [
-        "MPSection:D015E1FF-1880-48EC-B8A3-4C9CD37E3B2D"
-      ],
+      "path": ["MPSection:D015E1FF-1880-48EC-B8A3-4C9CD37E3B2D"],
       "elementIDs": [
         "MPParagraphElement:51D47526-2C4A-4CCA-9091-C6C8E04685D3",
         "MPEquationElement:4311CDC7-70FF-48A3-9C63-176210C962D4"
@@ -1520,9 +1475,7 @@
     {
       "priority": 6,
       "title": "A table",
-      "path": [
-        "MPSection:E03BA80F-AAF5-4050-961E-380DF6993D0C"
-      ],
+      "path": ["MPSection:E03BA80F-AAF5-4050-961E-380DF6993D0C"],
       "elementIDs": [
         "MPParagraphElement:FEE7BE52-4CC1-4331-8682-6F229866F33B",
         "MPTableElement:099D7B05-3418-4ABA-86ED-8B8D6E992241"
@@ -1536,9 +1489,7 @@
       "category": "MPSectionCategory:bibliography",
       "priority": 8,
       "title": "Bibliography",
-      "path": [
-        "MPSection:FFC7095E-A048-4CC4-BFF3-ADA4AF2C919E"
-      ],
+      "path": ["MPSection:FFC7095E-A048-4CC4-BFF3-ADA4AF2C919E"],
       "elementIDs": [
         "MPBibliographyElement:C65083EA-1727-4AC4-900B-B89FA4376CFB"
       ],
@@ -1617,6 +1568,17 @@
       "prototype": "MPTableStyle:default",
       "containerID": "MPProject:B81D5F33-6338-420C-AAEC-CF0CF33E675C",
       "manuscriptID": "MPManuscript:9E0BEDBC-1084-4AA1-AB82-10ACFAE02232"
+    },
+    {
+      "priority": 20,
+      "title": "test",
+      "path": ["MPSection:7EB59268-1C3A-4522-B250-A7B09AC5C977"],
+      "elementIDs": ["MPListElement:130F24F7-0F78-43DA-AB80-5B5DAF840C0B"],
+      "_id": "MPSection:7EB59268-1C3A-4522-B250-A7B09AC5C977",
+      "objectType": "MPSection",
+      "containerID": "MPProject:B81D5F33-6338-420C-AAEC-CF0CF33E675C",
+      "manuscriptID": "MPManuscript:9E0BEDBC-1084-4AA1-AB82-10ACFAE02232",
+      "category": "MPSectionCategory:competing-interests"
     }
   ]
 }

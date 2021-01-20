@@ -71,17 +71,12 @@ export const runManuscriptFixes = (
         break
       }
       case 'section-title-match': {
-        const { data } = result
-        if (
-          result.affectedElementId &&
-          modelsMap.has(result.affectedElementId)
-        ) {
-          const modelToFix = modelsMap.get(
-            result.affectedElementId
-          ) as ContainedModel
+        const { affectedElementId } = result
+        if (affectedElementId && modelsMap.has(affectedElementId)) {
+          const modelToFix = modelsMap.get(affectedElementId) as ContainedModel
           retitleSection(result, modelToFix)
         } else {
-          throw new Error(`${data.id} not found`)
+          throw new Error(`${affectedElementId} not found`)
         }
         break
       }
@@ -107,10 +102,10 @@ const retitleSection = (
   result: Build<SectionTitleValidationResult>,
   model: ContainedModel
 ) => {
-  const { data } = result
+  const { data, affectedElementId } = result
 
   if (!isSection(model)) {
-    throw new Error(`${data.id} must be of type MPSection`)
+    throw new Error(`${affectedElementId} must be of type MPSection`)
   }
   model.title = data.title
 }

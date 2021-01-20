@@ -324,9 +324,10 @@ const validateTitleContent = async (
     type: 'section-title-contains-content',
     passed,
     severity: requirement.severity,
-    data: { id: _id, sectionCategory: category },
+    data: { sectionCategory: category },
     objectType: ObjectTypes.SectionTitleValidationResult,
     _id: generateID(ObjectTypes.SectionTitleValidationResult),
+    affectedElementId: _id,
   }
 }
 
@@ -342,9 +343,9 @@ const validateExpectedTitle = (
       type: 'section-title-match',
       passed: sectionTitle === requiredTitle,
       severity,
-      data: { id: _id, title: requiredTitle, sectionCategory: category },
+      data: { title: requiredTitle, sectionCategory: category },
       fixable: true,
-
+      affectedElementId: _id,
       objectType: ObjectTypes.SectionTitleValidationResult,
       _id: generateID(ObjectTypes.SectionTitleValidationResult),
     }
