@@ -251,8 +251,8 @@ Object {
 exports[`validate manuscript: validate-manuscript 14`] = `
 Object {
   "_id": Any<String>,
+  "affectedElementId": "MPSection:A67FABCE-B7A0-457A-95C0-3A6B4AFD80BB",
   "data": Object {
-    "id": "MPSection:A67FABCE-B7A0-457A-95C0-3A6B4AFD80BB",
     "sectionCategory": "MPSectionCategory:abstract",
   },
   "message": undefined,
@@ -266,8 +266,8 @@ Object {
 exports[`validate manuscript: validate-manuscript 15`] = `
 Object {
   "_id": Any<String>,
+  "affectedElementId": "MPSection:FFC7095E-A048-4CC4-BFF3-ADA4AF2C919E",
   "data": Object {
-    "id": "MPSection:FFC7095E-A048-4CC4-BFF3-ADA4AF2C919E",
     "sectionCategory": "MPSectionCategory:bibliography",
   },
   "message": "Bibliography section must contains content",

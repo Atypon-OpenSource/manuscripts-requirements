@@ -182,10 +182,11 @@ const validateSectionsCategory = async function* (
           yield {
             type: 'section-category-uniqueness',
             passed: false,
-            data: { id: section._id, sectionCategory: section.category },
+            data: { sectionCategory: section.category },
             severity: 0,
             objectType: ObjectTypes.SectionCategoryValidationResult,
             _id: generateID(ObjectTypes.SectionCategoryValidationResult),
+            affectedElementId: section._id,
           }
         } else {
           scopes.add(scope)
@@ -204,9 +205,10 @@ const validateSectionBody = async function* (
         type: 'section-body-has-content',
         passed: containsBodyContent(node),
         severity: 0, // What severity it should be?
-        data: { id: section._id, sectionCategory: section.category },
+        data: { sectionCategory: section.category },
         objectType: ObjectTypes.SectionBodyValidationResult,
         _id: generateID(ObjectTypes.SectionBodyValidationResult),
+        affectedElementId: section._id,
       }
     }
   }
