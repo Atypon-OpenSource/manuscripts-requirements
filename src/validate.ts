@@ -380,7 +380,7 @@ const validateFigureFormat = (
   return {
     type,
     passed: (format && allowedFormats.includes(format)) || false,
-    data: { id, contentType },
+    data: { contentType, allowedImageTypes: allowedFormats },
     severity: 0,
     objectType: ObjectTypes.FigureFormatValidationResult,
     _id: generateID(ObjectTypes.FigureFormatValidationResult),

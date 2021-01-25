@@ -127,8 +127,9 @@ export const validationMessage = (
     case 'figure-contains-image':
       return `Image in figure is missing`
 
-    case 'figure-format-validation':
-      return `${result.data.contentType} format is not allowed`
+    case 'figure-format-validation': {
+      return `${result.data.contentType} format is not allowed, allowed formats (${result.data.allowedImageTypes})`
+    }
 
     case 'figure-maximum-height-resolution':
       return `Figure height must be less than or equal to ${result.data.value}`

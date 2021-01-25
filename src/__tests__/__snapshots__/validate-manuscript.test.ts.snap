@@ -461,8 +461,11 @@ exports[`validate manuscript: validate-manuscript 28`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
+    "allowedImageTypes": Array [
+      "tiff",
+      "jpeg",
+    ],
     "contentType": "image/jpeg",
-    "id": "MPFigure:C9A3CBCE-4AF4-4AD2-97B0-D2848BEFDE5F",
   },
   "message": undefined,
   "objectType": "MPFigureFormatValidationResult",
@@ -476,10 +479,13 @@ exports[`validate manuscript: validate-manuscript 29`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
+    "allowedImageTypes": Array [
+      "tiff",
+      "jpeg",
+    ],
     "contentType": "image/png",
-    "id": "MPFigure:C9A3CBCE-4AF4-4AD2-97B0-D2848BEFDE5A",
   },
-  "message": "image/png format is not allowed",
+  "message": "image/png format is not allowed, allowed formats (tiff,jpeg)",
   "objectType": "MPFigureFormatValidationResult",
   "passed": false,
   "severity": 0,
