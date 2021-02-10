@@ -26,6 +26,7 @@ import {
   Citation,
   Contributor,
   ObjectTypes,
+  RequiredSectionValidationResult,
   Section,
 } from '@manuscripts/manuscripts-json-schema'
 import FileType from 'file-type/browser'
@@ -33,7 +34,7 @@ import { types as imageTypes } from 'image-size'
 import { v4 as uuid } from 'uuid'
 
 import { InputError } from './errors'
-import { RequiredSections } from './types/requirements'
+import { AnyValidationResult, RequiredSections } from './types/requirements'
 export const isSection = hasObjectType<Section>(ObjectTypes.Section)
 
 export const findModelByID = (
@@ -202,4 +203,31 @@ export const findContributors = (
   return contributors.filter(
     (contributor) => contributor.manuscriptID === manuscriptID
   )
+}
+
+export const findModelsByType = (
+  modelMap: Map<string, ContainedModel>,
+  type: string
+): Array<ContainedModel> => [...modelMap.values()].filter(hasObjectType(type))
+
+export const manuscriptHasMissingSection = (
+  modelMap: Map<string, ContainedModel>,
+  validationResults: Array<AnyValidationResult>
+) => {
+  const hasMissingSection =
+    validationResults.filter(
+      (el) => el.type === 'required-section' && !el.passed
+    ).length > 0
+
+  const hasAnIgnoredMissingSection = findModelsByType(
+    modelMap,
+    ObjectTypes.RequiredSectionValidationResult
+  ).filter((model) => {
+    const requiredSectionValidation = model as RequiredSectionValidationResult
+    return (
+      requiredSectionValidation.ignored && !requiredSectionValidation.passed
+    )
+  })
+
+  return hasMissingSection || hasAnIgnoredMissingSection
 }

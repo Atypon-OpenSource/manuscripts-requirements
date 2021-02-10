@@ -14,12 +14,39 @@
  * limitations under the License.
  */
 
+import { ContainedModel } from '@manuscripts/manuscript-transform'
 import fs from 'fs'
 
 import { createTemplateValidator } from '../validate-manuscript'
 import { data } from './__fixtures__/manuscript-data.json'
 
 test('validate manuscript', async () => {
+  const manuscriptsData = (data as unknown) as Array<ContainedModel>
+  const results = await validate(manuscriptsData)
+  results.forEach((result) => {
+    // @ts-ignore
+    expect(result).toMatchSnapshot(
+      {
+        _id: expect.any(String),
+      },
+      'validate-manuscript'
+    )
+  })
+})
+
+test('validate manuscript with ignored results', async () => {
+  const manuscriptsData = (data as unknown) as Array<ContainedModel>
+  const results = await validate(manuscriptsData)
+  manuscriptsData.push(
+    // @ts-ignore
+    ...results.map((result) => ({ ...result, ignored: true }))
+  )
+  const newResult = await validate(manuscriptsData)
+
+  expect(newResult.length).toEqual(0)
+})
+
+const validate = async (data: Array<ContainedModel>) => {
   const validateManuscript = createTemplateValidator(
     'MPManuscriptTemplate:www-zotero-org-styles-nature-genetics-Nature-Genetics-Journal-Publication-Article'
   )
@@ -32,18 +59,10 @@ test('validate manuscript', async () => {
     return undefined
   }
   const results = await validateManuscript(
-    // @ts-ignore
     data,
     'MPManuscript:9E0BEDBC-1084-4AA1-AB82-10ACFAE02232',
     getData
   )
-  results.forEach((result) => {
-    // @ts-ignore
-    expect(result).toMatchSnapshot(
-      {
-        _id: expect.any(String),
-      },
-      'validate-manuscript'
-    )
-  })
-})
+
+  return results
+}

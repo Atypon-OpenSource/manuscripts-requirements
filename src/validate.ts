@@ -64,6 +64,7 @@ import {
   getAllowedFigureFormats,
   getAllowedFigureResolution,
 } from './requirements'
+import { addValidationResults } from './result-filter'
 import { buildText, countCharacters, countWords } from './statistics'
 import { sectionCategoriesMap } from './templates'
 import {
@@ -98,6 +99,7 @@ import {
   hasRightOrder,
   isSequential,
   isValidDOI,
+  manuscriptHasMissingSection,
   sortSections,
 } from './utils'
 import { appendValidationMessages } from './validation-messages'
@@ -180,12 +182,12 @@ const validateSectionsCategory = async function* (
         const scope = getSectionScope(section)
         if (scopes.has(scope)) {
           yield {
+            ...buildValidationResult(
+              ObjectTypes.SectionCategoryValidationResult
+            ),
             type: 'section-category-uniqueness',
             passed: false,
             data: { sectionCategory: section.category },
-            severity: 0,
-            objectType: ObjectTypes.SectionCategoryValidationResult,
-            _id: generateID(ObjectTypes.SectionCategoryValidationResult),
             affectedElementId: section._id,
           }
         } else {
@@ -202,12 +204,10 @@ const validateSectionBody = async function* (
   for (const [, category] of sectionsWithCategory) {
     for (const { section, node } of category) {
       yield {
+        ...buildValidationResult(ObjectTypes.SectionBodyValidationResult),
         type: 'section-body-has-content',
         passed: containsBodyContent(node),
-        severity: 0, // What severity it should be?
         data: { sectionCategory: section.category },
-        objectType: ObjectTypes.SectionBodyValidationResult,
-        _id: generateID(ObjectTypes.SectionBodyValidationResult),
         affectedElementId: section._id,
       }
     }
@@ -263,13 +263,11 @@ const validateSectionsOrder = (
     passed = hasRightOrder(requiredOrder, currentOrder)
   }
   return {
+    ...buildValidationResult(ObjectTypes.SectionOrderValidationResult),
     type: 'section-order',
-    severity: 0,
     passed,
     data: { order: requiredOrder },
     fixable: true,
-    objectType: ObjectTypes.SectionOrderValidationResult,
-    _id: generateID(ObjectTypes.SectionOrderValidationResult),
   }
 }
 
@@ -281,13 +279,14 @@ async function* validateRequiredSections(
     const { sectionDescription, severity } = requiredSection
     const { sectionCategory } = sectionDescription
     yield {
+      ...buildValidationResult(
+        ObjectTypes.RequiredSectionValidationResult,
+        severity
+      ),
       type: 'required-section',
       passed: sectionCategories.has(sectionCategory),
-      severity,
       data: { sectionDescription, sectionCategory },
       fixable: true,
-      objectType: ObjectTypes.RequiredSectionValidationResult,
-      _id: generateID(ObjectTypes.RequiredSectionValidationResult),
     }
   }
 }
@@ -321,12 +320,13 @@ const validateTitleContent = async (
   const passed = !!(title && title.trim().length > 0)
 
   return {
+    ...buildValidationResult(
+      ObjectTypes.SectionTitleValidationResult,
+      requirement.severity
+    ),
     type: 'section-title-contains-content',
     passed,
-    severity: requirement.severity,
     data: { sectionCategory: category },
-    objectType: ObjectTypes.SectionTitleValidationResult,
-    _id: generateID(ObjectTypes.SectionTitleValidationResult),
     affectedElementId: _id,
   }
 }
@@ -340,14 +340,15 @@ const validateExpectedTitle = (
 
   if (requiredTitle) {
     return {
+      ...buildValidationResult(
+        ObjectTypes.SectionTitleValidationResult,
+        severity
+      ),
       type: 'section-title-match',
       passed: sectionTitle === requiredTitle,
-      severity,
       data: { title: requiredTitle, sectionCategory: category },
       fixable: true,
       affectedElementId: _id,
-      objectType: ObjectTypes.SectionTitleValidationResult,
-      _id: generateID(ObjectTypes.SectionTitleValidationResult),
     }
   }
 }
@@ -360,12 +361,10 @@ const validateCount = (
   if (requirement && requirement.count !== undefined) {
     const requirementCount = requirement.count
     return {
+      ...buildValidationResult(ObjectTypes.CountValidationResult),
       type,
       passed: checkMax ? count <= requirementCount : count >= requirementCount,
-      severity: requirement.severity,
       data: { count, value: requirementCount },
-      objectType: ObjectTypes.CountValidationResult,
-      _id: generateID(ObjectTypes.CountValidationResult),
     }
   }
 }
@@ -378,12 +377,10 @@ const validateFigureFormat = (
   allowedFormats: Array<string>
 ): Build<FigureFormatValidationResult> | undefined => {
   return {
+    ...buildValidationResult(ObjectTypes.FigureFormatValidationResult),
     type,
     passed: (format && allowedFormats.includes(format)) || false,
     data: { contentType, allowedImageTypes: allowedFormats },
-    severity: 0,
-    objectType: ObjectTypes.FigureFormatValidationResult,
-    _id: generateID(ObjectTypes.FigureFormatValidationResult),
   }
 }
 
@@ -645,21 +642,17 @@ const validateDOI = function (
   const { DOI } = bibliographyItem
   if (DOI) {
     result.push({
+      ...buildValidationResult(ObjectTypes.BibliographyValidationResult),
       type: 'bibliography-doi-format',
       passed: isValidDOI(DOI),
       affectedElementId: bibliographyItem._id,
-      severity: 0,
-      objectType: ObjectTypes.BibliographyValidationResult,
-      _id: generateID(ObjectTypes.BibliographyValidationResult),
     })
   }
   result.push({
+    ...buildValidationResult(ObjectTypes.BibliographyValidationResult),
     type: 'bibliography-doi-exist',
     passed: !!DOI,
     affectedElementId: bibliographyItem._id,
-    severity: 0,
-    objectType: ObjectTypes.BibliographyValidationResult,
-    _id: generateID(ObjectTypes.BibliographyValidationResult),
   })
   return result
 }
@@ -782,14 +775,11 @@ const validateKeywordsOrder = (
   )
   const order = orderedKeywords.map((keywords) => keywords._id)
   return {
+    ...buildValidationResult(ObjectTypes.KeywordsOrderValidationResult),
     type: 'keywords-order',
     fixable: true,
     passed: JSON.stringify(orderedKeywords) === JSON.stringify(keywords),
     data: { order },
-    severity: 0,
-
-    objectType: ObjectTypes.KeywordsOrderValidationResult,
-    _id: generateID(ObjectTypes.KeywordsOrderValidationResult),
   }
 }
 type GetData = (id: string) => Promise<Buffer | undefined>
@@ -801,7 +791,6 @@ export const createRequirementsValidator = (
   getData: GetData
 ): Promise<AnyValidationResult[]> => {
   const results: AnyValidationResult[] = []
-
   const manuscript = findModelByID(manuscriptsData, manuscriptId)
   if (!manuscript || !isManuscript(manuscript)) {
     throw new InputError(
@@ -810,7 +799,7 @@ export const createRequirementsValidator = (
   }
   const { article, modelMap } = createArticle(manuscriptsData, manuscriptId)
   const manuscriptsTitle: string = getManuscriptTitle(modelMap, manuscriptId)
-
+  const addResult = addValidationResults(modelMap, results)
   // TODO: find parent template (title === template.parent) and merge requirements?
   // TODO: the requirements in the parent seem to be duplicates…
 
@@ -822,15 +811,12 @@ export const createRequirementsValidator = (
     requiredSections,
     sectionCategories
   )) {
-    results.push(result)
+    addResult(result)
   }
 
-  const hasMissingSections =
-    results.filter((el) => el.type === 'required-section' && !el.passed)
-      .length > 0
-  if (!hasMissingSections) {
+  if (!manuscriptHasMissingSection(modelMap, results)) {
     const result = validateSectionsOrder(requiredSections, sectionsWithCategory)
-    results.push(result)
+    addResult(result)
   }
 
   // validate manuscript counts
@@ -840,7 +826,7 @@ export const createRequirementsValidator = (
     article,
     manuscriptCountRequirements
   )) {
-    result && results.push(result)
+    addResult(result)
   }
   const everySectionWithCategory = await buildSections(article, modelMap, true)
 
@@ -851,7 +837,7 @@ export const createRequirementsValidator = (
     sectionsWithCategory,
     sectionCountRequirements
   )) {
-    result && results.push(result)
+    addResult(result)
   }
   // Validate section title requirement
   const sectionTitleRequirement = buildSectionTitleRequirements(template)
@@ -859,16 +845,16 @@ export const createRequirementsValidator = (
     sectionTitleRequirement,
     sectionsWithCategory
   )) {
-    result && results.push(result)
+    addResult(result)
   }
 
   for await (const result of validateSectionBody(sectionsWithCategory)) {
-    result && results.push(result)
+    addResult(result)
   }
   for await (const result of validateSectionsCategory(
     everySectionWithCategory
   )) {
-    result && results.push(result)
+    addResult(result)
   }
   //validate title count requirements
   const titleCountRequirements: CountRequirements = buildTitleCountRequirements(
@@ -878,7 +864,7 @@ export const createRequirementsValidator = (
     manuscriptsTitle,
     titleCountRequirements
   )) {
-    result && results.push(result)
+    addResult(result)
   }
   const manuscriptReferenceCountRequirement = buildManuscriptReferenceCountRequirements(
     template
@@ -888,10 +874,10 @@ export const createRequirementsValidator = (
     references.length,
     manuscriptReferenceCountRequirement
   )) {
-    result && results.push(result)
+    addResult(result)
   }
   for await (const result of validateBibliography(modelMap, references)) {
-    result && results.push(result)
+    addResult(result)
   }
   const figureCountRequirements: FigureCountRequirements = buildFigureCountRequirements(
     template
@@ -900,7 +886,7 @@ export const createRequirementsValidator = (
     modelMap,
     figureCountRequirements
   )) {
-    result && results.push(result)
+    addResult(result)
   }
 
   const tableCountRequirements: TableCountRequirements = buildTableCountRequirements(
@@ -910,7 +896,7 @@ export const createRequirementsValidator = (
     modelMap,
     tableCountRequirements
   )) {
-    result && results.push(result)
+    addResult(result)
   }
 
   const combinedFigureTableCountRequirements: CombinedFigureTableCountRequirements = buildCombinedFigureTableCountRequirements(
@@ -920,12 +906,12 @@ export const createRequirementsValidator = (
     modelMap,
     combinedFigureTableCountRequirements
   )) {
-    result && results.push(result)
+    addResult(result)
   }
 
   const allowedFigureFormats = getAllowedFigureFormats(template)
   for (const result of validateFigureFormats(modelMap, allowedFigureFormats)) {
-    result && results.push(result)
+    addResult(result)
   }
 
   const allowedFigureResolutions = getAllowedFigureResolution(template)
@@ -936,7 +922,7 @@ export const createRequirementsValidator = (
     figures,
     new Set(figuresWithImage.map((fig) => fig._id))
   )) {
-    result && results.push(result)
+    addResult(result)
   }
 
   for await (const result of validateFigureResolution(
@@ -944,13 +930,13 @@ export const createRequirementsValidator = (
     figuresWithImage,
     getData as (id: string) => Promise<Buffer>
   )) {
-    result && results.push(result)
+    addResult(result)
   }
 
   // validate keywords order
   const keywordsValidationResult = validateKeywordsOrder(modelMap)
   if (keywordsValidationResult) {
-    results.push(keywordsValidationResult)
+    addResult(keywordsValidationResult)
   }
 
   const contributorRequirements = buildContributorsCountRequirements(template)
@@ -960,7 +946,7 @@ export const createRequirementsValidator = (
     contributorRequirements,
     contributors
   )) {
-    result && results.push(result)
+    addResult(result)
   }
 
   const runningTitleCountRequirements = buildRunningTitleCountRequirements(
@@ -970,7 +956,7 @@ export const createRequirementsValidator = (
     manuscript.runningTitle,
     runningTitleCountRequirements
   )) {
-    result && results.push(result)
+    addResult(result)
   }
 
   return appendValidationMessages(results)
@@ -996,12 +982,17 @@ const validateFigureContainsImage = function* (
 ): Generator<Build<FigureImageValidationResult>> {
   for (const { _id } of figures) {
     yield {
+      ...buildValidationResult(ObjectTypes.FigureImageValidationResult),
       type: 'figure-contains-image',
       passed: figuresWithImages.has(_id),
-      severity: 0,
       affectedElementId: _id,
-      objectType: ObjectTypes.FigureImageValidationResult,
-      _id: generateID(ObjectTypes.FigureImageValidationResult),
     }
   }
 }
+
+const buildValidationResult = (type: ObjectTypes, severity = 0) => ({
+  _id: generateID(type),
+  objectType: type,
+  ignored: false,
+  severity,
+})

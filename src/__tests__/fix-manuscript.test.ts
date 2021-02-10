@@ -89,6 +89,7 @@ test('Add and reorder sections', async () => {
     SectionOrderValidationResult
   >> = [
     {
+      ignored: false,
       passed: false,
       severity: 0,
       type: 'section-order',
@@ -146,6 +147,7 @@ test('Retitle sections', async () => {
   ]
 
   const validationResults: Build<SectionTitleValidationResult> = {
+    ignored: false,
     _id: '',
     objectType: 'MPSectionTitleValidationResult',
     passed: false,
@@ -209,6 +211,7 @@ test('Reorder keywords', async () => {
     'MPManuscriptKeyword:2',
   ]
   const validationResults: Build<KeywordsOrderValidationResult> = {
+    ignored: false,
     passed: false,
     fixable: true,
     severity: 0,
