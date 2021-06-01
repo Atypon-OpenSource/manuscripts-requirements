@@ -16,6 +16,7 @@
 import { ContainedModel } from '@manuscripts/manuscript-transform'
 import {
   CountValidationResult,
+  FigureResolution,
   ObjectTypes,
   RequiredSectionValidationResult,
   ValidationResult,
@@ -95,6 +96,15 @@ const isIgnored = (
       const value = result as CountValidationResult
       return isTheSameModel(
         ignoredModels as Array<CountValidationResult>,
+        (ignoredModel) =>
+          value.type === ignoredModel.type &&
+          value.affectedElementId === ignoredModel.affectedElementId
+      )
+    }
+    case ObjectTypes.FigureResolution: {
+      const value = result as FigureResolution
+      return isTheSameModel(
+        ignoredModels as Array<FigureResolution>,
         (ignoredModel) =>
           value.type === ignoredModel.type &&
           value.affectedElementId === ignoredModel.affectedElementId

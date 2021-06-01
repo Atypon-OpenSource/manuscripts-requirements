@@ -19,6 +19,7 @@ import {
   CountValidationResult,
   FigureFormatValidationResult,
   FigureImageValidationResult,
+  FigureResolution,
   KeywordsOrderValidationResult,
   Model,
   ObjectTypes,
@@ -32,6 +33,12 @@ import {
 } from '@manuscripts/manuscripts-json-schema'
 
 export type TemplateRequirements = Partial<Record<ObjectTypes, Model[]>>
+
+export type FigureResolutionsType =
+  | 'figure-minimum-width-resolution'
+  | 'figure-minimum-height-resolution'
+  | 'figure-maximum-width-resolution'
+  | 'figure-maximum-height-resolution'
 
 export type CountValidationType =
   | 'manuscript-maximum-characters'
@@ -53,16 +60,13 @@ export type CountValidationType =
   | 'manuscript-maximum-corresponding-authors'
   | 'manuscript-maximum-combined-figure-tables'
   | 'manuscript-maximum-references'
-  | 'figure-minimum-width-resolution'
-  | 'figure-minimum-height-resolution'
-  | 'figure-maximum-width-resolution'
-  | 'figure-maximum-height-resolution'
 
 export type FigureValidationType = 'figure-format-validation'
 
 export type AnyValidationResult =
   | Build<RequiredSectionValidationResult>
   | Build<CountValidationResult>
+  | Build<FigureResolution>
   | Build<FigureFormatValidationResult>
   | Build<SectionTitleValidationResult>
   | Build<SectionOrderValidationResult>

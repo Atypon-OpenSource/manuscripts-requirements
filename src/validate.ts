@@ -34,6 +34,7 @@ import {
   Figure,
   FigureFormatValidationResult,
   FigureImageValidationResult,
+  FigureResolution,
   KeywordsOrderValidationResult,
   Manuscript,
   ManuscriptKeyword,
@@ -77,6 +78,7 @@ import {
   CountValidationType,
   FigureCountRequirements,
   FigureResolutionsRequirements,
+  FigureResolutionsType,
   FigureValidationType,
   ReferenceCountRequirements,
   RequiredSections,
@@ -365,6 +367,36 @@ const validateCount = (
       type,
       passed: checkMax ? count <= requirementCount : count >= requirementCount,
       data: { count, value: requirementCount },
+    }
+  }
+}
+
+const validateFigureResolutionCount = (
+  type: FigureResolutionsType,
+  count: number,
+  checkMax: boolean,
+  template: ManuscriptTemplate,
+  requirement?: CountRequirement
+): Build<FigureResolution> | undefined => {
+  if (requirement && requirement.count !== undefined) {
+    const requirementCount = requirement.count
+    let dpiValue
+    if (
+      template.minFigureScreenDPIRequirement !== undefined &&
+      template.maxFigureScreenDPIRequirement === undefined
+    ) {
+      dpiValue = parseInt(template.minFigureScreenDPIRequirement)
+    } else if (
+      template.maxFigureScreenDPIRequirement !== undefined &&
+      template.minFigureScreenDPIRequirement === undefined
+    ) {
+      dpiValue = parseInt(template.maxFigureScreenDPIRequirement)
+    }
+    return {
+      ...buildValidationResult(ObjectTypes.FigureResolution),
+      type,
+      passed: checkMax ? count <= requirementCount : count >= requirementCount,
+      data: { count, value: requirementCount, dpi: dpiValue },
     }
   }
 }
@@ -682,16 +714,23 @@ const validateFigureFormats = (
 export const validateFigureResolution = async function* (
   requirement: FigureResolutionsRequirements,
   figures: Array<Figure>,
-  getData: (id: string) => Promise<Buffer>
-): AsyncGenerator<Build<CountValidationResult> | undefined> {
+  getData: (id: string) => Promise<Buffer>,
+  template: ManuscriptTemplate
+): AsyncGenerator<Build<FigureResolution> | undefined> {
   const validate = (
-    type: CountValidationType,
+    type: FigureResolutionsType,
     count: number,
     checkMax: boolean,
     requirement?: CountRequirement,
     id?: string
   ) => {
-    const result = validateCount(type, count, checkMax, requirement)
+    const result = validateFigureResolutionCount(
+      type,
+      count,
+      checkMax,
+      template,
+      requirement
+    )
     if (result) {
       result.data.id = id
     }
@@ -928,7 +967,8 @@ export const createRequirementsValidator = (
   for await (const result of validateFigureResolution(
     allowedFigureResolutions,
     figuresWithImage,
-    getData as (id: string) => Promise<Buffer>
+    getData as (id: string) => Promise<Buffer>,
+    template
   )) {
     addResult(result)
   }
