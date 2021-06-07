@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import customTemplateModels from '@manuscripts/data/dist/shared/custom-templates.json'
 import categories from '@manuscripts/data/dist/shared/section-categories.json'
 import templateModels from '@manuscripts/data/dist/shared/templates-v2.json'
 import { Model, SectionCategory } from '@manuscripts/manuscripts-json-schema'
@@ -29,9 +28,6 @@ const buildTemplateModelMap = (): Map<string, Model> => {
     map.set(model._id, model)
   }
 
-  for (const model of customTemplateModels as Model[]) {
-    map.set(model._id, model)
-  }
   if (process.env.NODE_ENV !== 'production') {
     //For Debugging
     for (const model of testTemplates as Model[]) {
