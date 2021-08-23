@@ -17,6 +17,7 @@
 import { ContainedModel } from '@manuscripts/manuscript-transform'
 import fs from 'fs'
 
+import { validationOptions } from '../types/input'
 import { createTemplateValidator } from '../validate-manuscript'
 import { data } from './__fixtures__/manuscript-data.json'
 
@@ -46,7 +47,21 @@ test('validate manuscript with ignored results', async () => {
   expect(newResult.length).toEqual(0)
 })
 
-const validate = async (data: Array<ContainedModel>) => {
+test('validate manuscript with options', async () => {
+  const manuscriptsData = (data as unknown) as Array<ContainedModel>
+  const results = await validate(manuscriptsData, { validateImageFiles: false })
+  results.forEach((result) => {
+    // @ts-ignore
+    expect(result).toMatchSnapshot({
+      _id: expect.any(String),
+    })
+  })
+})
+
+const validate = async (
+  data: Array<ContainedModel>,
+  options?: validationOptions
+) => {
   const validateManuscript = createTemplateValidator(
     'MPManuscriptTemplate:www-zotero-org-styles-nature-genetics-Nature-Genetics-Journal-Publication-Article'
   )
@@ -58,11 +73,10 @@ const validate = async (data: Array<ContainedModel>) => {
     }
     return undefined
   }
-  const results = await validateManuscript(
+  return await validateManuscript(
     data,
     'MPManuscript:9E0BEDBC-1084-4AA1-AB82-10ACFAE02232',
-    getData
+    getData,
+    options
   )
-
-  return results
 }

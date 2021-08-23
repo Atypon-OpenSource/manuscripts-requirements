@@ -1,5 +1,5 @@
 /*!
- * © 2020 Atypon Systems LLC
+ * © 2021 Atypon Systems LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,12 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export * from './statistics'
-export * from './validate'
-export * from './validate-manuscript'
-export * from './errors'
-export * from './fix-manuscript'
-export * from './result-filter'
-export * from './templates'
-export * from './types/input'
-export { AnyValidationResult } from './types/requirements'
+
+export type GetData = (id: string) => Promise<Buffer | undefined>
+
+export type validationOptions = {
+  validateImageFiles: boolean
+}

@@ -68,6 +68,7 @@ import {
 import { addValidationResults } from './result-filter'
 import { buildText, countCharacters, countWords } from './statistics'
 import { sectionCategoriesMap } from './templates'
+import { GetData, validationOptions } from './types/input'
 import {
   AnyValidationResult,
   CombinedFigureTableCountRequirements,
@@ -292,6 +293,7 @@ async function* validateRequiredSections(
     }
   }
 }
+
 async function* validateSectionsTitle(
   requiredSections: Array<SectionTitleRequirement>,
   sectionCategories: Sections
@@ -314,6 +316,7 @@ async function* validateSectionsTitle(
     }
   }
 }
+
 const validateTitleContent = async (
   requirement: SectionTitleRequirement,
   section: Section
@@ -821,13 +824,13 @@ const validateKeywordsOrder = (
     data: { order },
   }
 }
-type GetData = (id: string) => Promise<Buffer | undefined>
 export const createRequirementsValidator = (
   template: ManuscriptTemplate
 ) => async (
   manuscriptsData: ContainedModel[],
   manuscriptId: string,
-  getData: GetData
+  getData: GetData,
+  options: validationOptions = { validateImageFiles: true }
 ): Promise<AnyValidationResult[]> => {
   const results: AnyValidationResult[] = []
   const manuscript = findModelByID(manuscriptsData, manuscriptId)
@@ -890,6 +893,7 @@ export const createRequirementsValidator = (
   for await (const result of validateSectionBody(sectionsWithCategory)) {
     addResult(result)
   }
+
   for await (const result of validateSectionsCategory(
     everySectionWithCategory
   )) {
@@ -948,31 +952,35 @@ export const createRequirementsValidator = (
     addResult(result)
   }
 
-  const allowedFigureFormats = getAllowedFigureFormats(template)
-  for (const result of validateFigureFormats(modelMap, allowedFigureFormats)) {
-    addResult(result)
+  if (options.validateImageFiles) {
+    const allowedFigureFormats = getAllowedFigureFormats(template)
+    for (const result of validateFigureFormats(
+      modelMap,
+      allowedFigureFormats
+    )) {
+      addResult(result)
+    }
+
+    const allowedFigureResolutions = getAllowedFigureResolution(template)
+    const figures = getModelsByType<Figure>(modelMap, ObjectTypes.Figure)
+    const figuresWithImage = await getFiguresWithImage(figures, getData)
+
+    for (const result of validateFigureContainsImage(
+      figures,
+      new Set(figuresWithImage.map((fig) => fig._id))
+    )) {
+      addResult(result)
+    }
+
+    for await (const result of validateFigureResolution(
+      allowedFigureResolutions,
+      figuresWithImage,
+      getData as (id: string) => Promise<Buffer>,
+      template
+    )) {
+      addResult(result)
+    }
   }
-
-  const allowedFigureResolutions = getAllowedFigureResolution(template)
-  const figures = getModelsByType<Figure>(modelMap, ObjectTypes.Figure)
-  const figuresWithImage = await getFiguresWithImage(figures, getData)
-
-  for (const result of validateFigureContainsImage(
-    figures,
-    new Set(figuresWithImage.map((fig) => fig._id))
-  )) {
-    addResult(result)
-  }
-
-  for await (const result of validateFigureResolution(
-    allowedFigureResolutions,
-    figuresWithImage,
-    getData as (id: string) => Promise<Buffer>,
-    template
-  )) {
-    addResult(result)
-  }
-
   // validate keywords order
   const keywordsValidationResult = validateKeywordsOrder(modelMap)
   if (keywordsValidationResult) {
