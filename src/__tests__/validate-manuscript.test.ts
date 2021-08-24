@@ -21,39 +21,51 @@ import { validationOptions } from '../types/input'
 import { createTemplateValidator } from '../validate-manuscript'
 import { data } from './__fixtures__/manuscript-data.json'
 
-test('validate manuscript', async () => {
-  const manuscriptsData = (data as unknown) as Array<ContainedModel>
-  const results = await validate(manuscriptsData)
-  results.forEach((result) => {
-    // @ts-ignore
-    expect(result).toMatchSnapshot(
-      {
-        _id: expect.any(String),
-      },
-      'validate-manuscript'
-    )
+describe('validate manuscript', () => {
+  test('validate manuscript', async () => {
+    const manuscriptsData = (data as unknown) as Array<ContainedModel>
+    const results = await validate(manuscriptsData)
+    results.forEach((result) => {
+      // @ts-ignore
+      expect(result).toMatchSnapshot(
+        {
+          _id: expect.any(String),
+        },
+        'validate-manuscript'
+      )
+    })
   })
-})
 
-test('validate manuscript with ignored results', async () => {
-  const manuscriptsData = (data as unknown) as Array<ContainedModel>
-  const results = await validate(manuscriptsData)
-  manuscriptsData.push(
-    // @ts-ignore
-    ...results.map((result) => ({ ...result, ignored: true }))
-  )
-  const newResult = await validate(manuscriptsData)
+  test('validate manuscript with ignored results', async () => {
+    const manuscriptsData = (data as unknown) as Array<ContainedModel>
+    const results = await validate(manuscriptsData)
+    manuscriptsData.push(
+      // @ts-ignore
+      ...results.map((result) => ({ ...result, ignored: true }))
+    )
+    const newResult = await validate(manuscriptsData)
 
-  expect(newResult.length).toEqual(0)
-})
+    expect(newResult.length).toEqual(0)
+  })
 
-test('validate manuscript with options', async () => {
-  const manuscriptsData = (data as unknown) as Array<ContainedModel>
-  const results = await validate(manuscriptsData, { validateImageFiles: false })
-  results.forEach((result) => {
-    // @ts-ignore
-    expect(result).toMatchSnapshot({
-      _id: expect.any(String),
+  test('validate manuscript with options', async () => {
+    const manuscriptsData = (data as unknown) as Array<ContainedModel>
+    const results = await validate(manuscriptsData, {
+      validateImageFiles: false,
+    })
+    const figureTypes = [
+      'figure-minimum-width-resolution',
+      'figure-minimum-height-resolution',
+      'figure-maximum-width-resolution',
+      'figure-maximum-height-resolution',
+      'figure-contains-image',
+      'figure-format-validation',
+    ]
+    results.forEach((result) => {
+      // @ts-ignore
+      expect(figureTypes.toString()).toEqual(
+        expect.not.stringContaining(result.type as string)
+      )
     })
   })
 })
