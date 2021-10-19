@@ -222,6 +222,13 @@ export const containsBodyContent = (sectionNode: ManuscriptNode): boolean => {
   sectionNode.descendants((childNode: ManuscriptNode) => {
     if (childNode.type && childNode.type.name) {
       const nodeType = childNode.type.name
+      if (
+        nodeType === 'bibliography_element' &&
+        sectionNode.type.name === 'bibliography_section' &&
+        childNode.attrs
+      ) {
+        hasContent = true
+      }
       if (nodeType === 'inline_equation' || nodeType === 'equation') {
         if (childNode.attrs && childNode.attrs.TeXRepresentation) {
           hasContent = true

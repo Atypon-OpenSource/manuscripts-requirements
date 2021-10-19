@@ -319,9 +319,9 @@ Object {
     "sectionCategory": "MPSectionCategory:bibliography",
   },
   "ignored": false,
-  "message": "\\"Bibliography\\" section must not be empty",
+  "message": "\\"Bibliography\\" section has content (is not empty)",
   "objectType": "MPSectionBodyValidationResult",
-  "passed": false,
+  "passed": true,
   "severity": 0,
   "type": "section-body-has-content",
 }
