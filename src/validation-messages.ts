@@ -293,8 +293,8 @@ export const validationMessage = (
           ? result.data.sectionTitle
           : name
       return userMessage(
-        `"${title || name}" section has content (is not empty)`,
-        `"${name}" section must not be empty`
+        `"${title}" section has content (is not empty)`,
+        `"${title}" section must not be empty`
       )
     }
 
