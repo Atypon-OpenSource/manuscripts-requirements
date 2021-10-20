@@ -167,7 +167,7 @@ exports[`validate manuscript validate manuscript: validate-manuscript 8`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
-    "count": 508,
+    "count": 510,
     "value": 400,
   },
   "ignored": false,
@@ -183,7 +183,7 @@ exports[`validate manuscript validate manuscript: validate-manuscript 9`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
-    "count": 508,
+    "count": 510,
     "value": 100,
   },
   "ignored": false,
@@ -301,6 +301,7 @@ Object {
   "affectedElementId": "MPSection:A67FABCE-B7A0-457A-95C0-3A6B4AFD80BB",
   "data": Object {
     "sectionCategory": "MPSectionCategory:abstract",
+    "sectionTitle": "A paragraph",
   },
   "ignored": false,
   "message": "\\"Abstract\\" section has content (is not empty)",
@@ -317,6 +318,7 @@ Object {
   "affectedElementId": "MPSection:FFC7095E-A048-4CC4-BFF3-ADA4AF2C919E",
   "data": Object {
     "sectionCategory": "MPSectionCategory:bibliography",
+    "sectionTitle": "Bibliography",
   },
   "ignored": false,
   "message": "\\"Bibliography\\" section has content (is not empty)",
@@ -333,6 +335,7 @@ Object {
   "affectedElementId": "MPSection:7EB59268-1C3A-4522-B250-A7B09AC5C977",
   "data": Object {
     "sectionCategory": "MPSectionCategory:competing-interests",
+    "sectionTitle": "test",
   },
   "ignored": false,
   "message": "\\"Competing Interests\\" section has content (is not empty)",
