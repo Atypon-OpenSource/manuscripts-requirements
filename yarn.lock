@@ -1265,10 +1265,19 @@
     uuid "^8.2.0"
     w3c-xmlserializer "^2.0.0"
 
-"@manuscripts/manuscripts-json-schema@^1.46.7", "@manuscripts/manuscripts-json-schema@^1.46.8":
+"@manuscripts/manuscripts-json-schema@^1.46.7":
   version "1.46.8"
   resolved "https://registry.yarnpkg.com/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.46.8.tgz#78de11200a6b36a06fb2fd81a60b03d20fe1d4fa"
   integrity sha512-5UVZnMZjCq2zexK8fY+IiHaSNQfQnoTebLuaVACd6XMMh0A/r1fPlaFBTYaUFd8a4uU9+IzU/RxfSNpDwnvENw==
+  dependencies:
+    ajv "^6.10.0"
+    deepmerge "^3.2.0"
+    js-beautify "^1.9.0"
+
+"@manuscripts/manuscripts-json-schema@^1.49.1":
+  version "1.49.1"
+  resolved "https://registry.yarnpkg.com/@manuscripts/manuscripts-json-schema/-/manuscripts-json-schema-1.49.1.tgz#81e68dea98597e6963aaf275b2bc63045f5748ee"
+  integrity sha512-v33ri78q+pTcuUW2RSbgQXcAySJRz0PW3Prneb5at5TuAebMsm1X6Ean1jF/TGlpNiDkzq1o3BmTarI5CIsBag==
   dependencies:
     ajv "^6.10.0"
     deepmerge "^3.2.0"
