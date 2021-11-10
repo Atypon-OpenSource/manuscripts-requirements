@@ -3,7 +3,7 @@ podTemplate(
     cloud: 'kubernetes',
     namespace: 'qa-reports',
     yaml: """
-    apiVersion: v1
+apiVersion: v1
 kind: Pod
 metadata:
   name: jenkins-agent
