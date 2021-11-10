@@ -298,54 +298,6 @@ Object {
 exports[`validate manuscript validate manuscript: validate-manuscript 16`] = `
 Object {
   "_id": Any<String>,
-  "affectedElementId": "MPSection:A67FABCE-B7A0-457A-95C0-3A6B4AFD80BB",
-  "data": Object {
-    "sectionCategory": "MPSectionCategory:abstract",
-  },
-  "ignored": false,
-  "message": "\\"Abstract\\" section has content (is not empty)",
-  "objectType": "MPSectionBodyValidationResult",
-  "passed": true,
-  "severity": 0,
-  "type": "section-body-has-content",
-}
-`;
-
-exports[`validate manuscript validate manuscript: validate-manuscript 17`] = `
-Object {
-  "_id": Any<String>,
-  "affectedElementId": "MPSection:FFC7095E-A048-4CC4-BFF3-ADA4AF2C919E",
-  "data": Object {
-    "sectionCategory": "MPSectionCategory:bibliography",
-  },
-  "ignored": false,
-  "message": "\\"Bibliography\\" section has content (is not empty)",
-  "objectType": "MPSectionBodyValidationResult",
-  "passed": true,
-  "severity": 0,
-  "type": "section-body-has-content",
-}
-`;
-
-exports[`validate manuscript validate manuscript: validate-manuscript 18`] = `
-Object {
-  "_id": Any<String>,
-  "affectedElementId": "MPSection:7EB59268-1C3A-4522-B250-A7B09AC5C977",
-  "data": Object {
-    "sectionCategory": "MPSectionCategory:competing-interests",
-  },
-  "ignored": false,
-  "message": "\\"Competing Interests\\" section has content (is not empty)",
-  "objectType": "MPSectionBodyValidationResult",
-  "passed": true,
-  "severity": 0,
-  "type": "section-body-has-content",
-}
-`;
-
-exports[`validate manuscript validate manuscript: validate-manuscript 19`] = `
-Object {
-  "_id": Any<String>,
   "data": Object {
     "count": 3,
     "value": 50,
@@ -359,7 +311,7 @@ Object {
 }
 `;
 
-exports[`validate manuscript validate manuscript: validate-manuscript 20`] = `
+exports[`validate manuscript validate manuscript: validate-manuscript 17`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
@@ -375,7 +327,7 @@ Object {
 }
 `;
 
-exports[`validate manuscript validate manuscript: validate-manuscript 21`] = `
+exports[`validate manuscript validate manuscript: validate-manuscript 18`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
@@ -391,7 +343,7 @@ Object {
 }
 `;
 
-exports[`validate manuscript validate manuscript: validate-manuscript 22`] = `
+exports[`validate manuscript validate manuscript: validate-manuscript 19`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
@@ -407,7 +359,7 @@ Object {
 }
 `;
 
-exports[`validate manuscript validate manuscript: validate-manuscript 23`] = `
+exports[`validate manuscript validate manuscript: validate-manuscript 20`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
@@ -423,7 +375,7 @@ Object {
 }
 `;
 
-exports[`validate manuscript validate manuscript: validate-manuscript 24`] = `
+exports[`validate manuscript validate manuscript: validate-manuscript 21`] = `
 Object {
   "_id": Any<String>,
   "affectedElementId": "MPBibliographyItem:6C6AF046-1C45-4CC5-9F38-93BC736E5293",
@@ -436,7 +388,7 @@ Object {
 }
 `;
 
-exports[`validate manuscript validate manuscript: validate-manuscript 25`] = `
+exports[`validate manuscript validate manuscript: validate-manuscript 22`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
@@ -452,7 +404,7 @@ Object {
 }
 `;
 
-exports[`validate manuscript validate manuscript: validate-manuscript 26`] = `
+exports[`validate manuscript validate manuscript: validate-manuscript 23`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
@@ -468,7 +420,7 @@ Object {
 }
 `;
 
-exports[`validate manuscript validate manuscript: validate-manuscript 27`] = `
+exports[`validate manuscript validate manuscript: validate-manuscript 24`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
@@ -484,7 +436,7 @@ Object {
 }
 `;
 
-exports[`validate manuscript validate manuscript: validate-manuscript 28`] = `
+exports[`validate manuscript validate manuscript: validate-manuscript 25`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
@@ -503,7 +455,7 @@ Object {
 }
 `;
 
-exports[`validate manuscript validate manuscript: validate-manuscript 29`] = `
+exports[`validate manuscript validate manuscript: validate-manuscript 26`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
@@ -522,7 +474,7 @@ Object {
 }
 `;
 
-exports[`validate manuscript validate manuscript: validate-manuscript 30`] = `
+exports[`validate manuscript validate manuscript: validate-manuscript 27`] = `
 Object {
   "_id": Any<String>,
   "affectedElementId": "MPFigure:C9A3CBCE-4AF4-4AD2-97B0-D2848BEFDE5F",
@@ -535,7 +487,7 @@ Object {
 }
 `;
 
-exports[`validate manuscript validate manuscript: validate-manuscript 31`] = `
+exports[`validate manuscript validate manuscript: validate-manuscript 28`] = `
 Object {
   "_id": Any<String>,
   "affectedElementId": "MPFigure:C9A3CBCE-4AF4-4AD2-97B0-D2848BEFDE5A",
@@ -548,7 +500,7 @@ Object {
 }
 `;
 
-exports[`validate manuscript validate manuscript: validate-manuscript 32`] = `
+exports[`validate manuscript validate manuscript: validate-manuscript 29`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
@@ -566,7 +518,7 @@ Object {
 }
 `;
 
-exports[`validate manuscript validate manuscript: validate-manuscript 33`] = `
+exports[`validate manuscript validate manuscript: validate-manuscript 30`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
@@ -584,7 +536,7 @@ Object {
 }
 `;
 
-exports[`validate manuscript validate manuscript: validate-manuscript 34`] = `
+exports[`validate manuscript validate manuscript: validate-manuscript 31`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
@@ -602,7 +554,7 @@ Object {
 }
 `;
 
-exports[`validate manuscript validate manuscript: validate-manuscript 35`] = `
+exports[`validate manuscript validate manuscript: validate-manuscript 32`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
@@ -620,7 +572,7 @@ Object {
 }
 `;
 
-exports[`validate manuscript validate manuscript: validate-manuscript 36`] = `
+exports[`validate manuscript validate manuscript: validate-manuscript 33`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
@@ -645,7 +597,7 @@ Object {
 }
 `;
 
-exports[`validate manuscript validate manuscript: validate-manuscript 37`] = `
+exports[`validate manuscript validate manuscript: validate-manuscript 34`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
@@ -661,7 +613,7 @@ Object {
 }
 `;
 
-exports[`validate manuscript validate manuscript: validate-manuscript 38`] = `
+exports[`validate manuscript validate manuscript: validate-manuscript 35`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
