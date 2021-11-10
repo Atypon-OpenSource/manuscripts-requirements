@@ -2,9 +2,34 @@
 podTemplate(
     cloud: 'kubernetes',
     namespace: 'qa-reports',
-    yaml: readFile("./jobspods.yaml")
+    yaml: """
+    apiVersion: v1
+kind: Pod
+metadata:
+  name: jenkins-agent
+  labels:
+    app: jenkins-agent
+    app.kubernetes.io/name: manuscripts
+    app.kubernetes.io/instance: requirements
+spec:
+  serviceAccount: default
+  nodeSelector:
+    beta.kubernetes.io/os: linux
+  containers:
+  - name: nodeslim
+    image: "node:12-slim"
+    imagePullPolicy: Always
+    command: ["cat"]
+    tty: true
+    resources:
+      limits:
+        cpu: 1024m
+        memory: 2048Mi
+      requests:
+        cpu: 100m
+        memory: 256Mi
+"""
 ) {
-
     node(POD_LABEL) {
         stage("Build") {
             container('nodeslim') {
