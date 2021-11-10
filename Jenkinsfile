@@ -2,7 +2,7 @@
 podTemplate(
     cloud: 'kubernetes',
     namespace: 'qa-reports',
-    yaml: readFile('jobspods.yaml')
+    yaml: readFile("./jobspods.yaml")
 ) {
 
     node(POD_LABEL) {
