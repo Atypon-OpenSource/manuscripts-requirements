@@ -880,10 +880,6 @@ export const createRequirementsValidator = (
     addResult(result)
   }
 
-  // for await (const result of validateSectionBody(sectionsWithCategory)) {
-  //   addResult(result)
-  // }
-
   for await (const result of validateSectionsCategory(
     everySectionWithCategory
   )) {
