@@ -32,12 +32,28 @@ spec:
 ) {
     node(POD_LABEL) {
         stage("Build") {
+            VARS = checkout(scm:[$class: 'GitSCM', branches: [[name: "${sha1}"]],
+                doGenerateSubmoduleConfigurations: false,
+                submoduleCfg: [],
+                userRemoteConfigs: [
+                    [credentialsId: '336d4fc3-f420-4a3e-b96c-0d0f36ad12be',
+                    name: 'origin',
+                    refspec: "${REFSPEC}",
+                    url: 'git@github.com:Atypon-OpenSource/manuscripts-requirements.git']
+                ]]
+            )
             container('nodeslim') {
                 sh (script: "yarn install --frozen-lockfile --non-interactive", returnStdout: true)
                 sh (script: "yarn run typecheck", returnStdout: true)
                 sh (script: "yarn run lint", returnStdout: true)
                 sh (script: "yarn run test", returnStdout: true)
                 sh (script: "yarn run build", returnStdout: true)
+            }
+        }
+
+        if (VARS.GIT_BRANCH == "origin/master") {
+            stage ("Publish") {
+                sh ("npx @manuscripts/publish")
             }
         }
     }
