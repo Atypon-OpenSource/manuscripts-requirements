@@ -210,7 +210,10 @@ const validateSectionBody = async function* (
         ...buildValidationResult(ObjectTypes.SectionBodyValidationResult),
         type: 'section-body-has-content',
         passed: containsBodyContent(node),
-        data: { sectionCategory: section.category },
+        data: {
+          sectionCategory: section.category,
+          sectionTitle: section.title,
+        },
         affectedElementId: section._id,
       }
     }
