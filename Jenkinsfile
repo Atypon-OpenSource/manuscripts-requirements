@@ -31,7 +31,14 @@ spec:
 """
 ) {
     node(POD_LABEL) {
-        stage("Build") {
+        // REFSPEC="+refs/pull/*:refs/remotes/origin/pr/*"
+        REFSPEC = "+refs/heads/master:refs/remotes/origin/master"
+        stage("Checkout") {
+            // if (params != null && params.ghprbPullId == null) {
+            //     echo 'Checking out from master'
+            //     // master needs to be substituted with the release branch.
+            //     REFSPEC="+refs/heads/master:refs/remotes/origin/master"
+            // }
             VARS = checkout(scm:[$class: 'GitSCM', branches: [[name: "${sha1}"]],
                 doGenerateSubmoduleConfigurations: false,
                 submoduleCfg: [],
@@ -42,6 +49,8 @@ spec:
                     url: 'git@github.com:Atypon-OpenSource/manuscripts-requirements.git']
                 ]]
             )
+        }
+        stage("Build") {
             container('nodeslim') {
                 sh (script: "yarn install --frozen-lockfile --non-interactive", returnStdout: true)
                 sh (script: "yarn run typecheck", returnStdout: true)
