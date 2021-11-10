@@ -42,7 +42,6 @@ import {
   ObjectTypes,
   RequiredSectionValidationResult,
   Section,
-  SectionBodyValidationResult,
   SectionCategoryValidationResult,
   SectionOrderValidationResult,
   SectionTitleValidationResult,
@@ -196,22 +195,6 @@ const validateSectionsCategory = async function* (
         } else {
           scopes.add(scope)
         }
-      }
-    }
-  }
-}
-
-const validateSectionBody = async function* (
-  sectionsWithCategory: Sections
-): AsyncGenerator<Build<SectionBodyValidationResult>> {
-  for (const [, category] of sectionsWithCategory) {
-    for (const { section, node } of category) {
-      yield {
-        ...buildValidationResult(ObjectTypes.SectionBodyValidationResult),
-        type: 'section-body-has-content',
-        passed: containsBodyContent(node),
-        data: { sectionCategory: section.category },
-        affectedElementId: section._id,
       }
     }
   }
@@ -897,9 +880,9 @@ export const createRequirementsValidator = (
     addResult(result)
   }
 
-  for await (const result of validateSectionBody(sectionsWithCategory)) {
-    addResult(result)
-  }
+  // for await (const result of validateSectionBody(sectionsWithCategory)) {
+  //   addResult(result)
+  // }
 
   for await (const result of validateSectionsCategory(
     everySectionWithCategory
