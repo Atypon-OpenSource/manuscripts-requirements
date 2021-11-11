@@ -31,14 +31,13 @@ spec:
 """
 ) {
     node(POD_LABEL) {
-        // REFSPEC="+refs/pull/*:refs/remotes/origin/pr/*"
-        REFSPEC = "+refs/heads/master:refs/remotes/origin/master"
+        REFSPEC="+refs/pull/*:refs/remotes/origin/pr/*"
         stage("Checkout") {
-            // if (params != null && params.ghprbPullId == null) {
-            //     echo 'Checking out from master'
-            //     // master needs to be substituted with the release branch.
-            //     REFSPEC="+refs/heads/master:refs/remotes/origin/master"
-            // }
+            if (params != null && params.ghprbPullId == null) {
+                echo 'Checking out from master'
+                // master needs to be substituted with the release branch.
+                REFSPEC="+refs/heads/master:refs/remotes/origin/master"
+            }
             VARS = checkout(scm:[$class: 'GitSCM', branches: [[name: "${sha1}"]],
                 doGenerateSubmoduleConfigurations: false,
                 submoduleCfg: [],
