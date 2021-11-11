@@ -210,6 +210,8 @@ export const findModelsByType = (
   type: string
 ): Array<ContainedModel> => [...modelMap.values()].filter(hasObjectType(type))
 
+
+// a comment
 export const manuscriptHasMissingSection = (
   modelMap: Map<string, ContainedModel>,
   validationResults: Array<AnyValidationResult>
