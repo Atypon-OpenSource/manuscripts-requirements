@@ -61,7 +61,11 @@ spec:
 
         if (VARS.GIT_BRANCH == "origin/master") {
             stage ("Publish") {
-                sh ("npx @manuscripts/publish")
+                withCredentials([string(credentialsId: 'NPM_TOKEN_MANUSCRIPTS_OSS', variable: 'NPM_TOKEN')]) {
+                    container('nodeslim') {
+                        sh ("npx @manuscripts/publish")
+                    }
+                }
             }
         }
     }
