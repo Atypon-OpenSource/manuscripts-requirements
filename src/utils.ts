@@ -156,7 +156,7 @@ export const createArticle = (
   return { article, decoder, modelMap, manuscriptModels }
 }
 
-const VALID_DOI_REGEX = /^10\..+\/.+/
+const VALID_DOI_REGEX = /^(https:\/\/doi.org\/)?10\..+\/.+/
 export const isValidDOI = (doi: string): boolean => VALID_DOI_REGEX.test(doi)
 
 export const getFigure = async (
