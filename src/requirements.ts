@@ -382,3 +382,16 @@ export const buildRunningTitleCountRequirements = (
     },
   }
 }
+
+export const isRequiredSection = (
+  requiredSections: RequiredSections,
+  category: string | undefined
+) => {
+  for (const { sectionDescription } of requiredSections) {
+    const { sectionCategory } = sectionDescription
+    if (sectionCategory === category) {
+      return true
+    }
+  }
+  return false
+}

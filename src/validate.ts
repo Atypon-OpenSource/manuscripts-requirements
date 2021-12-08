@@ -64,6 +64,7 @@ import {
   buildTitleCountRequirements,
   getAllowedFigureFormats,
   getAllowedFigureResolution,
+  isRequiredSection,
 } from './requirements'
 import { addValidationResults } from './result-filter'
 import { buildText, countCharacters, countWords } from './statistics'
@@ -210,7 +211,10 @@ const validateSectionBody = async function* (
         ...buildValidationResult(ObjectTypes.SectionBodyValidationResult),
         type: 'section-body-has-content',
         passed: containsBodyContent(node),
-        data: { sectionCategory: section.category },
+        data: {
+          sectionCategory: section.category,
+          sectionTitle: section.title,
+        },
         affectedElementId: section._id,
       }
     }
@@ -898,7 +902,12 @@ export const createRequirementsValidator = (
   }
 
   for await (const result of validateSectionBody(sectionsWithCategory)) {
-    addResult(result)
+    if (
+      !result.passed ||
+      isRequiredSection(requiredSections, result.data.sectionCategory)
+    ) {
+      addResult(result)
+    }
   }
 
   for await (const result of validateSectionsCategory(
@@ -927,7 +936,12 @@ export const createRequirementsValidator = (
     addResult(result)
   }
   for await (const result of validateBibliography(modelMap, references)) {
-    addResult(result)
+    if (
+      !result.passed ||
+      isRequiredSection(requiredSections, 'MPSectionCategory:bibliography')
+    ) {
+      addResult(result)
+    }
   }
   const figureCountRequirements: FigureCountRequirements = buildFigureCountRequirements(
     template

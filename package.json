@@ -1,6 +1,6 @@
 {
   "name": "@manuscripts/requirements",
-  "version": "0.4.8",
+  "version": "0.4.11",
   "author": "Alf Eaton <aeaton@atypon.com>",
   "license": "MIT",
   "repository": "github:mpapp-public/manuscripts-requirements",
@@ -26,8 +26,8 @@
   "dependencies": {
     "@iarna/word-count": "^1.1.2",
     "@manuscripts/data": "^0.1.5",
-    "@manuscripts/manuscript-transform": "^0.42.13",
-    "@manuscripts/manuscripts-json-schema": "^1.46.8",
+    "@manuscripts/manuscript-transform": "^0.48.1",
+    "@manuscripts/manuscripts-json-schema": "^1.49.1",
     "deep-equal": "^2.0.5",
     "file-type": "^15.0.1",
     "grapheme-splitter": "^1.0.4",
@@ -63,5 +63,8 @@
     "prosemirror-model": "^1.14.0",
     "rimraf": "^3.0.2",
     "typescript": "^4.0.3"
+  },
+  "resolutions": {
+    "@manuscripts/manuscripts-json-schema": "^1.49.1"
   }
 }
