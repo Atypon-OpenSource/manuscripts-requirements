@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+// another comment
+
 export class InputError extends Error {
   constructor(message: string) {
     super(message)
