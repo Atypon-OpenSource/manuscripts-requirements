@@ -287,9 +287,14 @@ export const validationMessage = (
 
     case 'section-body-has-content': {
       const name = getSectionName(result.data.sectionCategory)
+      const title =
+        result.data.sectionCategory == 'MPSectionCategory:bibliography' &&
+        result.data.sectionTitle
+          ? result.data.sectionTitle
+          : name
       return userMessage(
-        `"${name}" section has content (is not empty)`,
-        `"${name}" section must not be empty`
+        `"${title}" section has content (is not empty)`,
+        `"${title}" section must not be empty`
       )
     }
 
