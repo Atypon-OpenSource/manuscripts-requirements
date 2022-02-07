@@ -3,7 +3,7 @@
   "version": "0.4.11",
   "author": "Alf Eaton <aeaton@atypon.com>",
   "license": "MIT",
-  "repository": "github:mpapp-public/manuscripts-requirements",
+  "repository": "github:atypon-opensource/manuscripts-requirements",
   "main": "dist/cjs",
   "module": "dist/es",
   "types": "dist/types",
