@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import 'regenerator-runtime/runtime'
+
 import { Build, ContainedModel } from '@manuscripts/manuscript-transform'
 import {
   KeywordsElement,

@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import 'regenerator-runtime/runtime'
+
 import { schema } from '@manuscripts/manuscript-transform'
 import { Node as ProsemirrorNode } from 'prosemirror-model'
 

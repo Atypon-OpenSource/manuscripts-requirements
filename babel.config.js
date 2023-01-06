@@ -14,19 +14,9 @@
  * limitations under the License.
  */
 module.exports = {
-  env: {
-    development: {
-      presets: [
-        ['@babel/env', { targets: { browsers: 'last 2 years', node: '12' } }],
-        '@babel/typescript',
-      ],
-    },
-    test: {
-      plugins: ['transform-es2015-modules-commonjs'],
-      presets: [
-        ['@babel/env', { targets: { node: 'current' } }],
-        '@babel/typescript',
-      ],
-    },
-  },
+  presets: [
+    '@babel/preset-env',
+    '@babel/preset-react',
+    '@babel/preset-typescript',
+  ],
 }
