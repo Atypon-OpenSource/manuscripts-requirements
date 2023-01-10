@@ -14,6 +14,13 @@
  * limitations under the License.
  */
 import {
+  Citation,
+  Contributor,
+  ObjectTypes,
+  RequiredSectionValidationResult,
+  Section,
+} from '@manuscripts/json-schema'
+import {
   ContainedModel,
   Decoder,
   getModelsByType,
@@ -21,14 +28,7 @@ import {
   isManuscript,
   ManuscriptNode,
   timestamp,
-} from '@manuscripts/manuscript-transform'
-import {
-  Citation,
-  Contributor,
-  ObjectTypes,
-  RequiredSectionValidationResult,
-  Section,
-} from '@manuscripts/manuscripts-json-schema'
+} from '@manuscripts/transform'
 import { fileTypeFromBuffer } from 'file-type'
 import { types as imageTypes } from 'image-size'
 import { v4 as uuid } from 'uuid'

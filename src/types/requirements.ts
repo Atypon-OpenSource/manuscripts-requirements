@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Build, ManuscriptNode } from '@manuscripts/manuscript-transform'
 import {
   BibliographyValidationResult,
   CountValidationResult,
@@ -30,7 +29,8 @@ import {
   SectionDescription,
   SectionOrderValidationResult,
   SectionTitleValidationResult,
-} from '@manuscripts/manuscripts-json-schema'
+} from '@manuscripts/json-schema'
+import { Build, ManuscriptNode } from '@manuscripts/transform'
 
 export type TemplateRequirements = Partial<Record<ObjectTypes, Model[]>>
 

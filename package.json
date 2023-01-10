@@ -37,8 +37,8 @@
     "@babel/preset-typescript": "^7.18.6",
     "@manuscripts/data": "^0.1.12",
     "@manuscripts/eslint-config": "^0.5.1",
-    "@manuscripts/manuscript-transform": "^1.0.0",
-    "@manuscripts/manuscripts-json-schema": "^2.0.0",
+    "@manuscripts/transform": "^1.0.1",
+    "@manuscripts/json-schema": "^1.0.0",
     "@types/deep-equal": "^1.0.1",
     "@types/jest": "^29.2.4",
     "@types/jsdom": "^16.2.5",
@@ -71,7 +71,7 @@
   },
   "peerDependencies": {
     "@manuscripts/data": "^0.1.12",
-    "@manuscripts/manuscript-transform": "^1.0.0",
-    "@manuscripts/manuscripts-json-schema": "^2.0.0"
+    "@manuscripts/transform": "^1.0.1",
+    "@manuscripts/json-schema": "^1.0.0"
   }
 }

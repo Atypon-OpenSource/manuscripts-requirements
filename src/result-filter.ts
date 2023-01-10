@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ContainedModel } from '@manuscripts/manuscript-transform'
 import {
   CountValidationResult,
   FigureResolution,
   ObjectTypes,
   RequiredSectionValidationResult,
   ValidationResult,
-} from '@manuscripts/manuscripts-json-schema'
+} from '@manuscripts/json-schema'
+import { ContainedModel } from '@manuscripts/transform'
 import deepEqual from 'deep-equal'
 
 import { AnyValidationResult } from './types/requirements'

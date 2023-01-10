@@ -15,7 +15,7 @@
  */
 import categories from '@manuscripts/data/dist/shared/section-categories.json'
 import templateModels from '@manuscripts/data/dist/shared/templates-v2.json'
-import { Model, SectionCategory } from '@manuscripts/manuscripts-json-schema'
+import { Model, SectionCategory } from '@manuscripts/json-schema'
 
 import testTemplates from './__tests__/__fixtures__/templates.json'
 
