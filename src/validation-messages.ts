@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import sectionCategories from '@manuscripts/data/dist/shared/section-categories.json'
-import { SectionCategory } from '@manuscripts/manuscripts-json-schema'
+import { SectionCategory } from '@manuscripts/json-schema'
 
 import { AnyValidationResult } from './types/requirements'
 

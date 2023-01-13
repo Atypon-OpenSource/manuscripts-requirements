@@ -98,10 +98,8 @@ export const buildRequiredSections = (
   const requirements = getRequiredSubSectionsRequirements(template)
 
   requirements.forEach((requirement) => {
-    const {
-      severity,
-      embeddedSectionDescriptions,
-    } = requirement as MandatorySubsectionsRequirement
+    const { severity, embeddedSectionDescriptions } =
+      requirement as MandatorySubsectionsRequirement
 
     for (const sectionDescription of embeddedSectionDescriptions) {
       if (sectionDescription.required) {
@@ -225,11 +223,8 @@ export const buildSectionTitleRequirements = (
   const sectionTitleRequirements: Array<SectionTitleRequirement> = []
   const requirements = getRequiredSubSectionsRequirements(template)
   requirements.map((requirement) => {
-    const {
-      ignored,
-      severity,
-      embeddedSectionDescriptions,
-    } = requirement as MandatorySubsectionsRequirement
+    const { ignored, severity, embeddedSectionDescriptions } =
+      requirement as MandatorySubsectionsRequirement
 
     if (ignored) {
       return
@@ -252,11 +247,8 @@ export const buildSectionCountRequirements = (
   const requirements = getRequiredSubSectionsRequirements(template)
 
   requirements.forEach((requirement) => {
-    const {
-      ignored,
-      severity,
-      embeddedSectionDescriptions,
-    } = requirement as MandatorySubsectionsRequirement
+    const { ignored, severity, embeddedSectionDescriptions } =
+      requirement as MandatorySubsectionsRequirement
 
     if (ignored) {
       return
