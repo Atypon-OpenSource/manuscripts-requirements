@@ -13,15 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  Build,
-  buildParagraph,
-  buildSection,
-  ContainedModel,
-  getModelsByType,
-  isManuscript,
-  ManuscriptModel,
-} from '@manuscripts/manuscript-transform'
+
 import {
   KeywordsElement,
   Manuscript,
@@ -31,7 +23,16 @@ import {
   Section,
   SectionDescription,
   SectionTitleValidationResult,
-} from '@manuscripts/manuscripts-json-schema'
+} from '@manuscripts/json-schema'
+import {
+  Build,
+  buildParagraph,
+  buildSection,
+  ContainedModel,
+  getModelsByType,
+  isManuscript,
+  ManuscriptModel,
+} from '@manuscripts/transform'
 import { v4 as uuid } from 'uuid'
 
 import { InputError } from './errors'

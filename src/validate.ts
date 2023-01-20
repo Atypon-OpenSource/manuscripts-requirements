@@ -15,18 +15,6 @@
  */
 
 import {
-  Build,
-  ContainedModel,
-  generateID,
-  getModelsByType,
-  isBibliographySectionNode,
-  isKeywordsSectionNode,
-  isManuscript,
-  isSectionNode,
-  isTOCSectionNode,
-  ManuscriptNode,
-} from '@manuscripts/manuscript-transform'
-import {
   BibliographyItem,
   BibliographyValidationResult,
   Contributor,
@@ -46,7 +34,19 @@ import {
   SectionCategoryValidationResult,
   SectionOrderValidationResult,
   SectionTitleValidationResult,
-} from '@manuscripts/manuscripts-json-schema'
+} from '@manuscripts/json-schema'
+import {
+  Build,
+  ContainedModel,
+  generateID,
+  getModelsByType,
+  isBibliographySectionNode,
+  isKeywordsSectionNode,
+  isManuscript,
+  isSectionNode,
+  isTOCSectionNode,
+  ManuscriptNode,
+} from '@manuscripts/transform'
 import { imageSize } from 'image-size'
 
 import { InputError } from './errors'
@@ -835,201 +835,203 @@ const validateKeywordsOrder = (
     data: { order },
   }
 }
-export const createRequirementsValidator = (
-  template: ManuscriptTemplate
-) => async (
-  manuscriptsData: ContainedModel[],
-  manuscriptId: string,
-  getData: GetData,
-  options: validationOptions = { validateImageFiles: true }
-): Promise<AnyValidationResult[]> => {
-  const results: AnyValidationResult[] = []
-  const manuscript = findModelByID(manuscriptsData, manuscriptId)
-  if (!manuscript || !isManuscript(manuscript)) {
-    throw new InputError(
-      'manuscriptID does not match the one available in the Manuscript project.'
-    )
-  }
-  const { article, modelMap } = createArticle(manuscriptsData, manuscriptId)
-  const manuscriptsTitle: string = getManuscriptTitle(modelMap, manuscriptId)
-  const addResult = addValidationResults(modelMap, results)
-  // TODO: find parent template (title === template.parent) and merge requirements?
-  // TODO: the requirements in the parent seem to be duplicates…
+export const createRequirementsValidator =
+  (template: ManuscriptTemplate) =>
+  async (
+    manuscriptsData: ContainedModel[],
+    manuscriptId: string,
+    getData: GetData,
+    options: validationOptions = { validateImageFiles: true }
+  ): Promise<AnyValidationResult[]> => {
+    const results: AnyValidationResult[] = []
+    const manuscript = findModelByID(manuscriptsData, manuscriptId)
+    if (!manuscript || !isManuscript(manuscript)) {
+      throw new InputError(
+        'manuscriptID does not match the one available in the Manuscript project.'
+      )
+    }
+    const { article, modelMap } = createArticle(manuscriptsData, manuscriptId)
+    const manuscriptsTitle: string = getManuscriptTitle(modelMap, manuscriptId)
+    const addResult = addValidationResults(modelMap, results)
+    // TODO: find parent template (title === template.parent) and merge requirements?
+    // TODO: the requirements in the parent seem to be duplicates…
 
-  const sectionsWithCategory = await buildSections(article, modelMap)
-  // validate required sections
-  const requiredSections = buildRequiredSections(template)
-  const sectionCategories = new Set(sectionsWithCategory.keys())
-  for await (const result of validateRequiredSections(
-    requiredSections,
-    sectionCategories
-  )) {
-    addResult(result)
-  }
-
-  if (!manuscriptHasMissingSection(modelMap, results)) {
-    const result = validateSectionsOrder(requiredSections, sectionsWithCategory)
-    addResult(result)
-  }
-
-  // validate manuscript counts
-  const manuscriptCountRequirements = buildManuscriptCountRequirements(template)
-
-  for await (const result of validateManuscriptCounts(
-    article,
-    manuscriptCountRequirements
-  )) {
-    addResult(result)
-  }
-  const everySectionWithCategory = await buildSections(article, modelMap, true)
-
-  // validate section counts
-  const sectionCountRequirements = buildSectionCountRequirements(template)
-
-  for await (const result of validateSectionCounts(
-    sectionsWithCategory,
-    sectionCountRequirements
-  )) {
-    addResult(result)
-  }
-  // Validate section title requirement
-  const sectionTitleRequirement = buildSectionTitleRequirements(template)
-  for await (const result of validateSectionsTitle(
-    sectionTitleRequirement,
-    sectionsWithCategory
-  )) {
-    addResult(result)
-  }
-
-  for await (const result of validateSectionBody(sectionsWithCategory)) {
-    if (
-      !result.passed ||
-      isRequiredSection(requiredSections, result.data.sectionCategory)
-    ) {
+    const sectionsWithCategory = await buildSections(article, modelMap)
+    // validate required sections
+    const requiredSections = buildRequiredSections(template)
+    const sectionCategories = new Set(sectionsWithCategory.keys())
+    for await (const result of validateRequiredSections(
+      requiredSections,
+      sectionCategories
+    )) {
       addResult(result)
     }
-  }
 
-  for await (const result of validateSectionsCategory(
-    everySectionWithCategory
-  )) {
-    addResult(result)
-  }
-  //validate title count requirements
-  const titleCountRequirements: CountRequirements = buildTitleCountRequirements(
-    template
-  )
-  for await (const result of validateTitleCounts(
-    manuscriptsTitle,
-    titleCountRequirements
-  )) {
-    addResult(result)
-  }
-  const manuscriptReferenceCountRequirement = buildManuscriptReferenceCountRequirements(
-    template
-  )
-  const references = getReferences(modelMap)
-  for await (const result of validateReferenceCounts(
-    references.length,
-    manuscriptReferenceCountRequirement
-  )) {
-    addResult(result)
-  }
-  for await (const result of validateBibliography(modelMap, references)) {
-    if (
-      !result.passed ||
-      isRequiredSection(requiredSections, 'MPSectionCategory:bibliography')
-    ) {
+    if (!manuscriptHasMissingSection(modelMap, results)) {
+      const result = validateSectionsOrder(
+        requiredSections,
+        sectionsWithCategory
+      )
       addResult(result)
     }
-  }
-  const figureCountRequirements: FigureCountRequirements = buildFigureCountRequirements(
-    template
-  )
-  for await (const result of validateFigureCounts(
-    modelMap,
-    figureCountRequirements
-  )) {
-    addResult(result)
-  }
 
-  const tableCountRequirements: TableCountRequirements = buildTableCountRequirements(
-    template
-  )
-  for await (const result of validateTableCounts(
-    modelMap,
-    tableCountRequirements
-  )) {
-    addResult(result)
-  }
+    // validate manuscript counts
+    const manuscriptCountRequirements =
+      buildManuscriptCountRequirements(template)
 
-  const combinedFigureTableCountRequirements: CombinedFigureTableCountRequirements = buildCombinedFigureTableCountRequirements(
-    template
-  )
-  for await (const result of validateCombinedTableFigureCounts(
-    modelMap,
-    combinedFigureTableCountRequirements
-  )) {
-    addResult(result)
-  }
-
-  if (options.validateImageFiles) {
-    const allowedFigureFormats = getAllowedFigureFormats(template)
-    for (const result of validateFigureFormats(
+    for await (const result of validateManuscriptCounts(
+      article,
+      manuscriptCountRequirements
+    )) {
+      addResult(result)
+    }
+    const everySectionWithCategory = await buildSections(
+      article,
       modelMap,
-      allowedFigureFormats
+      true
+    )
+
+    // validate section counts
+    const sectionCountRequirements = buildSectionCountRequirements(template)
+
+    for await (const result of validateSectionCounts(
+      sectionsWithCategory,
+      sectionCountRequirements
+    )) {
+      addResult(result)
+    }
+    // Validate section title requirement
+    const sectionTitleRequirement = buildSectionTitleRequirements(template)
+    for await (const result of validateSectionsTitle(
+      sectionTitleRequirement,
+      sectionsWithCategory
     )) {
       addResult(result)
     }
 
-    const allowedFigureResolutions = getAllowedFigureResolution(template)
-    const figures = getModelsByType<Figure>(modelMap, ObjectTypes.Figure)
-    const figuresWithImage = await getFiguresWithImage(figures, getData)
+    for await (const result of validateSectionBody(sectionsWithCategory)) {
+      if (
+        !result.passed ||
+        isRequiredSection(requiredSections, result.data.sectionCategory)
+      ) {
+        addResult(result)
+      }
+    }
 
-    for (const result of validateFigureContainsImage(
-      figures,
-      new Set(figuresWithImage.map((fig) => fig._id))
+    for await (const result of validateSectionsCategory(
+      everySectionWithCategory
+    )) {
+      addResult(result)
+    }
+    //validate title count requirements
+    const titleCountRequirements: CountRequirements =
+      buildTitleCountRequirements(template)
+    for await (const result of validateTitleCounts(
+      manuscriptsTitle,
+      titleCountRequirements
+    )) {
+      addResult(result)
+    }
+    const manuscriptReferenceCountRequirement =
+      buildManuscriptReferenceCountRequirements(template)
+    const references = getReferences(modelMap)
+    for await (const result of validateReferenceCounts(
+      references.length,
+      manuscriptReferenceCountRequirement
+    )) {
+      addResult(result)
+    }
+    for await (const result of validateBibliography(modelMap, references)) {
+      if (
+        !result.passed ||
+        isRequiredSection(requiredSections, 'MPSectionCategory:bibliography')
+      ) {
+        addResult(result)
+      }
+    }
+    const figureCountRequirements: FigureCountRequirements =
+      buildFigureCountRequirements(template)
+    for await (const result of validateFigureCounts(
+      modelMap,
+      figureCountRequirements
     )) {
       addResult(result)
     }
 
-    for await (const result of validateFigureResolution(
-      allowedFigureResolutions,
-      figuresWithImage,
-      getData as (id: string) => Promise<Buffer>,
-      template
+    const tableCountRequirements: TableCountRequirements =
+      buildTableCountRequirements(template)
+    for await (const result of validateTableCounts(
+      modelMap,
+      tableCountRequirements
     )) {
       addResult(result)
     }
-  }
-  // validate keywords order
-  const keywordsValidationResult = validateKeywordsOrder(modelMap)
-  if (keywordsValidationResult) {
-    addResult(keywordsValidationResult)
-  }
 
-  const contributorRequirements = buildContributorsCountRequirements(template)
-  const contributors = findContributors(manuscriptId, manuscriptsData)
+    const combinedFigureTableCountRequirements: CombinedFigureTableCountRequirements =
+      buildCombinedFigureTableCountRequirements(template)
+    for await (const result of validateCombinedTableFigureCounts(
+      modelMap,
+      combinedFigureTableCountRequirements
+    )) {
+      addResult(result)
+    }
 
-  for await (const result of validateContributorCountRequirements(
-    contributorRequirements,
-    contributors
-  )) {
-    addResult(result)
+    if (options.validateImageFiles) {
+      const allowedFigureFormats = getAllowedFigureFormats(template)
+      for (const result of validateFigureFormats(
+        modelMap,
+        allowedFigureFormats
+      )) {
+        addResult(result)
+      }
+
+      const allowedFigureResolutions = getAllowedFigureResolution(template)
+      const figures = getModelsByType<Figure>(modelMap, ObjectTypes.Figure)
+      const figuresWithImage = await getFiguresWithImage(figures, getData)
+
+      for (const result of validateFigureContainsImage(
+        figures,
+        new Set(figuresWithImage.map((fig) => fig._id))
+      )) {
+        addResult(result)
+      }
+
+      for await (const result of validateFigureResolution(
+        allowedFigureResolutions,
+        figuresWithImage,
+        getData as (id: string) => Promise<Buffer>,
+        template
+      )) {
+        addResult(result)
+      }
+    }
+    // validate keywords order
+    const keywordsValidationResult = validateKeywordsOrder(modelMap)
+    if (keywordsValidationResult) {
+      addResult(keywordsValidationResult)
+    }
+
+    const contributorRequirements = buildContributorsCountRequirements(template)
+    const contributors = findContributors(manuscriptId, manuscriptsData)
+
+    for await (const result of validateContributorCountRequirements(
+      contributorRequirements,
+      contributors
+    )) {
+      addResult(result)
+    }
+
+    const runningTitleCountRequirements =
+      buildRunningTitleCountRequirements(template)
+    for await (const result of validateRunningTitleCount(
+      manuscript.runningTitle,
+      runningTitleCountRequirements
+    )) {
+      addResult(result)
+    }
+
+    return appendValidationMessages(results)
   }
-
-  const runningTitleCountRequirements = buildRunningTitleCountRequirements(
-    template
-  )
-  for await (const result of validateRunningTitleCount(
-    manuscript.runningTitle,
-    runningTitleCountRequirements
-  )) {
-    addResult(result)
-  }
-
-  return appendValidationMessages(results)
-}
 
 const getFiguresWithImage = async (
   figures: Array<Figure>,

@@ -21,6 +21,11 @@ module.exports = {
     '^.+\\.(js|ts)?$': 'babel-jest',
   },
   transformIgnorePatterns: [
-    '<rootDir>/node_modules/(?!(lodash-es|@manuscripts)/)',
+    '<rootDir>/node_modules/(?!(lodash-es|@manuscripts|file-type|token-types|strtok3|peek-readable)/)',
   ],
+  testEnvironment: 'jsdom',
+  snapshotFormat: {
+    printBasicPrototype: true,
+    escapeString: true,
+  },
 }

@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-import { schema } from '@manuscripts/manuscript-transform'
+import 'regenerator-runtime/runtime'
+
+import { schema } from '@manuscripts/transform'
 import { Node as ProsemirrorNode } from 'prosemirror-model'
 
 import { buildText, countCharacters, countWords } from '../statistics'
@@ -39,8 +41,7 @@ const node = ProsemirrorNode.fromJSON(schema, {
           content: [
             {
               type: 'text',
-              text:
-                'Every conscious movement a person makes, whether lifting a pencil or playing a violin, begins in the brain.',
+              text: 'Every conscious movement a person makes, whether lifting a pencil or playing a violin, begins in the brain.',
             },
           ],
         },
@@ -49,8 +50,7 @@ const node = ProsemirrorNode.fromJSON(schema, {
           content: [
             {
               type: 'text',
-              text:
-                'These rhythmic patterns then sum together to create the signals that muscles need to carry out the movements.',
+              text: 'These rhythmic patterns then sum together to create the signals that muscles need to carry out the movements.',
             },
           ],
         },
@@ -60,7 +60,7 @@ const node = ProsemirrorNode.fromJSON(schema, {
 })
 
 test('statistics', async () => {
-  const text = await buildText(node)
+  const text = buildText(node)
   expect(text).toBe(
     'Introduction Every conscious movement a person makes, whether lifting a pencil or playing a violin, begins in the brain. These rhythmic patterns then sum together to create the signals that muscles need to carry out the movements.'
   )

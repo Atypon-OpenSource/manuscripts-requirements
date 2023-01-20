@@ -14,6 +14,13 @@
  * limitations under the License.
  */
 import {
+  Citation,
+  Contributor,
+  ObjectTypes,
+  RequiredSectionValidationResult,
+  Section,
+} from '@manuscripts/json-schema'
+import {
   ContainedModel,
   Decoder,
   getModelsByType,
@@ -21,15 +28,8 @@ import {
   isManuscript,
   ManuscriptNode,
   timestamp,
-} from '@manuscripts/manuscript-transform'
-import {
-  Citation,
-  Contributor,
-  ObjectTypes,
-  RequiredSectionValidationResult,
-  Section,
-} from '@manuscripts/manuscripts-json-schema'
-import FileType from 'file-type/browser'
+} from '@manuscripts/transform'
+import { fileTypeFromBuffer } from 'file-type'
 import { types as imageTypes } from 'image-size'
 import { v4 as uuid } from 'uuid'
 
@@ -167,7 +167,7 @@ export const getFigure = async (
   if (!Buffer.isBuffer(figure)) {
     throw new InputError(`Figure for ${id} must be a buffer`)
   }
-  const fileType = await FileType.fromBuffer(figure)
+  const fileType = await fileTypeFromBuffer(figure)
   if (!fileType) {
     throw new InputError(`Unknown file type for ${id}`)
   }

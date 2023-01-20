@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { ManuscriptTemplate } from '@manuscripts/manuscripts-json-schema'
+import { ManuscriptTemplate } from '@manuscripts/json-schema'
 
 import { InputError } from './errors'
 import { templateModelMap } from './templates'
