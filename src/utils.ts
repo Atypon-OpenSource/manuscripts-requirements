@@ -29,7 +29,7 @@ import {
   ManuscriptNode,
   timestamp,
 } from '@manuscripts/transform'
-import { fileTypeFromBuffer } from 'file-type'
+import { fromBuffer } from 'file-type'
 import { types as imageTypes } from 'image-size'
 import { v4 as uuid } from 'uuid'
 
@@ -167,7 +167,7 @@ export const getFigure = async (
   if (!Buffer.isBuffer(figure)) {
     throw new InputError(`Figure for ${id} must be a buffer`)
   }
-  const fileType = await fileTypeFromBuffer(figure)
+  const fileType = await fromBuffer(figure)
   if (!fileType) {
     throw new InputError(`Unknown file type for ${id}`)
   }

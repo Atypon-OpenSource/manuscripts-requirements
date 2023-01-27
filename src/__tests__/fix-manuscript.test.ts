@@ -245,7 +245,7 @@ test('Reorder keywords', async () => {
   expect(keywordsElement.contents).toStrictEqual(expectedContents)
 })
 
-test.skip('Validate autofix', async () => {
+test('Validate autofix', async () => {
   const validateManuscript = createTemplateValidator(
     'MPManuscriptTemplate:www-zotero-org-styles-nature-genetics-Nature-Genetics-Journal-Publication-Article'
   )

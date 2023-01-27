@@ -22,7 +22,7 @@ import { validationOptions } from '../types/input'
 import { createTemplateValidator } from '../validate-manuscript'
 import { data } from './__fixtures__/manuscript-data.json'
 
-describe.skip('validate manuscript', () => {
+describe('validate manuscript', () => {
   test('validate manuscript', async () => {
     const manuscriptsData = data as unknown as Array<ContainedModel>
     const results = await validate(manuscriptsData)
