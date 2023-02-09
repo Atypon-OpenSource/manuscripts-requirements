@@ -11,29 +11,28 @@ node {
             doGenerateSubmoduleConfigurations: false,
             submoduleCfg: [],
             userRemoteConfigs: [
-                [credentialsId: '336d4fc3-f420-4a3e-b96c-0d0f36ad12be',
+                [credentialsId: 'atyponci-ssh',
                 name: 'origin',
                 refspec: "${REFSPEC}",
                 url: 'git@github.com:Atypon-OpenSource/manuscripts-requirements.git']
             ]]
         )
     }
+
     stage("Build") {
-        nodejs(nodeJSInstallationName: 'node 12.22.1') {
+        nodejs(nodeJSInstallationName: 'node_16_14_2') {
             sh (script: "yarn install --network-timeout 300000 --frozen-lockfile --non-interactive", returnStdout: true)
-            sh (script: "yarn run typecheck", returnStdout: true)
-            sh (script: "yarn run lint", returnStdout: true)
-            sh (script: "yarn run test", returnStdout: true)
-            sh (script: "yarn run build", returnStdout: true)
+            sh (script: "yarn typecheck", returnStdout: true)
+            sh (script: "yarn lint", returnStdout: true)
+            sh (script: "yarn test", returnStdout: true)
+            sh (script: "yarn build", returnStdout: true)
         }
     }
 
     if (VARS.GIT_BRANCH == "origin/master") {
-        stage ("Publish") {
+        stage("Publish") {
             withCredentials([string(credentialsId: 'NPM_TOKEN_MANUSCRIPTS_OSS', variable: 'NPM_TOKEN')]) {
-                container('nodeslim') {
-                    sh ("npx @manuscripts/publish")
-                }
+                sh ("npx @manuscripts/publish")
             }
         }
     }
