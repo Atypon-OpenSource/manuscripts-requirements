@@ -25,7 +25,7 @@ pipeline {
                 expression { params.PUBLISH == true }
             }
             environment {
-                NPM_TOKEN: credentials('NPM_TOKEN_MANUSCRIPTS_OSS')
+                NPM_TOKEN = credentials('NPM_TOKEN_MANUSCRIPTS_OSS')
             }
             steps {
                 sh 'npx @manuscripts/publish'
