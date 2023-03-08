@@ -160,13 +160,15 @@ const buildSections = async (
       const text = buildText(node)
       const section = modelMap.get(id) as Section
 
-      const counts = {
-        characters: await countCharacters(text),
-        words: await countWords(text),
-        paragraphs: findNumberOfParagraphs(section),
-      }
+      if (section) {
+        const counts = {
+          characters: await countCharacters(text),
+          words: await countWords(text),
+          paragraphs: findNumberOfParagraphs(section),
+        }
 
-      sections.push({ node, counts, section })
+        sections.push({ node, counts, section })
+      }
 
       output.set(category, sections)
     }
