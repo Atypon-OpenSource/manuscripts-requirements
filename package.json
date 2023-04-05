@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@iarna/word-count": "^1.1.2",
-    "@manuscripts/data": "^0.1.12",
+    "@manuscripts/data": "^0.1.13",
     "@manuscripts/transform": "^1.1.2",
     "@manuscripts/json-schema": "^1.0.0",
     "deep-equal": "^2.2.0",
