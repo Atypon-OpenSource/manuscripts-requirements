@@ -1,6 +1,6 @@
 {
   "name": "@manuscripts/requirements",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "license": "MIT",
   "repository": "github:atypon-opensource/manuscripts-requirements",
   "main": "dist/cjs",
@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@iarna/word-count": "^1.1.2",
-    "@manuscripts/data": "^0.1.13",
+    "@manuscripts/data": "^1.0.1",
     "@manuscripts/transform": "^1.1.2",
     "@manuscripts/json-schema": "^1.0.0",
     "deep-equal": "^2.2.0",
