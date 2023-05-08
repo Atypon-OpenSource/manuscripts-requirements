@@ -1,6 +1,6 @@
 {
   "name": "@manuscripts/requirements",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "license": "MIT",
   "repository": "github:atypon-opensource/manuscripts-requirements",
   "main": "dist/cjs",
@@ -25,8 +25,8 @@
   "dependencies": {
     "@iarna/word-count": "^1.1.2",
     "@manuscripts/data": "^0.1.13",
-    "@manuscripts/transform": "^1.1.2",
-    "@manuscripts/json-schema": "^1.0.0",
+    "@manuscripts/transform": "^1.2.0",
+    "@manuscripts/json-schema": "^2.0.0",
     "deep-equal": "^2.2.0",
     "file-type": "^16.5.4",
     "grapheme-splitter": "^1.0.4",
@@ -70,10 +70,5 @@
     "rimraf": "^3.0.2",
     "npm-run-all": "^4.1.5",
     "typescript": "^4.0.5"
-  },
-  "peerDependencies": {
-    "@manuscripts/data": "^0.1.12",
-    "@manuscripts/transform": "^1.0.1",
-    "@manuscripts/json-schema": "^1.0.0"
   }
 }
