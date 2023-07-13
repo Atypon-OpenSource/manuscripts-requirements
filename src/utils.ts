@@ -31,7 +31,6 @@ import {
 } from '@manuscripts/transform'
 import { fromBuffer } from 'file-type'
 import { types as imageTypes } from 'image-size'
-import { v4 as uuid } from 'uuid'
 
 import { InputError } from './errors'
 import { AnyValidationResult, RequiredSections } from './types/requirements'
@@ -180,7 +179,6 @@ export const getFigure = async (
 export const createRequiredModelProperties = (
   manuscriptID: string,
   containerID: string,
-  sessionID = uuid()
 ) => {
   const createdAt = timestamp()
   return {
@@ -188,7 +186,6 @@ export const createRequiredModelProperties = (
     manuscriptID,
     createdAt,
     updatedAt: createdAt,
-    sessionID,
   }
 }
 

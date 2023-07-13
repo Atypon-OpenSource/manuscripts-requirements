@@ -139,7 +139,6 @@ test('Retitle sections', async () => {
       containerID: 'MPProject:1',
       createdAt: 1601237242,
       updatedAt: 1601237242,
-      sessionID: 'f0b3bf1b-4435-4829-84e9-4b8b3517b95c',
       _id: sectionID,
       objectType: ObjectTypes.Section,
       priority: 1,
