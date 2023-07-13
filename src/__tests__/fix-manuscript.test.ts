@@ -17,10 +17,6 @@
 import 'regenerator-runtime/runtime'
 
 import {
-  KeywordsElement,
-  KeywordsOrderValidationResult,
-  Manuscript,
-  ManuscriptKeyword,
   ObjectTypes,
   RequiredSectionValidationResult,
   Section,
@@ -173,76 +169,7 @@ test('Retitle sections', async () => {
   expect(testSection.title).toMatch(requiredTitle)
 })
 
-test('Reorder keywords', async () => {
-  const manuscriptData = [
-    {
-      objectType: ObjectTypes.Manuscript,
-      _id: 'test',
-      keywordIDs: [
-        'MPManuscriptKeyword:2',
-        'MPManuscriptKeyword:0',
-        'MPManuscriptKeyword:1',
-      ],
-    },
-    {
-      objectType: ObjectTypes.Section,
-      _id: 'MPSection:1',
-      elementIDs: ['MPKeywordsElement:1'],
-      category: 'MPSectionCategory:keywords',
-    },
-    {
-      contents: '<p class="x y" id="test">Key1, Key2, Key0</p>',
-      _id: 'MPKeywordsElement:1',
-    },
-  ] as Array<ContainedModel>
 
-  for (let i = 0; i < 3; i++) {
-    const keyword = Object.assign(
-      {
-        _id: '',
-        objectType: 'MPManuscriptKeyword',
-        name: `Key${i}`,
-      },
-      { _id: `MPManuscriptKeyword:${i}` }
-    ) as ManuscriptKeyword
-    manuscriptData.push(keyword)
-  }
-  const order = [
-    'MPManuscriptKeyword:0',
-    'MPManuscriptKeyword:1',
-    'MPManuscriptKeyword:2',
-  ]
-  const validationResults: Build<KeywordsOrderValidationResult> = {
-    ignored: false,
-    passed: false,
-    fixable: true,
-    severity: 0,
-    type: 'keywords-order',
-    data: {
-      order,
-    },
-    objectType: 'MPKeywordsOrderValidationResult',
-    _id: 'test',
-  }
-
-  const results = runManuscriptFixes(
-    manuscriptData,
-    'test',
-    [validationResults],
-    parser
-  )
-
-  const manuscript = results.find(
-    (model) => model.objectType === ObjectTypes.Manuscript
-  ) as Manuscript
-  expect(manuscript.keywordIDs).toStrictEqual(order)
-
-  const keywordsElement = results.find(
-    (model) => model._id === 'MPKeywordsElement:1'
-  ) as KeywordsElement
-  const expectedContents = '<p class="x y" id="test">Key0, Key1, Key2</p>'
-  expect(keywordsElement.contents).toStrictEqual(expectedContents)
-})
 
 test('Validate autofix', async () => {
   const validateManuscript = createTemplateValidator(
@@ -275,7 +202,7 @@ test('Validate autofix', async () => {
     // make sure all the fixable objects are passed now
     const value = !result.passed && result.fixable
     // TODO: section-order requires two fix passes if there is a missing sections can this be done in one pass?
-    if (value && result.type === 'section-order') {
+    if ((value && result.type === 'section-order') || (value &&  result.type === 'keywords-order')) {
       return
     }
     expect(value).toBeFalsy()

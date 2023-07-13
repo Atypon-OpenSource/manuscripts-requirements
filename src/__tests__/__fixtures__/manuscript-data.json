@@ -718,17 +718,7 @@
       "bundle": "MPBundle:E8B2DFE8-B19D-4779-9CE7-15DB5B2DFC6F",
       "pageLayout": "MPPageLayout:AB0289F4-FFD9-430E-B057-55ADEDCFD8A0",
       "priority": 1,
-      "containerID": "MPProject:B81D5F33-6338-420C-AAEC-CF0CF33E675C",
-      "keywordIDs": [
-        "MPManuscriptKeyword:F114DB4D-47BC-4EAD-A4E6-090736DD9153",
-        "MPManuscriptKeyword:D646647F-5BC8-40B3-B749-934AE3BEB5C2",
-        "MPManuscriptKeyword:C381EDB0-57A5-403A-9281-09F7E25C8A78",
-        "MPManuscriptKeyword:07425FA3-F973-4D97-8393-959B73CB1C2A",
-        "MPManuscriptKeyword:7BAEF920-471D-4BC7-B3F7-67182B4EB178",
-        "MPManuscriptKeyword:4156D5BE-1BF1-494D-92EB-2FB8D5EC7C07",
-        "MPManuscriptKeyword:A6E33FEB-527D-4510-ADB3-12A1E73B99E0",
-        "MPManuscriptKeyword:9E281519-75BA-46A3-9256-7270E74B4819"
-      ]
+      "containerID": "MPProject:B81D5F33-6338-420C-AAEC-CF0CF33E675C"
     },
     {
       "_id": "MPManuscriptKeyword:07425FA3-F973-4D97-8393-959B73CB1C2A",
