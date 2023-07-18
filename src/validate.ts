@@ -835,23 +835,7 @@ export const createRequirementsValidator =
     )) {
       addResult(result)
     }
-    // const manuscriptReferenceCountRequirement =
-    //   buildManuscriptReferenceCountRequirements(template)
-    // const references = getReferences(modelMap)
-    // for await (const result of validateReferenceCounts(
-    //   references.length,
-    //   manuscriptReferenceCountRequirement
-    // )) {
-    //   addResult(result)
-    // }
-    // for await (const result of validateBibliography(modelMap, references)) {
-    //   if (
-    //     !result.passed ||
-    //     isRequiredSection(requiredSections, 'MPSectionCategory:bibliography')
-    //   ) {
-    //     addResult(result)
-    //   }
-    // }
+
     const figureCountRequirements: FigureCountRequirements =
       buildFigureCountRequirements(template)
     for await (const result of validateFigureCounts(
