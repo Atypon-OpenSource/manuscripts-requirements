@@ -1295,10 +1295,10 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
-"@manuscripts/data@1.0.2-LEAN-2500v2":
-  version "1.0.2-LEAN-2500v2"
-  resolved "https://registry.yarnpkg.com/@manuscripts/data/-/data-1.0.2-LEAN-2500v2.tgz#a4c8a2a8602ab90ee4b7cd7ff6bd5ee961a5c42f"
-  integrity sha512-E455z6mVrTAfVe8qGDeo+1yxul48hguyhvm2Vz4d6KA7NgBW61+epkOyzUBVSAFjN3QWHCcAQQT2otJY56j4rg==
+"@manuscripts/data@1.0.2-LEAN-2500v5":
+  version "1.0.2-LEAN-2500v5"
+  resolved "https://registry.yarnpkg.com/@manuscripts/data/-/data-1.0.2-LEAN-2500v5.tgz#66ec541d506ff929066da36f743a6b8f03fcc0a0"
+  integrity sha512-wVsUAIUy5qAfZsgUAaXn9oAhSaaBHKed6z0dGDkjr//rSPJydlYZpBVZxznGdCmzsrG05uZY3j8TGRCZjlFKmg==
 
 "@manuscripts/eslint-config@^0.5.1":
   version "0.5.1"
