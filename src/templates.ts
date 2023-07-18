@@ -40,8 +40,7 @@ const buildTemplateModelMap = (): Map<string, Model> => {
 
 const buildSectionCategoriesMap = (): Map<string, SectionCategory> => {
   const map = new Map<string, SectionCategory>()
-  // TODO:: fix that by updating MPSectionCategory in json-schema
-  for (const category of categories as unknown as SectionCategory[]) {
+  for (const category of categories as SectionCategory[]) {
     map.set(category._id, category)
   }
 

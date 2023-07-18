@@ -20,8 +20,7 @@ import { SectionCategory } from '@manuscripts/json-schema'
 import { AnyValidationResult } from './types/requirements'
 
 const sectionCategoriesMap = new Map<string, SectionCategory>(
-  // TODO:: fix that by updating MPSectionCategory in json-schema
-  (sectionCategories as unknown as Array<SectionCategory>).map((section) => [
+  (sectionCategories as Array<SectionCategory>).map((section) => [
     section._id,
     section,
   ])
