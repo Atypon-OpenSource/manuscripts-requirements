@@ -397,35 +397,6 @@ exports[`validate manuscript validate manuscript: validate-manuscript 22`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
-    "count": 1,
-    "value": 15,
-  },
-  "ignored": false,
-  "message": "The manuscript has less than or equal to 15 references",
-  "objectType": "MPCountValidationResult",
-  "passed": true,
-  "severity": 0,
-  "type": "manuscript-maximum-references",
-}
-`;
-
-exports[`validate manuscript validate manuscript: validate-manuscript 23`] = `
-Object {
-  "_id": Any<String>,
-  "affectedElementId": "MPBibliographyItem:6C6AF046-1C45-4CC5-9F38-93BC736E5293",
-  "ignored": false,
-  "message": "DOI is required for bibliographic references",
-  "objectType": "MPBibliographyValidationResult",
-  "passed": false,
-  "severity": 0,
-  "type": "bibliography-doi-exist",
-}
-`;
-
-exports[`validate manuscript validate manuscript: validate-manuscript 24`] = `
-Object {
-  "_id": Any<String>,
-  "data": Object {
     "count": 2,
     "value": 5,
   },
@@ -438,7 +409,7 @@ Object {
 }
 `;
 
-exports[`validate manuscript validate manuscript: validate-manuscript 25`] = `
+exports[`validate manuscript validate manuscript: validate-manuscript 23`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
@@ -454,7 +425,7 @@ Object {
 }
 `;
 
-exports[`validate manuscript validate manuscript: validate-manuscript 26`] = `
+exports[`validate manuscript validate manuscript: validate-manuscript 24`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
@@ -470,7 +441,7 @@ Object {
 }
 `;
 
-exports[`validate manuscript validate manuscript: validate-manuscript 27`] = `
+exports[`validate manuscript validate manuscript: validate-manuscript 25`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
@@ -489,7 +460,7 @@ Object {
 }
 `;
 
-exports[`validate manuscript validate manuscript: validate-manuscript 28`] = `
+exports[`validate manuscript validate manuscript: validate-manuscript 26`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
@@ -508,7 +479,7 @@ Object {
 }
 `;
 
-exports[`validate manuscript validate manuscript: validate-manuscript 29`] = `
+exports[`validate manuscript validate manuscript: validate-manuscript 27`] = `
 Object {
   "_id": Any<String>,
   "affectedElementId": "MPFigure:C9A3CBCE-4AF4-4AD2-97B0-D2848BEFDE5F",
@@ -521,7 +492,7 @@ Object {
 }
 `;
 
-exports[`validate manuscript validate manuscript: validate-manuscript 30`] = `
+exports[`validate manuscript validate manuscript: validate-manuscript 28`] = `
 Object {
   "_id": Any<String>,
   "affectedElementId": "MPFigure:C9A3CBCE-4AF4-4AD2-97B0-D2848BEFDE5A",
@@ -534,7 +505,7 @@ Object {
 }
 `;
 
-exports[`validate manuscript validate manuscript: validate-manuscript 31`] = `
+exports[`validate manuscript validate manuscript: validate-manuscript 29`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
@@ -552,7 +523,7 @@ Object {
 }
 `;
 
-exports[`validate manuscript validate manuscript: validate-manuscript 32`] = `
+exports[`validate manuscript validate manuscript: validate-manuscript 30`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
@@ -570,7 +541,7 @@ Object {
 }
 `;
 
-exports[`validate manuscript validate manuscript: validate-manuscript 33`] = `
+exports[`validate manuscript validate manuscript: validate-manuscript 31`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
@@ -588,7 +559,7 @@ Object {
 }
 `;
 
-exports[`validate manuscript validate manuscript: validate-manuscript 34`] = `
+exports[`validate manuscript validate manuscript: validate-manuscript 32`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
@@ -606,32 +577,7 @@ Object {
 }
 `;
 
-exports[`validate manuscript validate manuscript: validate-manuscript 35`] = `
-Object {
-  "_id": Any<String>,
-  "data": Object {
-    "order": Array [
-      "MPManuscriptKeyword:07425FA3-F973-4D97-8393-959B73CB1C2A",
-      "MPManuscriptKeyword:C381EDB0-57A5-403A-9281-09F7E25C8A78",
-      "MPManuscriptKeyword:F114DB4D-47BC-4EAD-A4E6-090736DD9153",
-      "MPManuscriptKeyword:D646647F-5BC8-40B3-B749-934AE3BEB5C2",
-      "MPManuscriptKeyword:A6E33FEB-527D-4510-ADB3-12A1E73B99E0",
-      "MPManuscriptKeyword:7BAEF920-471D-4BC7-B3F7-67182B4EB178",
-      "MPManuscriptKeyword:4156D5BE-1BF1-494D-92EB-2FB8D5EC7C07",
-      "MPManuscriptKeyword:9E281519-75BA-46A3-9256-7270E74B4819",
-    ],
-  },
-  "fixable": true,
-  "ignored": false,
-  "message": "Keywords must be listed in alphabetical order",
-  "objectType": "MPKeywordsOrderValidationResult",
-  "passed": false,
-  "severity": 0,
-  "type": "keywords-order",
-}
-`;
-
-exports[`validate manuscript validate manuscript: validate-manuscript 36`] = `
+exports[`validate manuscript validate manuscript: validate-manuscript 33`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
@@ -647,7 +593,7 @@ Object {
 }
 `;
 
-exports[`validate manuscript validate manuscript: validate-manuscript 37`] = `
+exports[`validate manuscript validate manuscript: validate-manuscript 34`] = `
 Object {
   "_id": Any<String>,
   "data": Object {

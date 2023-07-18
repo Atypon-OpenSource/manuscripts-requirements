@@ -15,17 +15,12 @@
  */
 
 import {
-  BibliographyItem,
-  BibliographyValidationResult,
   Contributor,
   CountValidationResult,
   Figure,
   FigureFormatValidationResult,
   FigureImageValidationResult,
   FigureResolution,
-  KeywordsOrderValidationResult,
-  Manuscript,
-  ManuscriptKeyword,
   ManuscriptTemplate,
   ObjectTypes,
   RequiredSectionValidationResult,
@@ -55,7 +50,6 @@ import {
   buildContributorsCountRequirements,
   buildFigureCountRequirements,
   buildManuscriptCountRequirements,
-  buildManuscriptReferenceCountRequirements,
   buildRequiredSections,
   buildRunningTitleCountRequirements,
   buildSectionCountRequirements,
@@ -82,7 +76,6 @@ import {
   FigureResolutionsRequirements,
   FigureResolutionsType,
   FigureValidationType,
-  ReferenceCountRequirements,
   RequiredSections,
   RunningTitleRequirement,
   SectionCountRequirements,
@@ -98,11 +91,9 @@ import {
   getFigure,
   getFigureFormat,
   getManuscriptTitle,
-  getReferences,
   getSectionScope,
   hasRightOrder,
   isSequential,
-  isValidDOI,
   manuscriptHasMissingSection,
   sortSections,
 } from './utils'
@@ -653,57 +644,6 @@ const validateCombinedTableFigureCounts = async function* (
   )
 }
 
-const validateReferenceCounts = async function* (
-  referencesCount: number,
-  requirements: ReferenceCountRequirements
-) {
-  yield validateCount(
-    'manuscript-maximum-references',
-    referencesCount,
-    true,
-    requirements.references.max
-  )
-}
-
-const validateBibliography = async function* (
-  modelMap: Map<string, ContainedModel>,
-  references: Array<string>
-): AsyncGenerator<Build<BibliographyValidationResult>> {
-  for (const reference of references) {
-    const model = modelMap.get(reference)
-    if (model) {
-      const bibliographyItem = model as BibliographyItem
-      const results = validateDOI(bibliographyItem)
-      for (const result of results) {
-        yield result
-      }
-    } else {
-      throw new Error(`${reference} not found in manuscript data`)
-    }
-  }
-}
-
-const validateDOI = function (
-  bibliographyItem: BibliographyItem
-): Array<Build<BibliographyValidationResult>> {
-  const result: Array<Build<BibliographyValidationResult>> = []
-  const { DOI } = bibliographyItem
-  if (DOI) {
-    result.push({
-      ...buildValidationResult(ObjectTypes.BibliographyValidationResult),
-      type: 'bibliography-doi-format',
-      passed: isValidDOI(DOI),
-      affectedElementId: bibliographyItem._id,
-    })
-  }
-  result.push({
-    ...buildValidationResult(ObjectTypes.BibliographyValidationResult),
-    type: 'bibliography-doi-exist',
-    passed: !!DOI,
-    affectedElementId: bibliographyItem._id,
-  })
-  return result
-}
 const validateFigureFormats = (
   modelMap: Map<string, ContainedModel>,
   allowedFormats: Array<string>
@@ -798,45 +738,6 @@ export const validateFigureResolution = async function* (
   }
 }
 
-const validateKeywordsOrder = (
-  modelMap: Map<string, ContainedModel>
-): Build<KeywordsOrderValidationResult> | undefined => {
-  const [manuscript] = getModelsByType<Manuscript>(
-    modelMap,
-    ObjectTypes.Manuscript
-  )
-  if (!manuscript) {
-    throw new InputError('Could not find a Manuscript object')
-  }
-  const { keywordIDs } = manuscript
-  if (!keywordIDs || keywordIDs.length <= 0) {
-    // No keywords skip
-    return
-  }
-  const keywords: Array<ManuscriptKeyword> = []
-  for (const id of keywordIDs) {
-    const keyword = modelMap.get(id)
-    if (!keyword) {
-      throw new InputError(`${id} not found`)
-    }
-    keywords.push(keyword as ManuscriptKeyword)
-  }
-
-  const orderedKeywords = keywords.slice().sort((a, b) =>
-    a.name.localeCompare(b.name, undefined, {
-      sensitivity: 'accent',
-      ignorePunctuation: true,
-    })
-  )
-  const order = orderedKeywords.map((keywords) => keywords._id)
-  return {
-    ...buildValidationResult(ObjectTypes.KeywordsOrderValidationResult),
-    type: 'keywords-order',
-    fixable: true,
-    passed: JSON.stringify(orderedKeywords) === JSON.stringify(keywords),
-    data: { order },
-  }
-}
 export const createRequirementsValidator =
   (template: ManuscriptTemplate) =>
   async (
@@ -934,23 +835,23 @@ export const createRequirementsValidator =
     )) {
       addResult(result)
     }
-    const manuscriptReferenceCountRequirement =
-      buildManuscriptReferenceCountRequirements(template)
-    const references = getReferences(modelMap)
-    for await (const result of validateReferenceCounts(
-      references.length,
-      manuscriptReferenceCountRequirement
-    )) {
-      addResult(result)
-    }
-    for await (const result of validateBibliography(modelMap, references)) {
-      if (
-        !result.passed ||
-        isRequiredSection(requiredSections, 'MPSectionCategory:bibliography')
-      ) {
-        addResult(result)
-      }
-    }
+    // const manuscriptReferenceCountRequirement =
+    //   buildManuscriptReferenceCountRequirements(template)
+    // const references = getReferences(modelMap)
+    // for await (const result of validateReferenceCounts(
+    //   references.length,
+    //   manuscriptReferenceCountRequirement
+    // )) {
+    //   addResult(result)
+    // }
+    // for await (const result of validateBibliography(modelMap, references)) {
+    //   if (
+    //     !result.passed ||
+    //     isRequiredSection(requiredSections, 'MPSectionCategory:bibliography')
+    //   ) {
+    //     addResult(result)
+    //   }
+    // }
     const figureCountRequirements: FigureCountRequirements =
       buildFigureCountRequirements(template)
     for await (const result of validateFigureCounts(
@@ -1006,11 +907,6 @@ export const createRequirementsValidator =
       )) {
         addResult(result)
       }
-    }
-    // validate keywords order
-    const keywordsValidationResult = validateKeywordsOrder(modelMap)
-    if (keywordsValidationResult) {
-      addResult(keywordsValidationResult)
     }
 
     const contributorRequirements = buildContributorsCountRequirements(template)

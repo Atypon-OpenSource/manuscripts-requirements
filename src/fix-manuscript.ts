@@ -239,7 +239,6 @@ const reorderKeywords = (
       keys.push(name)
     }
   }
-  manuscript.keywordIDs = order
 
   const sections = getModelsByType<Section>(modelMap, ObjectTypes.Section)
 

@@ -19,7 +19,6 @@ import 'regenerator-runtime/runtime'
 import {
   KeywordsElement,
   KeywordsOrderValidationResult,
-  Manuscript,
   ManuscriptKeyword,
   ObjectTypes,
   RequiredSectionValidationResult,
@@ -179,11 +178,6 @@ test('Reorder keywords', async () => {
     {
       objectType: ObjectTypes.Manuscript,
       _id: 'test',
-      keywordIDs: [
-        'MPManuscriptKeyword:2',
-        'MPManuscriptKeyword:0',
-        'MPManuscriptKeyword:1',
-      ],
     },
     {
       objectType: ObjectTypes.Section,
@@ -232,11 +226,6 @@ test('Reorder keywords', async () => {
     [validationResults],
     parser
   )
-
-  const manuscript = results.find(
-    (model) => model.objectType === ObjectTypes.Manuscript
-  ) as Manuscript
-  expect(manuscript.keywordIDs).toStrictEqual(order)
 
   const keywordsElement = results.find(
     (model) => model._id === 'MPKeywordsElement:1'

@@ -32,7 +32,6 @@ import {
   CountRequirements,
   FigureCountRequirements,
   FigureResolutionsRequirements,
-  ReferenceCountRequirements,
   RequiredSections,
   SectionCountRequirements,
   SectionDescriptionCountProperty,
@@ -331,20 +330,6 @@ export const getAllowedFigureFormats = (
   return template.acceptableFigureFormats
     ? (template.acceptableFigureFormats as Array<string>)
     : []
-}
-
-export const buildManuscriptReferenceCountRequirements = (
-  template: ManuscriptTemplate
-): ReferenceCountRequirements => {
-  return {
-    references: {
-      max: findCountRequirement(
-        ObjectTypes.MaximumManuscriptReferenceCountRequirement,
-        'maxManuscriptReferenceCountRequirement',
-        template
-      ),
-    },
-  }
 }
 
 export const buildContributorsCountRequirements = (
