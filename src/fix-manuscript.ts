@@ -15,10 +15,6 @@
  */
 
 import {
-  KeywordsElement,
-  Manuscript,
-  ManuscriptKeyword,
-  ObjectTypes,
   ParagraphElement,
   Section,
   SectionDescription,
@@ -29,11 +25,9 @@ import {
   buildParagraph,
   buildSection,
   ContainedModel,
-  getModelsByType,
   isManuscript,
   ManuscriptModel,
 } from '@manuscripts/transform'
-import { v4 as uuid } from 'uuid'
 
 import { InputError } from './errors'
 import { AnyValidationResult } from './types/requirements'
@@ -44,13 +38,11 @@ type RequiredSection = { section: Section; placeholder?: ParagraphElement }
 export const runManuscriptFixes = (
   manuscriptData: Array<ContainedModel>,
   manuscriptID: string,
-  results: Array<AnyValidationResult>,
-  { parser, serializer }: { parser: DOMParser; serializer: XMLSerializer }
+  results: Array<AnyValidationResult>
 ): Array<ContainedModel> => {
   const modelsMap = new Map(manuscriptData.map((model) => [model._id, model]))
   const failedResults = results.filter((result) => !result.passed)
-  // change sessionID/updatedAt of the fixed objects?
-  const sessionID = uuid()
+  // change updatedAt of the fixed objects?
   const manuscript = modelsMap.get(manuscriptID)
   // No manuscript object
   if (!manuscript || !isManuscript(manuscript)) {
@@ -65,8 +57,7 @@ export const runManuscriptFixes = (
           data.sectionDescription,
           manuscript._id,
           manuscript.containerID,
-          priority,
-          sessionID
+          priority
         )
         manuscriptData.push(...requiredSection)
         break
@@ -84,14 +75,6 @@ export const runManuscriptFixes = (
       case 'section-order': {
         const { data } = result
         reorderSections(data.order, manuscriptData)
-        break
-      }
-      case 'keywords-order': {
-        const { data } = result
-        reorderKeywords(data.order, modelsMap, manuscript, {
-          parser,
-          serializer,
-        })
         break
       }
     }
@@ -147,7 +130,6 @@ const createRequiredSection = (
   manuscriptID: string,
   containerID: string,
   priority: number,
-  sessionID: string,
   path?: string[]
 ): RequiredSection => {
   const { title, sectionCategory } = requirement
@@ -158,7 +140,7 @@ const createRequiredSection = (
     }
   }
   const section = {
-    ...createRequiredModelProperties(manuscriptID, containerID, sessionID),
+    ...createRequiredModelProperties(manuscriptID, containerID),
     ...buildSection(priority, path),
     title: title || capitalize(categoryName),
     category: sectionCategory,
@@ -170,7 +152,7 @@ const createRequiredSection = (
   const { placeholder } = requirement
   if (placeholder) {
     const placeholderParagraph = {
-      ...createRequiredModelProperties(manuscriptID, containerID, sessionID),
+      ...createRequiredModelProperties(manuscriptID, containerID),
       ...buildParagraph(placeholder),
     } as ParagraphElement
     section.elementIDs = [placeholderParagraph._id]
@@ -183,15 +165,13 @@ const addRequiredSection = (
   requirement: SectionDescription,
   manuscriptID: string,
   containerID: string,
-  priority: number,
-  sessionID: string
+  priority: number
 ): Array<ManuscriptModel> => {
   const parentSection = createRequiredSection(
     requirement,
     manuscriptID,
     containerID,
-    priority,
-    sessionID
+    priority
   )
   let manuscriptsModels: Array<ManuscriptModel> = [parentSection.section]
   if (parentSection.placeholder) {
@@ -207,7 +187,6 @@ const addRequiredSection = (
           manuscriptID,
           containerID,
           ++priority,
-          sessionID,
           [parentSection.section._id]
         )
       )
@@ -221,49 +200,4 @@ const addRequiredSection = (
   }
 
   return manuscriptsModels
-}
-
-const reorderKeywords = (
-  order: Array<string>,
-  modelMap: Map<string, ContainedModel>,
-  manuscript: Manuscript,
-  { parser, serializer }: { parser: DOMParser; serializer: XMLSerializer }
-) => {
-  const keys: Array<string> = []
-  // Make sure the function received valid IDs
-  for (const id of order) {
-    if (!modelMap.has(id)) {
-      throw new InputError(`${id} not found in ManuscriptData`)
-    } else {
-      const { name } = modelMap.get(id) as ManuscriptKeyword
-      keys.push(name)
-    }
-  }
-  manuscript.keywordIDs = order
-
-  const sections = getModelsByType<Section>(modelMap, ObjectTypes.Section)
-
-  const keywordsSections = sections.filter(
-    ({ category }) => category === 'MPSectionCategory:keywords'
-  )
-  if (keywordsSections.length > 1) {
-    throw new InputError('Multiple keywords sections found')
-  }
-  const [keywordsSection] = keywordsSections
-  if (keywordsSection && keywordsSection.elementIDs) {
-    const [id] = keywordsSection.elementIDs
-
-    if (modelMap.has(id)) {
-      const keywordsElement = modelMap.get(id) as KeywordsElement
-      const { contents } = keywordsElement
-      const contentNode = parser.parseFromString(
-        contents,
-        'application/xhtml+xml'
-      ).firstChild
-      if (contentNode) {
-        contentNode.textContent = keys.join(', ')
-        keywordsElement.contents = serializer.serializeToString(contentNode)
-      }
-    }
-  }
 }
