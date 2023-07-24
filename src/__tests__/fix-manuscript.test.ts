@@ -31,7 +31,6 @@ import { isSection } from '../utils'
 import { createTemplateValidator } from '../validate-manuscript'
 import { data } from './__fixtures__/manuscript-data.json'
 
-
 test('Add and reorder sections', async () => {
   const data: Array<ContainedModel> = [
     {
@@ -75,7 +74,7 @@ test('Add and reorder sections', async () => {
   const requiredSectionsFix = runManuscriptFixes(
     data,
     'test',
-    requiredSectionValidationResults,
+    requiredSectionValidationResults
   )
     .filter((model) => isSection(model))
     .map((model) => (model as Section).category)
@@ -100,7 +99,7 @@ test('Add and reorder sections', async () => {
   const sectionsOrderFix = runManuscriptFixes(
     data,
     'test',
-    sectionOrderValidationResult,
+    sectionOrderValidationResult
   )
     .filter((model) => isSection(model))
     .map((model) => model as Section)
@@ -154,11 +153,9 @@ test('Retitle sections', async () => {
     affectedElementId: sectionID,
   }
 
-  const results = runManuscriptFixes(
-    manuscriptData,
-    'test',
-    [validationResults],
-  )
+  const results = runManuscriptFixes(manuscriptData, 'test', [
+    validationResults,
+  ])
   const testSection = results.find(
     (model) => model._id === 'MPSection:TEST'
   ) as Section
@@ -188,7 +185,7 @@ test('Validate autofix', async () => {
   const fixedModels = runManuscriptFixes(
     manuscriptModels,
     manuscriptID,
-    validationResults,
+    validationResults
   )
   const results = await validateManuscript(fixedModels, manuscriptID, getData)
   results.forEach((result) => {
