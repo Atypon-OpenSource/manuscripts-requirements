@@ -795,7 +795,6 @@ export const validateFigureResolution = async function* (
   }
 }
 
-
 export const createRequirementsValidator =
   (template: ManuscriptTemplate) =>
   async (

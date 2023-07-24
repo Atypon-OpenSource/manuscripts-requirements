@@ -178,7 +178,7 @@ export const getFigure = async (
 
 export const createRequiredModelProperties = (
   manuscriptID: string,
-  containerID: string,
+  containerID: string
 ) => {
   const createdAt = timestamp()
   return {

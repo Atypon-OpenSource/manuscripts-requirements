@@ -38,8 +38,7 @@ type RequiredSection = { section: Section; placeholder?: ParagraphElement }
 export const runManuscriptFixes = (
   manuscriptData: Array<ContainedModel>,
   manuscriptID: string,
-  results: Array<AnyValidationResult>,
-  { parser, serializer }: { parser: DOMParser; serializer: XMLSerializer }
+  results: Array<AnyValidationResult>
 ): Array<ContainedModel> => {
   const modelsMap = new Map(manuscriptData.map((model) => [model._id, model]))
   const failedResults = results.filter((result) => !result.passed)
@@ -166,7 +165,7 @@ const addRequiredSection = (
   requirement: SectionDescription,
   manuscriptID: string,
   containerID: string,
-  priority: number,
+  priority: number
 ): Array<ManuscriptModel> => {
   const parentSection = createRequiredSection(
     requirement,
@@ -202,4 +201,3 @@ const addRequiredSection = (
 
   return manuscriptsModels
 }
-

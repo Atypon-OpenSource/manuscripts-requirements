@@ -31,7 +31,6 @@ import { isSection } from '../utils'
 import { createTemplateValidator } from '../validate-manuscript'
 import { data } from './__fixtures__/manuscript-data.json'
 
-const parser = { parser: new DOMParser(), serializer: new XMLSerializer() }
 
 test('Add and reorder sections', async () => {
   const data: Array<ContainedModel> = [
@@ -77,7 +76,6 @@ test('Add and reorder sections', async () => {
     data,
     'test',
     requiredSectionValidationResults,
-    parser
   )
     .filter((model) => isSection(model))
     .map((model) => (model as Section).category)
@@ -103,7 +101,6 @@ test('Add and reorder sections', async () => {
     data,
     'test',
     sectionOrderValidationResult,
-    parser
   )
     .filter((model) => isSection(model))
     .map((model) => model as Section)
@@ -161,15 +158,12 @@ test('Retitle sections', async () => {
     manuscriptData,
     'test',
     [validationResults],
-    { parser: new DOMParser(), serializer: new XMLSerializer() }
   )
   const testSection = results.find(
     (model) => model._id === 'MPSection:TEST'
   ) as Section
   expect(testSection.title).toMatch(requiredTitle)
 })
-
-
 
 test('Validate autofix', async () => {
   const validateManuscript = createTemplateValidator(
@@ -195,14 +189,16 @@ test('Validate autofix', async () => {
     manuscriptModels,
     manuscriptID,
     validationResults,
-    parser
   )
   const results = await validateManuscript(fixedModels, manuscriptID, getData)
   results.forEach((result) => {
     // make sure all the fixable objects are passed now
     const value = !result.passed && result.fixable
     // TODO: section-order requires two fix passes if there is a missing sections can this be done in one pass?
-    if ((value && result.type === 'section-order') || (value &&  result.type === 'keywords-order')) {
+    if (
+      (value && result.type === 'section-order') ||
+      (value && result.type === 'keywords-order')
+    ) {
       return
     }
     expect(value).toBeFalsy()
