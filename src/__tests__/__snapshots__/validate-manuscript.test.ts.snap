@@ -610,31 +610,6 @@ exports[`validate manuscript validate manuscript: validate-manuscript 35`] = `
 Object {
   "_id": Any<String>,
   "data": Object {
-    "order": Array [
-      "MPManuscriptKeyword:07425FA3-F973-4D97-8393-959B73CB1C2A",
-      "MPManuscriptKeyword:C381EDB0-57A5-403A-9281-09F7E25C8A78",
-      "MPManuscriptKeyword:F114DB4D-47BC-4EAD-A4E6-090736DD9153",
-      "MPManuscriptKeyword:D646647F-5BC8-40B3-B749-934AE3BEB5C2",
-      "MPManuscriptKeyword:A6E33FEB-527D-4510-ADB3-12A1E73B99E0",
-      "MPManuscriptKeyword:7BAEF920-471D-4BC7-B3F7-67182B4EB178",
-      "MPManuscriptKeyword:4156D5BE-1BF1-494D-92EB-2FB8D5EC7C07",
-      "MPManuscriptKeyword:9E281519-75BA-46A3-9256-7270E74B4819",
-    ],
-  },
-  "fixable": true,
-  "ignored": false,
-  "message": "Keywords must be listed in alphabetical order",
-  "objectType": "MPKeywordsOrderValidationResult",
-  "passed": false,
-  "severity": 0,
-  "type": "keywords-order",
-}
-`;
-
-exports[`validate manuscript validate manuscript: validate-manuscript 36`] = `
-Object {
-  "_id": Any<String>,
-  "data": Object {
     "count": 2,
     "value": 1,
   },
@@ -647,7 +622,7 @@ Object {
 }
 `;
 
-exports[`validate manuscript validate manuscript: validate-manuscript 37`] = `
+exports[`validate manuscript validate manuscript: validate-manuscript 36`] = `
 Object {
   "_id": Any<String>,
   "data": Object {

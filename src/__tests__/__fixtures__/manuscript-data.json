@@ -6,7 +6,6 @@
       "name": "default",
       "title": "Default",
       "objectType": "MPAuxiliaryObjectReferenceStyle",
-      "bundled": true,
       "priority": 10,
       "embeddedReferenceStringComponents": [
         {
@@ -76,7 +75,6 @@
       "name": "dashed",
       "title": "Dashed",
       "objectType": "MPBorderStyle",
-      "bundled": true,
       "pattern": [2, 2],
       "priority": 20,
       "prototype": "MPBorderStyle:E28AA90C-4379-434F-AF58-E2D8C8ED1EB4",
@@ -88,7 +86,6 @@
       "name": "dotted",
       "title": "Dotted",
       "objectType": "MPBorderStyle",
-      "bundled": true,
       "pattern": [1, 1],
       "priority": 30,
       "prototype": "MPBorderStyle:00FD8810-B85D-4FC5-8C23-8022A36E07BD",
@@ -100,7 +97,6 @@
       "name": "double",
       "title": "Double Lines",
       "objectType": "MPBorderStyle",
-      "bundled": true,
       "doubleLines": true,
       "priority": 40,
       "prototype": "MPBorderStyle:16583262-A260-4E35-A508-3F960F70074F",
@@ -112,14 +108,12 @@
       "name": "solid",
       "title": "Solid",
       "objectType": "MPBorderStyle",
-      "bundled": true,
       "priority": 10,
       "prototype": "MPBorderStyle:EBBB68B9-16A9-4EA2-8817-43755FF1B7A1",
       "containerID": "MPProject:B81D5F33-6338-420C-AAEC-CF0CF33E675C",
       "manuscriptID": "MPManuscript:9E0BEDBC-1084-4AA1-AB82-10ACFAE02232"
     },
     {
-      "bundled": true,
       "csl": {
         "ISSNs": ["00280836"],
         "_id": "MPCitationStyle:www-zotero-org-styles-nature",
@@ -146,7 +140,6 @@
       "name": "default",
       "title": "Default",
       "objectType": "MPCaptionStyle",
-      "bundled": true,
       "priority": 10,
       "embeddedCaptionComponents": [
         {
@@ -206,7 +199,6 @@
       "name": "verylightgray",
       "title": "Very Light Gray",
       "objectType": "MPColor",
-      "bundled": true,
       "value": "#f4f4f4",
       "priority": 50,
       "prototype": "MPColor:verylightgray",
@@ -218,7 +210,6 @@
       "name": "white",
       "title": "White",
       "objectType": "MPColor",
-      "bundled": true,
       "value": "#ffffff",
       "priority": 100,
       "prototype": "MPColor:white",
@@ -230,7 +221,6 @@
       "name": "green",
       "title": "Green",
       "objectType": "MPColor",
-      "bundled": true,
       "value": "#00ff00",
       "priority": 120,
       "prototype": "MPColor:green",
@@ -242,7 +232,6 @@
       "name": "gray",
       "title": "Gray",
       "objectType": "MPColor",
-      "bundled": true,
       "value": "#b0b0b0",
       "priority": 50,
       "prototype": "MPColor:gray",
@@ -254,7 +243,6 @@
       "name": "blue",
       "title": "Blue",
       "objectType": "MPColor",
-      "bundled": true,
       "value": "#0000ff",
       "priority": 130,
       "prototype": "MPColor:blue",
@@ -266,7 +254,6 @@
       "name": "red",
       "title": "Red",
       "objectType": "MPColor",
-      "bundled": true,
       "value": "#ff0000",
       "priority": 110,
       "prototype": "MPColor:red",
@@ -278,7 +265,6 @@
       "name": "black",
       "title": "Black",
       "objectType": "MPColor",
-      "bundled": true,
       "value": "#000000",
       "priority": 10,
       "prototype": "MPColor:black",
@@ -290,7 +276,6 @@
       "name": "verylightblue",
       "title": "Very Light Blue",
       "objectType": "MPColor",
-      "bundled": true,
       "value": "#f0f0ff",
       "priority": 50,
       "prototype": "MPColor:verylightblue",
@@ -301,7 +286,6 @@
       "_id": "MPColorScheme:BB14E2B4-4466-4330-B612-856EC256FFF8",
       "objectType": "MPColorScheme",
       "name": "Manuscripts default colour scheme",
-      "bundled": true,
       "colors": [
         "MPColor:black",
         "MPColor:gray",
@@ -372,7 +356,6 @@
       "name": "Data curation",
       "desc": "Management activities to annotate (produce metadata), scrub data and maintain research data (including software code, where it is necessary for interpreting the data itself) for initial use and later re-use.",
       "objectType": "MPContributorRole",
-      "bundled": true,
       "prototype": "MPContributorRole:credit-data-curation",
       "containerID": "MPProject:B81D5F33-6338-420C-AAEC-CF0CF33E675C",
       "manuscriptID": "MPManuscript:9E0BEDBC-1084-4AA1-AB82-10ACFAE02232"
@@ -383,7 +366,6 @@
       "name": "Methodology",
       "desc": "Development or design of methodology; creation of models.",
       "objectType": "MPContributorRole",
-      "bundled": true,
       "prototype": "MPContributorRole:credit-methodology",
       "containerID": "MPProject:B81D5F33-6338-420C-AAEC-CF0CF33E675C",
       "manuscriptID": "MPManuscript:9E0BEDBC-1084-4AA1-AB82-10ACFAE02232"
@@ -394,7 +376,6 @@
       "name": "Funding acquisition",
       "desc": "Acquisition of the financial support for the project leading to this publication.",
       "objectType": "MPContributorRole",
-      "bundled": true,
       "prototype": "MPContributorRole:credit-funding-acquisition",
       "containerID": "MPProject:B81D5F33-6338-420C-AAEC-CF0CF33E675C",
       "manuscriptID": "MPManuscript:9E0BEDBC-1084-4AA1-AB82-10ACFAE02232"
@@ -405,7 +386,6 @@
       "name": "Formal analysis",
       "desc": "Application of statistical, mathematical, computational, or other formal techniques to analyze or synthesize study data.",
       "objectType": "MPContributorRole",
-      "bundled": true,
       "prototype": "MPContributorRole:credit-formal-analysis",
       "containerID": "MPProject:B81D5F33-6338-420C-AAEC-CF0CF33E675C",
       "manuscriptID": "MPManuscript:9E0BEDBC-1084-4AA1-AB82-10ACFAE02232"
@@ -416,7 +396,6 @@
       "name": "Conceptualization",
       "desc": "Ideas; formulation or evolution of overarching research goals and aims.",
       "objectType": "MPContributorRole",
-      "bundled": true,
       "prototype": "MPContributorRole:credit-conceptualization",
       "containerID": "MPProject:B81D5F33-6338-420C-AAEC-CF0CF33E675C",
       "manuscriptID": "MPManuscript:9E0BEDBC-1084-4AA1-AB82-10ACFAE02232"
@@ -427,7 +406,6 @@
       "name": "Resources",
       "desc": "Provision of study materials, reagents, materials, patients, laboratory samples, animals, instrumentation, computing resources, or other analysis tools.",
       "objectType": "MPContributorRole",
-      "bundled": true,
       "prototype": "MPContributorRole:credit-resources",
       "containerID": "MPProject:B81D5F33-6338-420C-AAEC-CF0CF33E675C",
       "manuscriptID": "MPManuscript:9E0BEDBC-1084-4AA1-AB82-10ACFAE02232"
@@ -438,7 +416,6 @@
       "name": "Software",
       "desc": "Programming, software development; designing computer programs; implementation of the computer code and supporting algorithms; testing of existing code components.",
       "objectType": "MPContributorRole",
-      "bundled": true,
       "prototype": "MPContributorRole:credit-software",
       "containerID": "MPProject:B81D5F33-6338-420C-AAEC-CF0CF33E675C",
       "manuscriptID": "MPManuscript:9E0BEDBC-1084-4AA1-AB82-10ACFAE02232"
@@ -449,7 +426,6 @@
       "name": "Validation",
       "desc": "Verification, whether as a part of the activity or separate, of the overall replication/reproducibility of results/experiments and other research outputs.",
       "objectType": "MPContributorRole",
-      "bundled": true,
       "prototype": "MPContributorRole:credit-validation",
       "containerID": "MPProject:B81D5F33-6338-420C-AAEC-CF0CF33E675C",
       "manuscriptID": "MPManuscript:9E0BEDBC-1084-4AA1-AB82-10ACFAE02232"
@@ -460,7 +436,6 @@
       "name": "Project administration",
       "desc": "Management and coordination responsibility for the research activity planning and execution.",
       "objectType": "MPContributorRole",
-      "bundled": true,
       "prototype": "MPContributorRole:credit-project-administration",
       "containerID": "MPProject:B81D5F33-6338-420C-AAEC-CF0CF33E675C",
       "manuscriptID": "MPManuscript:9E0BEDBC-1084-4AA1-AB82-10ACFAE02232"
@@ -471,7 +446,6 @@
       "name": "Investigation",
       "desc": "Conducting a research and investigation process, specifically performing the experiments, or data/evidence collection.",
       "objectType": "MPContributorRole",
-      "bundled": true,
       "prototype": "MPContributorRole:credit-investigation",
       "containerID": "MPProject:B81D5F33-6338-420C-AAEC-CF0CF33E675C",
       "manuscriptID": "MPManuscript:9E0BEDBC-1084-4AA1-AB82-10ACFAE02232"
@@ -482,7 +456,6 @@
       "name": "Writing – original draft",
       "desc": "Preparation, creation and/or presentation of the published work, specifically writing the initial draft (including substantive translation).",
       "objectType": "MPContributorRole",
-      "bundled": true,
       "prototype": "MPContributorRole:credit-writing-original-draft",
       "containerID": "MPProject:B81D5F33-6338-420C-AAEC-CF0CF33E675C",
       "manuscriptID": "MPManuscript:9E0BEDBC-1084-4AA1-AB82-10ACFAE02232"
@@ -493,7 +466,6 @@
       "name": "Writing – review & editing",
       "desc": "Preparation, creation and/or presentation of the published work by those from the original research group, specifically critical review, commentary or revision – including pre- or post-publication stages.",
       "objectType": "MPContributorRole",
-      "bundled": true,
       "prototype": "MPContributorRole:credit-writing-review-editing",
       "containerID": "MPProject:B81D5F33-6338-420C-AAEC-CF0CF33E675C",
       "manuscriptID": "MPManuscript:9E0BEDBC-1084-4AA1-AB82-10ACFAE02232"
@@ -504,7 +476,6 @@
       "name": "Supervision",
       "desc": "Oversight and leadership responsibility for the research activity planning and execution, including mentorship external to the core team.",
       "objectType": "MPContributorRole",
-      "bundled": true,
       "prototype": "MPContributorRole:credit-supervision",
       "containerID": "MPProject:B81D5F33-6338-420C-AAEC-CF0CF33E675C",
       "manuscriptID": "MPManuscript:9E0BEDBC-1084-4AA1-AB82-10ACFAE02232"
@@ -515,7 +486,6 @@
       "name": "Visualization",
       "desc": "Preparation, creation and/or presentation of the published work, specifically visualization/data presentation.",
       "objectType": "MPContributorRole",
-      "bundled": true,
       "prototype": "MPContributorRole:credit-visualization",
       "containerID": "MPProject:B81D5F33-6338-420C-AAEC-CF0CF33E675C",
       "manuscriptID": "MPManuscript:9E0BEDBC-1084-4AA1-AB82-10ACFAE02232"
@@ -565,7 +535,6 @@
       "name": "default",
       "title": "Single Figure",
       "objectType": "MPFigureLayout",
-      "bundled": true,
       "columns": 1,
       "rows": 1,
       "priority": 10,
@@ -580,7 +549,6 @@
       "objectType": "MPFigureLayout",
       "columns": 1,
       "rows": 3,
-      "bundled": true,
       "priority": 35,
       "prototype": "MPFigureLayout:three_figures_stacked",
       "containerID": "MPProject:B81D5F33-6338-420C-AAEC-CF0CF33E675C",
@@ -593,7 +561,6 @@
       "objectType": "MPFigureLayout",
       "columns": 2,
       "rows": 3,
-      "bundled": true,
       "priority": 65,
       "prototype": "MPFigureLayout:2_by_3",
       "containerID": "MPProject:B81D5F33-6338-420C-AAEC-CF0CF33E675C",
@@ -606,7 +573,6 @@
       "objectType": "MPFigureLayout",
       "columns": 2,
       "rows": 2,
-      "bundled": true,
       "priority": 40,
       "prototype": "MPFigureLayout:four_figures",
       "containerID": "MPProject:B81D5F33-6338-420C-AAEC-CF0CF33E675C",
@@ -619,7 +585,6 @@
       "objectType": "MPFigureLayout",
       "columns": 1,
       "rows": 2,
-      "bundled": true,
       "priority": 25,
       "prototype": "MPFigureLayout:two_figures_stacked",
       "containerID": "MPProject:B81D5F33-6338-420C-AAEC-CF0CF33E675C",
@@ -632,7 +597,6 @@
       "objectType": "MPFigureLayout",
       "columns": 3,
       "rows": 3,
-      "bundled": true,
       "priority": 90,
       "prototype": "MPFigureLayout:nine_figures",
       "containerID": "MPProject:B81D5F33-6338-420C-AAEC-CF0CF33E675C",
@@ -643,7 +607,6 @@
       "name": "three_figures",
       "title": "Three Figures in a Row",
       "objectType": "MPFigureLayout",
-      "bundled": true,
       "columns": 3,
       "rows": 1,
       "priority": 30,
@@ -658,7 +621,6 @@
       "objectType": "MPFigureLayout",
       "columns": 3,
       "rows": 2,
-      "bundled": true,
       "priority": 60,
       "prototype": "MPFigureLayout:3_by_2",
       "containerID": "MPProject:B81D5F33-6338-420C-AAEC-CF0CF33E675C",
@@ -669,7 +631,6 @@
       "name": "two_figures",
       "title": "Two Figures Side by Side",
       "objectType": "MPFigureLayout",
-      "bundled": true,
       "columns": 2,
       "rows": 1,
       "priority": 20,
@@ -683,7 +644,6 @@
       "name": "default",
       "title": "Default",
       "objectType": "MPFigureStyle",
-      "bundled": true,
       "captionPosition": "below",
       "innerBorder": {
         "color": "MPColor:D8F5B5C8-F87D-489D-AAA4-E962AEE848AB",
@@ -758,17 +718,7 @@
       "bundle": "MPBundle:E8B2DFE8-B19D-4779-9CE7-15DB5B2DFC6F",
       "pageLayout": "MPPageLayout:AB0289F4-FFD9-430E-B057-55ADEDCFD8A0",
       "priority": 1,
-      "containerID": "MPProject:B81D5F33-6338-420C-AAEC-CF0CF33E675C",
-      "keywordIDs": [
-        "MPManuscriptKeyword:F114DB4D-47BC-4EAD-A4E6-090736DD9153",
-        "MPManuscriptKeyword:D646647F-5BC8-40B3-B749-934AE3BEB5C2",
-        "MPManuscriptKeyword:C381EDB0-57A5-403A-9281-09F7E25C8A78",
-        "MPManuscriptKeyword:07425FA3-F973-4D97-8393-959B73CB1C2A",
-        "MPManuscriptKeyword:7BAEF920-471D-4BC7-B3F7-67182B4EB178",
-        "MPManuscriptKeyword:4156D5BE-1BF1-494D-92EB-2FB8D5EC7C07",
-        "MPManuscriptKeyword:A6E33FEB-527D-4510-ADB3-12A1E73B99E0",
-        "MPManuscriptKeyword:9E281519-75BA-46A3-9256-7270E74B4819"
-      ]
+      "containerID": "MPProject:B81D5F33-6338-420C-AAEC-CF0CF33E675C"
     },
     {
       "_id": "MPManuscriptKeyword:07425FA3-F973-4D97-8393-959B73CB1C2A",
@@ -833,7 +783,6 @@
     {
       "_id": "MPPageLayout:AB0289F4-FFD9-430E-B057-55ADEDCFD8A0",
       "objectType": "MPPageLayout",
-      "bundled": true,
       "beginChaptersOnRightHandPages": true,
       "bottomMargin": 20,
       "defaultParagraphStyle": "MPParagraphStyle:339456D4-33B6-40EE-8B6F-80662870B3A7",
@@ -911,7 +860,6 @@
       "name": "heading6",
       "title": "Subsubsubsubsubsection Heading",
       "objectType": "MPParagraphStyle",
-      "bundled": true,
       "nextStyle": "MPParagraphStyle:339456D4-33B6-40EE-8B6F-80662870B3A7",
       "textStyling": {
         "_id": "MPTextStyling:5507294C-AD8D-48EC-B86A-A4E5AE6C34D5",
@@ -942,7 +890,6 @@
       "name": "listing",
       "title": "Listing",
       "objectType": "MPParagraphStyle",
-      "bundled": true,
       "nextStyle": "MPParagraphStyle:31A96886-0C0E-4AB3-A6CB-3B9DF136640C",
       "textStyling": {
         "_id": "MPTextStyling:38ED2127-F6B6-4465-B739-09A3701A832D",
@@ -973,7 +920,6 @@
       "name": "bodyText",
       "title": "Body Text",
       "objectType": "MPParagraphStyle",
-      "bundled": true,
       "nextStyle": "MPParagraphStyle:339456D4-33B6-40EE-8B6F-80662870B3A7",
       "textStyling": {
         "_id": "MPTextStyling:A6E169AC-4610-44C6-A979-7FD95AE787CC",
@@ -1047,7 +993,6 @@
       "name": "heading5",
       "title": "Subsubsubsubsection Heading",
       "objectType": "MPParagraphStyle",
-      "bundled": true,
       "nextStyle": "MPParagraphStyle:339456D4-33B6-40EE-8B6F-80662870B3A7",
       "textStyling": {
         "_id": "MPTextStyling:6094A8B5-2751-489F-B4A5-699E54B57DC3",
@@ -1078,7 +1023,6 @@
       "name": "manuscriptTitle",
       "title": "Manuscript Title",
       "objectType": "MPParagraphStyle",
-      "bundled": true,
       "nextStyle": "MPParagraphStyle:339456D4-33B6-40EE-8B6F-80662870B3A7",
       "textStyling": {
         "_id": "MPTextStyling:BBA06E82-F724-419F-A81E-1886644AA4B9",
@@ -1109,7 +1053,6 @@
       "name": "bodyText",
       "title": "Table of Contents",
       "objectType": "MPParagraphStyle",
-      "bundled": true,
       "nextStyle": "MPParagraphStyle:339456D4-33B6-40EE-8B6F-80662870B3A7",
       "textStyling": {
         "_id": "MPTextStyling:2E79D76D-CAC1-492F-8709-DAD9FD369B8B",
@@ -1183,7 +1126,6 @@
       "name": "footnote",
       "title": "Footnote",
       "objectType": "MPParagraphStyle",
-      "bundled": true,
       "nextStyle": "MPParagraphStyle:901DF094-3BA2-4B07-B3F8-008CC7BBBC14",
       "textStyling": {
         "_id": "MPTextStyling:A6E169AC-4610-44C6-A979-7FD95AE787CC",
@@ -1257,7 +1199,6 @@
       "name": "heading3",
       "title": "Subsubsection Heading",
       "objectType": "MPParagraphStyle",
-      "bundled": true,
       "nextStyle": "MPParagraphStyle:339456D4-33B6-40EE-8B6F-80662870B3A7",
       "textStyling": {
         "_id": "MPTextStyling:055123F5-3704-49FE-B59B-D801598C67C4",
@@ -1288,7 +1229,6 @@
       "name": "contributorList",
       "title": "Author List",
       "objectType": "MPParagraphStyle",
-      "bundled": true,
       "nextStyle": "MPParagraphStyle:339456D4-33B6-40EE-8B6F-80662870B3A7",
       "textStyling": {
         "_id": "MPTextStyling:E430B8EE-411D-4218-82E3-C30269D1803A",
@@ -1319,7 +1259,6 @@
       "name": "heading4",
       "title": "Subsubsubsection Heading",
       "objectType": "MPParagraphStyle",
-      "bundled": true,
       "nextStyle": "MPParagraphStyle:339456D4-33B6-40EE-8B6F-80662870B3A7",
       "textStyling": {
         "_id": "MPTextStyling:A3F0EF28-7A3F-4208-9205-5BD3FF8C1066",
@@ -1350,7 +1289,6 @@
       "name": "heading2",
       "title": "Subsection Heading",
       "objectType": "MPParagraphStyle",
-      "bundled": true,
       "nextStyle": "MPParagraphStyle:339456D4-33B6-40EE-8B6F-80662870B3A7",
       "textStyling": {
         "_id": "MPTextStyling:0A37ACFF-1D8A-4068-ABD0-0594C99C8EE0",
@@ -1381,7 +1319,6 @@
       "name": "heading1",
       "title": "Section Heading",
       "objectType": "MPParagraphStyle",
-      "bundled": true,
       "nextStyle": "MPParagraphStyle:339456D4-33B6-40EE-8B6F-80662870B3A7",
       "textStyling": {
         "_id": "MPTextStyling:2E2D93EB-2474-4494-AD92-B5EAD46A38BE",
@@ -1522,7 +1459,6 @@
       "name": "default",
       "title": "Default Table Style",
       "objectType": "MPTableStyle",
-      "bundled": true,
       "headerBackgroundColor": "MPColor:07DA56E6-04F0-48BB-997F-600BF142B80D",
       "headerTopBorder": {
         "color": "MPColor:D8F5B5C8-F87D-489D-AAA4-E962AEE848AB",

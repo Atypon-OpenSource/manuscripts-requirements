@@ -23,9 +23,6 @@ import {
   FigureFormatValidationResult,
   FigureImageValidationResult,
   FigureResolution,
-  KeywordsOrderValidationResult,
-  Manuscript,
-  ManuscriptKeyword,
   ManuscriptTemplate,
   ObjectTypes,
   RequiredSectionValidationResult,
@@ -798,45 +795,6 @@ export const validateFigureResolution = async function* (
   }
 }
 
-const validateKeywordsOrder = (
-  modelMap: Map<string, ContainedModel>
-): Build<KeywordsOrderValidationResult> | undefined => {
-  const [manuscript] = getModelsByType<Manuscript>(
-    modelMap,
-    ObjectTypes.Manuscript
-  )
-  if (!manuscript) {
-    throw new InputError('Could not find a Manuscript object')
-  }
-  const { keywordIDs } = manuscript
-  if (!keywordIDs || keywordIDs.length <= 0) {
-    // No keywords skip
-    return
-  }
-  const keywords: Array<ManuscriptKeyword> = []
-  for (const id of keywordIDs) {
-    const keyword = modelMap.get(id)
-    if (!keyword) {
-      throw new InputError(`${id} not found`)
-    }
-    keywords.push(keyword as ManuscriptKeyword)
-  }
-
-  const orderedKeywords = keywords.slice().sort((a, b) =>
-    a.name.localeCompare(b.name, undefined, {
-      sensitivity: 'accent',
-      ignorePunctuation: true,
-    })
-  )
-  const order = orderedKeywords.map((keywords) => keywords._id)
-  return {
-    ...buildValidationResult(ObjectTypes.KeywordsOrderValidationResult),
-    type: 'keywords-order',
-    fixable: true,
-    passed: JSON.stringify(orderedKeywords) === JSON.stringify(keywords),
-    data: { order },
-  }
-}
 export const createRequirementsValidator =
   (template: ManuscriptTemplate) =>
   async (
@@ -1007,12 +965,6 @@ export const createRequirementsValidator =
         addResult(result)
       }
     }
-    // validate keywords order
-    const keywordsValidationResult = validateKeywordsOrder(modelMap)
-    if (keywordsValidationResult) {
-      addResult(keywordsValidationResult)
-    }
-
     const contributorRequirements = buildContributorsCountRequirements(template)
     const contributors = findContributors(manuscriptId, manuscriptsData)
 
