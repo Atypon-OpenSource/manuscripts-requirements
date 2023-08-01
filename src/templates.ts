@@ -13,9 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import categories from '@manuscripts/data/dist/shared/section-categories.json'
-import templateModels from '@manuscripts/data/dist/shared/templates-v2.json'
-import { Model, SectionCategory } from '@manuscripts/json-schema'
+import { Model } from '@manuscripts/json-schema'
 
 import testTemplates from './__tests__/__fixtures__/templates.json'
 
@@ -23,8 +21,10 @@ import testTemplates from './__tests__/__fixtures__/templates.json'
 
 const buildTemplateModelMap = (): Map<string, Model> => {
   const map = new Map<string, Model>()
-
-  for (const model of templateModels as Model[]) {
+  /** templateModels we get from @manuscripts/data removed,
+   *  this part of the code is kept as a reference in case
+   *  we need to use the manuscripts requirement validation  */
+  for (const model of [] as Model[]) {
     map.set(model._id, model)
   }
 
@@ -38,14 +38,4 @@ const buildTemplateModelMap = (): Map<string, Model> => {
   return map
 }
 
-const buildSectionCategoriesMap = (): Map<string, SectionCategory> => {
-  const map = new Map<string, SectionCategory>()
-  for (const category of categories as SectionCategory[]) {
-    map.set(category._id, category)
-  }
-
-  return map
-}
-
-export const sectionCategoriesMap = buildSectionCategoriesMap()
 export const templateModelMap = buildTemplateModelMap()
