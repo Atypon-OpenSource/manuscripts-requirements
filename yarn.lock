@@ -1295,6 +1295,11 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
+"@manuscripts/data@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@manuscripts/data/-/data-1.0.4.tgz#0220da86299d96243ace2ba932fd32e7f6643344"
+  integrity sha512-LDPyUqXUwhcYoaOPXVpKNCj4FHl6Gcu/AohAMdgubDTkhK18Xm48uSwN9GVNvEGmY3BwivbSEaP/uaPQaLG4Rg==
+
 "@manuscripts/eslint-config@^0.5.1":
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/@manuscripts/eslint-config/-/eslint-config-0.5.1.tgz#dd68abc2976aed76296258aa81581f661d24ee56"
@@ -1312,10 +1317,10 @@
     ajv "^8.12.0"
     deepmerge "^4.3.1"
 
-"@manuscripts/transform@1.3.6-LEAN-2650":
-  version "1.3.6-LEAN-2650"
-  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-1.3.6-LEAN-2650.tgz#511b83d62f531caded39c5aee5563131f06e3086"
-  integrity sha512-RfbgxDMwFuEo4oiJRSD7V6dSSNzGWxJru+9MXvrBZKJRJ+GL5wXtKAErkMjh5fsdPcb++lSNV3Ol2IUkaU7Hbw==
+"@manuscripts/transform@^1.3.9":
+  version "1.3.9"
+  resolved "https://registry.yarnpkg.com/@manuscripts/transform/-/transform-1.3.9.tgz#6317cf2ce1942cd1aaaa6e3dd544397fb416716f"
+  integrity sha512-HIWrFbcq5WvhPWTcKd+yjvsZwI2aQ0IfoYdv0b0YMY7tw3WHCpI31bJSiGRuPrzCIiX36LVI8bKqJ8+QwF1ReQ==
   dependencies:
     "@manuscripts/json-schema" "^2.1.0"
     debug "^4.3.4"
