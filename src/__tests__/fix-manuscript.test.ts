@@ -164,7 +164,16 @@ test('Retitle sections', async () => {
 
 test('Validate autofix', async () => {
   const validateManuscript = createTemplateValidator(
-    'MPManuscriptTemplate:www-zotero-org-styles-nature-genetics-Nature-Genetics-Journal-Publication-Article'
+    {
+      _id: 'MPManuscriptTemplate:www-zotero-org-styles-nature-genetics-Nature-Genetics-Journal-Publication-Article',
+      objectType: 'MPManuscriptTemplate',
+      bundle: 'MPBundle:www-zotero-org-styles-american-medical-association',
+      title: 'Article',
+      createdAt: 1433095333.219065,
+      updatedAt: 1433095363.405134,
+      containerID: 'MPProject:1',
+    },
+    []
   )
 
   const getData = async (id: string): Promise<Buffer | undefined> => {
