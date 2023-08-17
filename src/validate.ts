@@ -65,7 +65,6 @@ import {
 } from './requirements'
 import { addValidationResults } from './result-filter'
 import { buildText, countCharacters, countWords } from './statistics'
-import { sectionCategoriesMap } from './templates'
 import { GetData, validationOptions } from './types/input'
 import {
   AnyValidationResult,
@@ -103,6 +102,7 @@ import {
   manuscriptHasMissingSection,
   sortSections,
 } from './utils'
+import { sectionCategoriesMap } from './validate-manuscript'
 import { appendValidationMessages } from './validation-messages'
 
 const iterateChildren = function* (

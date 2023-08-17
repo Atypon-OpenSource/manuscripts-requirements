@@ -14,18 +14,33 @@
  * limitations under the License.
  */
 
-import { ManuscriptTemplate } from '@manuscripts/json-schema'
+import { ManuscriptTemplate, SectionCategory } from '@manuscripts/json-schema'
 
 import { InputError } from './errors'
-import { templateModelMap } from './templates'
 import { createRequirementsValidator } from './validate'
 
-export const createTemplateValidator = (templateID: string) => {
-  if (!templateModelMap.has(templateID)) {
+const buildSectionCategoriesMap = (
+  sectionCategory: SectionCategory[],
+  map: Map<string, SectionCategory>
+) => {
+  for (const category of sectionCategory) {
+    map.set(category._id, category)
+  }
+}
+
+export const sectionCategoriesMap = new Map<string, SectionCategory>()
+export let template: ManuscriptTemplate
+
+export const createTemplateValidator = (
+  manuscriptTemplate: ManuscriptTemplate | null,
+  sectionCategories: SectionCategory[]
+) => {
+  if (!manuscriptTemplate) {
     throw new InputError('Could not find template')
   }
 
-  const template = templateModelMap.get(templateID) as ManuscriptTemplate
+  buildSectionCategoriesMap(sectionCategories, sectionCategoriesMap)
 
-  return createRequirementsValidator(template)
+  template = manuscriptTemplate
+  return createRequirementsValidator(manuscriptTemplate as ManuscriptTemplate)
 }
